@@ -27,23 +27,26 @@ export default function GamePlayer({ route }: GamePlayerProps) {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 bg-black flex flex-col w-screen h-screen"
     >
-      {/* Top Navigation Bar */}
-      <div className="h-14 bg-surface-container-highest/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-md shrink-0">
+      {/* Top Navigation Bar - Gamesnacks style */}
+      <div className="h-14 bg-[#7e85ff] flex items-center justify-between px-4 shrink-0 shadow-md relative z-10">
         <a 
           href="#play-games" 
-          className="flex items-center gap-2 text-on-surface hover:text-primary transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors shrink-0"
         >
-          <span className="material-symbols-outlined text-[20px]">arrow_back</span>
-          <span className="font-medium">Back to Games</span>
+          <span className="material-symbols-outlined text-[24px]">home</span>
         </a>
         
-        <h2 className="text-title-md font-bold text-on-surface absolute left-1/2 -translate-x-1/2 hidden sm:block">
-          {gameName}
-        </h2>
+        <div className="flex items-center justify-center bg-white rounded-full px-4 py-1.5 shadow-sm min-w-[80px]">
+          <span className="material-symbols-outlined text-[#7e85ff] text-[18px] mr-1">emoji_events</span>
+          <span className="font-bold text-[#7e85ff] text-sm">0</span>
+        </div>
         
-        <div className="flex items-center gap-3">
-          <button className="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-white hover:bg-white/10 transition-colors" title="Fullscreen" onClick={() => document.documentElement.requestFullscreen().catch(e => console.log(e))}>
-            <span className="material-symbols-outlined text-[20px]">fullscreen</span>
+        <div className="flex items-center gap-2 shrink-0">
+          <button className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors" title="Toggle Sound">
+            <span className="material-symbols-outlined text-[22px]">volume_up</span>
+          </button>
+          <button className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors" title="Profile">
+            <span className="material-symbols-outlined text-[22px]">person</span>
           </button>
         </div>
       </div>

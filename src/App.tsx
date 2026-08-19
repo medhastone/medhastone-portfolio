@@ -67,7 +67,6 @@ export default function App() {
     if (route === '#pdfzero') return <PDFZero />;
     if (route === '#rojgarbahi') return <RojgarBahi />;
     if (route === '#play-games') return <GamesHub />;
-    if (route.startsWith('#game/')) return <GamePlayer route={route} />;
     
     return (
       <div className="flex flex-col w-full relative overflow-x-hidden">
@@ -81,6 +80,10 @@ export default function App() {
       </div>
     );
   };
+
+  if (route.startsWith('#game/')) {
+    return <GamePlayer route={route} />;
+  }
 
   return (
     <div className="bg-background font-body-md text-on-surface select-none relative min-h-screen flex flex-col">
