@@ -5,42 +5,12 @@ export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    // Note: We are no longer preventing default.
+    // The form will do a standard HTML POST request to FormSubmit.co
+    // This is required for the FIRST submission to reliably trigger the activation process.
     setStatus('submitting');
     
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      // Using FormSubmit.co for free, no-backend email forwarding
-      const response = await fetch("https://formsubmit.co/ajax/medhastone@gmail.com", {
-        method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Name: data.name,
-          Email: data.email,
-          Inquiry_Type: data.type,
-          Message: data.message
-        })
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        form.reset();
-      } else {
-        console.error("Form submission failed:", await response.text());
-        alert("Failed to send message. Please try emailing us directly.");
-        setStatus('idle');
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("A network error occurred. Please try emailing us directly.");
-      setStatus('idle');
-    }
+    // We let the browser handle the actual submission naturally to https://formsubmit.co/medhastone@gmail.com
   };
 
   return (
@@ -108,7 +78,10 @@ export default function Contact() {
 
             {/* Right Column: Form */}
             <div className="flex-[1.2] bg-surface-container/30 p-lg rounded-2xl border border-white/5">
-              <form className="flex flex-col gap-md" onSubmit={handleSubmit}>
+              <form action="https://formsubmit.co/medhastone@gmail.com" method="POST" className="flex flex-col gap-md" onSubmit={handleSubmit}>
+                {/* Hidden input to redirect back to website after submission */}
+                <input type="hidden" name="_next" value="https://zentova.in" />
+                <input type="hidden" name="_captcha" value="false" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-md">
                   <div className="relative group">
                     <input className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg peer placeholder-transparent backdrop-blur-sm" id="name" name="name" placeholder="Name" required type="text" />
