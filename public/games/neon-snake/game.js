@@ -50,9 +50,9 @@ const ui = {
 // Game Configuration
 const CONFIG = {
     gridSize: 25,
-    initialSpeed: 150, // ms per move
-    minSpeed: 60,
-    speedDecrement: 2,
+    initialSpeed: 250, // ms per move (Slower for better playability)
+    minSpeed: 80,
+    speedDecrement: 3,
     colors: {
         bg: '#050510',
         grid: 'rgba(0, 243, 255, 0.05)',
@@ -114,13 +114,37 @@ const playSound = (type) => {
     
     switch(type) {
         case 'eat':
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(400, now);
-            osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
-            gain.gain.setValueAtTime(0.3, now);
+            // Main tone
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(600, now);
+            osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+            gain.gain.setValueAtTime(0.2, now);
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
             osc.start(now);
             osc.stop(now + 0.1);
+            
+            // Second harmonic for satisfying chime
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(800, now);
+            osc2.frequency.exponentialRampToValueAtTime(1600, now + 0.15);
+            gain2.gain.setValueAtTime(0.2, now);
+            gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+            osc2.start(now);
+            osc2.stop(now + 0.15);
+            break;
+        case 'move':
+            // Subtle tick for movement logic
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(150, now);
+            osc.frequency.exponentialRampToValueAtTime(50, now + 0.05);
+            gain.gain.setValueAtTime(0.03, now); // Very quiet
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+            osc.start(now);
+            osc.stop(now + 0.05);
             break;
         case 'gameover':
             osc.type = 'sawtooth';
@@ -266,6 +290,7 @@ function moveSnake() {
     }
     
     snake.unshift(head);
+    playSound('move'); // Play subtle tick when successfully moved
     
     // Check Food Collection
     if (head.x === food.x && head.y === food.y) {

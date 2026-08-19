@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Void | Space Shooter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Load Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- 3D Canvas -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- Dynamic UI Overlay -->
+        <div id="ui-layer">
+            
+            <!-- Main Menu -->
+            <div id="screen-menu" class="screen glass-panel active">
+                <div class="logo-container">
+                    <h1 class="neon-title">NEON VOID</h1>
+                    <p class="sub-title">CYBER SPACE SURVIVAL</p>
+                </div>
+                
+                <div class="menu-actions">
+                    <button id="btn-play" class="cyber-btn primary">
+                        <span class="btn-text">LET'S FLY</span>
+                        <div class="btn-glitch"></div>
+                    </button>
+                    <button id="btn-garage" class="cyber-btn secondary">SHIP GARAGE</button>
+                </div>
+                
+                <div class="stats-bar">
+                    <div class="stat">BEST SCORE <br><span id="menu-best" class="highlight">0</span></div>
+                    <div class="stat">ENERGY <br><span id="menu-energy" class="highlight text-magenta">0</span></div>
+                </div>
+            </div>
+
+            <!-- Ship Garage -->
+            <div id="screen-garage" class="screen glass-panel">
+                <h2 class="section-title">GARAGE</h2>
+                
+                <div class="ship-selector">
+                    <button id="btn-prev-ship" class="icon-btn">◀</button>
+                    <div class="ship-info">
+                        <h3 id="ship-name" class="highlight">NOVA</h3>
+                        <p id="ship-desc" class="text-sm">Balanced fighter</p>
+                    </div>
+                    <button id="btn-next-ship" class="icon-btn">▶</button>
+                </div>
+                
+                <div class="ship-stats mt-4">
+                    <div class="stat-row"><span>DAMAGE</span><div class="bar-bg"><div id="stat-dmg" class="bar-fill"></div></div></div>
+                    <div class="stat-row"><span>SPEED</span><div class="bar-bg"><div id="stat-spd" class="bar-fill"></div></div></div>
+                    <div class="stat-row"><span>FIRE RATE</span><div class="bar-bg"><div id="stat-fr" class="bar-fill"></div></div></div>
+                </div>
+                
+                <button id="btn-select-ship" class="cyber-btn primary mt-6">SELECT SHIP</button>
+                <button id="btn-back-menu" class="cyber-btn secondary mt-2">BACK</button>
+            </div>
+
+            <!-- In-Game HUD -->
+            <div id="screen-hud" class="screen">
+                <div class="hud-top">
+                    <div class="score-display">
+                        <div class="score-label">SCORE</div>
+                        <div id="hud-score" class="score-value">0</div>
+                    </div>
+                    <div class="hud-center">
+                        <div id="combo-display" class="combo-box hidden">
+                            <span id="hud-combo" class="combo-text">x2</span>
+                            <div class="combo-timer-bg"><div id="combo-timer" class="combo-timer-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="health-display">
+                        <div class="score-label">HULL INTEGRITY</div>
+                        <div class="health-bar-bg"><div id="hud-health" class="health-bar-fill"></div></div>
+                    </div>
+                </div>
+                
+                <div id="boss-warning" class="boss-warning hidden">
+                    <h2 class="glitch-text-red">WARNING</h2>
+                    <p>ELITE SIGNATURE DETECTED</p>
+                </div>
+                
+                <!-- Mobile Controls Overlay -->
+                <div id="mobile-controls" class="mobile-controls">
+                    <div class="joystick-zone" id="joystick-zone">
+                        <div class="joystick-hint">DRAG TO MOVE</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Over -->
+            <div id="screen-gameover" class="screen glass-panel">
+                <h2 class="section-title text-red">HULL DESTROYED</h2>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <span class="label">SCORE</span>
+                        <span id="go-score" class="value highlight">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="label">MAX COMBO</span>
+                        <span id="go-combo" class="value">x1</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="label">ENEMIES</span>
+                        <span id="go-kills" class="value">0</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="label">TIME</span>
+                        <span id="go-time" class="value">00:00</span>
+                    </div>
+                </div>
+                
+                <button id="btn-restart" class="cyber-btn primary mt-6">TRY AGAIN</button>
+                <button id="btn-quit" class="cyber-btn secondary mt-2">MAIN MENU</button>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <script src="test.js"></script>
+    <script type="module" src="game.js"></script>
+</body>
+</html>

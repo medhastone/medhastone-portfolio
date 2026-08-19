@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 
 // Array of 16 placeholder games
 const gamesList = [
+  { id: 'wordverse', title: 'WordVerse', category: 'Brain', icon: 'sort_by_alpha', color: 'from-violet-500 to-fuchsia-700' },
   { id: 'neon-snake', title: 'Neon Snake', category: 'Arcade', icon: 'gesture', color: 'from-green-500 to-emerald-700' },
   { id: 'space-shooter', title: 'Space Shooter', category: 'Action', icon: 'rocket_launch', color: 'from-blue-500 to-indigo-700' },
   { id: 'tic-tac-toe', title: 'Tic Tac Toe Pro', category: 'Strategy', icon: 'grid_3x3', color: 'from-purple-500 to-fuchsia-700' },
