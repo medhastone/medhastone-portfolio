@@ -5,7 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    '/medhastone-portfolio/',
+    base: '/medhastone-portfolio/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
