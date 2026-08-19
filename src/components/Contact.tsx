@@ -4,10 +4,43 @@ import { motion } from 'motion/react';
 export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
-    setTimeout(() => setStatus('success'), 1500);
+    
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      // Using FormSubmit.co for free, no-backend email forwarding
+      const response = await fetch("https://formsubmit.co/ajax/medhastone@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Name: data.name,
+          Email: data.email,
+          Inquiry_Type: data.type,
+          Message: data.message
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        form.reset();
+      } else {
+        console.error("Form submission failed:", await response.text());
+        alert("Failed to send message. Please try emailing us directly.");
+        setStatus('idle');
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("A network error occurred. Please try emailing us directly.");
+      setStatus('idle');
+    }
   };
 
   return (
@@ -78,17 +111,17 @@ export default function Contact() {
               <form className="flex flex-col gap-md" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-md">
                   <div className="relative group">
-                    <input className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg peer placeholder-transparent backdrop-blur-sm" id="name" placeholder="Name" required type="text" />
+                    <input className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg peer placeholder-transparent backdrop-blur-sm" id="name" name="name" placeholder="Name" required type="text" />
                     <label className="absolute left-sm top-sm text-xs text-on-surface-variant peer-focus:text-primary transition-colors" htmlFor="name">Your Name</label>
                   </div>
                   <div className="relative group">
-                    <input className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg peer placeholder-transparent backdrop-blur-sm" id="email" placeholder="Email" required type="email" />
+                    <input className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg peer placeholder-transparent backdrop-blur-sm" id="email" name="email" placeholder="Email" required type="email" />
                     <label className="absolute left-sm top-sm text-xs text-on-surface-variant peer-focus:text-primary transition-colors" htmlFor="email">Email Address</label>
                   </div>
                 </div>
                 
                 <div className="relative group">
-                  <select className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg appearance-none peer backdrop-blur-sm" id="type" required defaultValue="">
+                  <select className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg appearance-none peer backdrop-blur-sm" id="type" name="type" required defaultValue="">
                     <option disabled hidden value=""></option>
                     <option value="support">App Support & Help</option>
                     <option value="feedback">Feedback & Suggestions</option>
@@ -100,7 +133,7 @@ export default function Contact() {
                 </div>
                 
                 <div className="relative group">
-                  <textarea className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg resize-none peer placeholder-transparent backdrop-blur-sm" id="message" placeholder="Message" required rows={4}></textarea>
+                  <textarea className="w-full bg-background/80 border border-outline-variant text-on-surface text-body-md px-sm pt-md pb-sm focus:border-primary focus:shadow-[0_0_15px_rgba(129,140,248,0.2)] outline-none transition-all rounded-lg resize-none peer placeholder-transparent backdrop-blur-sm" id="message" name="message" placeholder="Message" required rows={4}></textarea>
                   <label className="absolute left-sm top-sm text-xs text-on-surface-variant peer-focus:text-primary transition-colors" htmlFor="message">Your Message</label>
                 </div>
                 
