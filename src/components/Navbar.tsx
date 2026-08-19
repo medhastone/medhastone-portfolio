@@ -19,6 +19,7 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center gap-lg">
           <a aria-current="page" className="transition-all text-primary font-bold tracking-widest text-label-caps" href="#home">HOME</a>
+          <a className="text-label-caps text-on-surface-variant hover:text-primary transition-all tracking-widest" href="#play-games">PLAY GAMES</a>
           <a className="text-label-caps text-on-surface-variant hover:text-primary transition-all tracking-widest" href="#portfolio">PORTFOLIO</a>
           <a className="text-label-caps text-on-surface-variant hover:text-primary transition-all tracking-widest" href="#services">SERVICES</a>
           <a className="text-label-caps text-on-surface-variant hover:text-primary transition-all tracking-widest" href="#contact">CONTACT</a>
@@ -46,6 +47,7 @@ export default function Navbar() {
           >
             <nav className="flex flex-col p-gutter py-md gap-md">
               <a onClick={() => setIsMenuOpen(false)} aria-current="page" className="transition-all text-primary font-bold tracking-widest text-label-caps" href="#home">HOME</a>
+              <a onClick={() => setIsMenuOpen(false)} className="text-label-caps text-on-surface hover:text-primary transition-all tracking-widest" href="#play-games">PLAY GAMES</a>
               <a onClick={() => setIsMenuOpen(false)} className="text-label-caps text-on-surface hover:text-primary transition-all tracking-widest" href="#portfolio">PORTFOLIO</a>
               <a onClick={() => setIsMenuOpen(false)} className="text-label-caps text-on-surface hover:text-primary transition-all tracking-widest" href="#services">SERVICES</a>
               <a onClick={() => setIsMenuOpen(false)} className="text-label-caps text-on-surface hover:text-primary transition-all tracking-widest" href="#contact">CONTACT</a>

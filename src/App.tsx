@@ -8,6 +8,8 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Portfolio from './components/Portfolio';
 import Services from './components/Services';
+import Testimonials from './components/Testimonials';
+import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ShaderBackground from './components/ShaderBackground';
@@ -20,6 +22,8 @@ import BrainMaze from './components/BrainMaze';
 import ParkDock from './components/ParkDock';
 import PDFZero from './components/PDFZero';
 import RojgarBahi from './components/RojgarBahi';
+import GamesHub from './components/GamesHub';
+import GamePlayer from './components/GamePlayer';
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash);
@@ -30,7 +34,19 @@ export default function App() {
       setRoute(hash);
       
       // Handle smooth scrolling back to sections when returning from a subpage
-      if (hash && hash !== '#privacy' && hash !== '#terms' && hash !== '#medijourney' && hash !== '#brainmaze' && hash !== '#parkdock' && hash !== '#pdfzero' && hash !== '#rojgarbahi') {
+      // Don't scroll if it's a dedicated page route
+      if (
+        hash && 
+        hash !== '#privacy' && 
+        hash !== '#terms' && 
+        hash !== '#medijourney' && 
+        hash !== '#brainmaze' && 
+        hash !== '#parkdock' && 
+        hash !== '#pdfzero' && 
+        hash !== '#rojgarbahi' &&
+        hash !== '#play-games' &&
+        !hash.startsWith('#game/')
+      ) {
         setTimeout(() => {
           const el = document.querySelector(hash);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -50,6 +66,8 @@ export default function App() {
     if (route === '#parkdock') return <ParkDock />;
     if (route === '#pdfzero') return <PDFZero />;
     if (route === '#rojgarbahi') return <RojgarBahi />;
+    if (route === '#play-games') return <GamesHub />;
+    if (route.startsWith('#game/')) return <GamePlayer route={route} />;
     
     return (
       <div className="flex flex-col w-full relative overflow-x-hidden">
@@ -57,6 +75,8 @@ export default function App() {
         <Hero />
         <Portfolio />
         <Services />
+        <Testimonials />
+        <FAQ />
         <Contact />
       </div>
     );
