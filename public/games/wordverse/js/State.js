@@ -3,21 +3,26 @@ export class StateManager {
         this.data = this.load();
     }
 
-    load() {
+        load() {
+        let data = this.getDefaultData();
         try {
             const saved = localStorage.getItem('wordverse_save');
-            if (saved) return JSON.parse(saved);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                data = { ...data, ...parsed };
+                if (data.coins === undefined || data.coins < 100) data.coins = 100;
+            }
         } catch (e) {
             console.warn('LocalStorage blocked');
         }
-        return this.getDefaultData();
+        return data;
     }
 
     getDefaultData() {
         return {
             xp: 0,
             level: 1,
-            coins: 0,
+            coins: 100,
             gamesPlayed: 0,
             wordsFound: 0,
             bestScore: 0,
@@ -44,7 +49,7 @@ export class StateManager {
         return 'WORD LEGEND';
     }
 
-    updatePostGame(score, foundWordsList) {
+        updatePostGame(score, foundWordsList) {
         this.data.gamesPlayed++;
         this.data.wordsFound += foundWordsList.length;
         
@@ -61,14 +66,15 @@ export class StateManager {
             }
         });
 
-        // Simple XP formula: 1 XP per 10 points
         const xpGained = Math.floor(score / 10);
         this.data.xp += xpGained;
         
-        // Level up check
+        // Award coins based on score
+        const coinsEarned = Math.floor(score / 5);
+        this.data.coins += coinsEarned;
+        
         this.data.level = Math.floor(this.data.xp / 1000) + 1;
 
-        // Daily streak logic
         const today = new Date().toDateString();
         if (this.data.lastPlayedDate !== today) {
             if (this.data.lastPlayedDate) {
@@ -87,6 +93,6 @@ export class StateManager {
         }
 
         this.save();
-        return { xpGained, newRank: this.getRank() };
+        return { xpGained, coinsEarned, newRank: this.getRank() };
     }
 }

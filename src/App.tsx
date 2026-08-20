@@ -24,6 +24,9 @@ import PDFZero from './components/PDFZero';
 import RojgarBahi from './components/RojgarBahi';
 import GamesHub from './components/GamesHub';
 import GamePlayer from './components/GamePlayer';
+import MediJourneyPrivacy from './components/MediJourneyPrivacy';
+import MediJourneyTerms from './components/MediJourneyTerms';
+import MediJourneyContact from './components/MediJourneyContact';
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash);
@@ -39,7 +42,10 @@ export default function App() {
         hash && 
         hash !== '#privacy' && 
         hash !== '#terms' && 
-        hash !== '#medijourney' && 
+        hash !== '#medijourney' &&
+        hash !== '#medijourney/privacy-policy' &&
+        hash !== '#medijourney/terms-of-service' &&
+        hash !== '#medijourney/contact-us' && 
         hash !== '#brainmaze' && 
         hash !== '#parkdock' && 
         hash !== '#pdfzero' && 
@@ -62,6 +68,10 @@ export default function App() {
     if (route === '#privacy') return <Privacy />;
     if (route === '#terms') return <Terms />;
     if (route === '#medijourney') return <MediJourney />;
+    if (route === '#medijourney/privacy-policy') return <MediJourneyPrivacy />;
+    if (route === '#medijourney/terms-of-service') return <MediJourneyTerms />;
+    if (route === '#medijourney/contact-us') return <MediJourneyContact />;
+
     if (route === '#brainmaze') return <BrainMaze />;
     if (route === '#parkdock') return <ParkDock />;
     if (route === '#pdfzero') return <PDFZero />;

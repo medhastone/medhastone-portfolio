@@ -16,6 +16,7 @@ class GameController {
         this.timer = 0;
         this.timerInterval = null;
         this.mode = 'rush';
+        this.difficulty = 'easy';
         
         this.input = new InputManager(this.ui, {
             onSelect: () => this.audio.play('select'),
@@ -25,6 +26,7 @@ class GameController {
 
         this.bindEvents();
         this.updateMenuStats();
+        this.ui.updateCoins(this.state.data.coins);
     }
 
     bindEvents() {
@@ -41,35 +43,47 @@ class GameController {
                     this.endGame();
                     this.updateMenuStats();
                     this.ui.switchScreen('screen-menu');
+                } else if (action === 'set-diff') {
+                    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    this.difficulty = e.currentTarget.dataset.diff;
                 } else if (action === 'nav-stats') {
                     this.updateMenuStats();
                     this.ui.switchScreen('screen-stats');
+                } else if (action === 'next-puzzle') {
+                    this.startNextPuzzle();
                 } else if (action === 'play-rush') {
                     this.startGame('rush');
                 } else if (action === 'play-zen') {
                     this.startGame('zen');
                 } else if (action === 'btn-hint') {
-                    if (this.engine.score >= 20) {
+                    if (this.state.data.coins >= 20) {
                         const hintPath = this.engine.getHint();
                         if (hintPath) {
-                            this.engine.score -= 20;
+                            this.state.data.coins -= 20;
+                            this.state.save();
+                            this.ui.updateCoins(this.state.data.coins);
                             this.ui.showHint(hintPath);
-                            this.ui.updateHUD(this.engine.score, this.timer, this.engine.combo);
                             this.audio.play('select');
                         } else {
                             this.ui.setPreview('NO WORDS LEFT', false);
                             setTimeout(() => this.ui.setPreview('', false), 2000);
                         }
                     } else {
-                        this.ui.setPreview('NEED 20 SCORE', false);
+                        this.ui.setPreview('NEED 20 COINS', false);
                         setTimeout(() => this.ui.setPreview('', false), 2000);
                     }
                 } else if (action === 'btn-shuffle') {
-                    if (this.engine.score >= 50) {
-                        this.engine.score -= 50;
-                        this.engine.generateBoard(this.engine.boardSize);
+                    if (this.state.data.coins >= 50) {
+                        this.state.data.coins -= 50;
+                        this.state.save();
+                        this.ui.updateCoins(this.state.data.coins);
+                        this.engine.generateBoard(this.difficulty);
                         this.ui.initBoard(this.engine);
                         this.ui.updateHUD(this.engine.score, this.timer, this.engine.combo);
+                    } else {
+                        this.ui.setPreview('NEED 50 COINS', false);
+                        setTimeout(() => this.ui.setPreview('', false), 2000);
                     }
                 }
             });
@@ -91,13 +105,22 @@ class GameController {
 
     startGame(mode) {
         this.mode = mode;
-        this.timer = mode === 'rush' ? 90 : 0; // 90 seconds for rush
         
-        const size = 4; // Can be linked to difficulty
-        this.engine.generateBoard(size);
+        if (mode === 'rush') {
+            if (this.difficulty === 'easy') this.timer = 120;
+            else if (this.difficulty === 'medium') this.timer = 90;
+            else if (this.difficulty === 'hard') this.timer = 60;
+            else if (this.difficulty === 'master') this.timer = 45;
+        } else {
+            this.timer = 0;
+        }
+        
+        this.engine.score = 0;
+        this.engine.generateBoard(this.difficulty);
         this.ui.initBoard(this.engine);
         this.ui.updateHUD(this.engine.score, this.timer, this.engine.combo);
         this.ui.updateFoundWordsList([]);
+        this.ui.updateTargetWords(this.engine.foundWords);
         this.ui.setPreview('', false);
         
         if (this.timerInterval) clearInterval(this.timerInterval);
@@ -126,8 +149,56 @@ class GameController {
             this.timerInterval = null;
         }
         
-        const { newRank } = this.state.updatePostGame(this.engine.score, Array.from(this.engine.foundWords));
-        this.ui.showGameOver(this.engine.score, newRank, this.engine.foundWords.size);
+        const { newRank, coinsEarned } = this.state.updatePostGame(this.engine.score, Array.from(this.engine.foundWords));
+        this.ui.updateCoins(this.state.data.coins);
+        this.ui.showGameOver(this.engine.score, newRank, this.engine.foundWords.size, coinsEarned);
+    }
+
+    handleLevelClear() {
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
+        
+        // Give 50 coins bonus
+        const bonusCoins = 50;
+        this.state.data.coins += bonusCoins;
+        this.state.save();
+        this.ui.updateCoins(this.state.data.coins);
+        
+        // Force the screen to show with maximum prejudice
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const clrScreen = document.getElementById('screen-level-cleared');
+        if (clrScreen) {
+            clrScreen.classList.add('active');
+            clrScreen.style.opacity = '1';
+            clrScreen.style.pointerEvents = 'auto';
+            clrScreen.style.zIndex = '9999';
+        } else {
+            // Fallback if HTML is somehow broken
+            alert('PUZZLE CLEARED! +50 COINS');
+            this.startNextPuzzle();
+        }
+    }
+
+    startNextPuzzle() {
+        // Give time bonus for rush mode
+        if (this.mode === 'rush') {
+            this.timer += 30; // +30 seconds
+        }
+        
+        this.engine.generateBoard(this.difficulty);
+        this.ui.initBoard(this.engine);
+        this.ui.updateHUD(this.engine.score, this.timer, this.engine.combo);
+        this.ui.updateFoundWordsList([]);
+        this.ui.updateTargetWords(this.engine.foundWords);
+        this.ui.setPreview('LEVEL UP!', false);
+        setTimeout(() => this.ui.setPreview('', false), 1500);
+        
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.timerInterval = setInterval(() => this.tick(), 1000);
+        
+        this.ui.switchScreen('screen-game');
     }
 
     handlePreview(indices) {
@@ -147,13 +218,35 @@ class GameController {
             this.audio.play('valid');
             this.ui.showWordParticles(indices);
             this.ui.updateFoundWordsList(Array.from(this.engine.foundWords));
+            this.ui.updateTargetWords(this.engine.foundWords);
+            this.ui.setPreview('', false);
+            
+            // Foolproof check based on what the user actually sees
+            const targetWordsInDOM = document.querySelectorAll('.target-word');
+            const foundTargetWordsInDOM = document.querySelectorAll('.target-word.found');
+            
+            if (targetWordsInDOM.length > 0 && targetWordsInDOM.length === foundTargetWordsInDOM.length) {
+                setTimeout(() => this.handleLevelClear(), 500);
+            }
         } else {
-            if (result.reason !== 'too_short') {
+            if (result.reason === 'too_short') {
+                this.ui.setPreview('3+ LETTERS NEEDED', false);
+                setTimeout(() => {
+                    const preview = document.getElementById('word-preview');
+                    if(preview && preview.innerText === '3+ LETTERS NEEDED') this.ui.setPreview('', false);
+                }, 1500);
+            } else if (result.reason === 'duplicate') {
+                this.ui.setPreview('ALREADY FOUND', false);
+                setTimeout(() => {
+                    const preview = document.getElementById('word-preview');
+                    if(preview && preview.innerText === 'ALREADY FOUND') this.ui.setPreview('', false);
+                }, 1500);
+            } else {
                 this.audio.play('invalid');
+                this.ui.setPreview('', false);
             }
         }
         
-        this.ui.setPreview('', false);
         this.ui.updateHUD(this.engine.score, this.timer, this.engine.combo);
     }
 }

@@ -7,25 +7,118 @@ export class GameEngine {
         this.foundWords = new Set();
         this.combo = 0;
         this.comboTimer = null;
+        this.allPossibleWords = [];
+        this.targetWords = [];
+    }
+    
+    countWords(grid) {
+        const size = this.boardSize;
+        const visited = Array(size).fill(null).map(() => Array(size).fill(false));
+        const found = new Set();
+        
+        const dfs = (r, c, currentWord) => {
+            if (currentWord.length >= 3 && this.dictionary.isValidWord(currentWord) && !found.has(currentWord)) {
+                found.add(currentWord);
+            }
+            if (currentWord.length >= 8) return;
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    if (dr === 0 && dc === 0) continue;
+                    const nr = r + dr, nc = c + dc;
+                    if (nr >= 0 && nr < size && nc >= 0 && nc < size && !visited[nr][nc]) {
+                        const nextWord = currentWord + grid[nr][nc];
+                        if (this.dictionary.isPrefix(nextWord)) {
+                            visited[nr][nc] = true;
+                            dfs(nr, nc, nextWord);
+                            visited[nr][nc] = false;
+                        }
+                    }
+                }
+            }
+        };
+        for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c++) {
+                visited[r][c] = true;
+                dfs(r, c, grid[r][c]);
+                visited[r][c] = false;
+            }
+        }
+        return found;
     }
 
-    generateBoard(size = 4, targetWords = []) {
+    generateBoard(difficulty = 'easy') {
+        let size = 4;
+        let pool = "";
+        let minWords = 20;
+
+        if (difficulty === 'easy') {
+            size = 4;
+            pool = "AAAAAEEEEEIIIIIOOOOOUUUBBCCDDFFGGHHLLMMNNNPPQRRRSSSTTTTYY";
+            minWords = 30;
+        } else if (difficulty === 'medium') {
+            size = 4;
+            pool = "AAAAABBCCDDDEEEEEEEEEEFFFGGGHHIIIIIIJKLLLLMMNNNNNOOOOOOOPPQRRRRRSSSSSSTTTTTTTUUUUVVWWXYYZZ";
+            minWords = 20;
+        } else if (difficulty === 'hard') {
+            size = 5;
+            pool = "AAAAABBCCDDDEEEEEEEEEEFFFGGGHHIIIIIIJKLLLLMMNNNNNOOOOOOOPPQRRRRRSSSSSSTTTTTTTUUUUVVWWXYYZZ";
+            minWords = 40;
+        } else if (difficulty === 'master') {
+            size = 5;
+            pool = "ABCDEFGHIKLMNOPRSTUVWYABCDEFGHIKLMNOPRSTUVWYAEIOU";
+            minWords = 20;
+        }
+
         this.boardSize = size;
         this.grid = Array(size).fill(null).map(() => Array(size).fill(''));
         
-        // English letter frequencies for filling gaps
-        const pool = "AAAAABBCCDDDEEEEEEEEEEFFFGGGHHIIIIIIJKLLLLMMNNNNNOOOOOOOPPQRRRRRSSSSSSTTTTTTTUUUUVVWWXYYZZ";
-        
-        // Simple fill for now (can be upgraded to place target words deterministically)
-        for(let r = 0; r < size; r++) {
-            for(let c = 0; c < size; c++) {
-                this.grid[r][c] = pool.charAt(Math.floor(Math.random() * pool.length));
+        let attempts = 0;
+        let bestGrid = null;
+        let maxWords = 0;
+        let bestWordsSet = new Set();
+
+        while(attempts < 20) {
+            const tempGrid = Array(size).fill(null).map(() => Array(size).fill(''));
+            for(let r = 0; r < size; r++) {
+                for(let c = 0; c < size; c++) {
+                    tempGrid[r][c] = pool.charAt(Math.floor(Math.random() * pool.length));
+                }
             }
+            let wordsSet = this.countWords(tempGrid);
+            if (wordsSet.size > maxWords) {
+                maxWords = wordsSet.size;
+                bestGrid = tempGrid.map(row => [...row]);
+                bestWordsSet = wordsSet;
+            }
+            if (maxWords >= minWords) break;
+            attempts++;
         }
         
-        this.score = 0;
+        this.grid = bestGrid;
         this.foundWords.clear();
         this.combo = 0;
+        
+        this.allPossibleWords = Array.from(bestWordsSet);
+        let poolForTargets = [...this.allPossibleWords];
+        let targetCount = 6;
+        
+        if (difficulty === 'easy') {
+            poolForTargets = this.allPossibleWords.filter(w => w.length >= 3 && w.length <= 4);
+            targetCount = 6;
+        } else if (difficulty === 'medium') {
+            poolForTargets = this.allPossibleWords.filter(w => w.length >= 4 && w.length <= 5);
+            targetCount = 8;
+        } else {
+            poolForTargets = this.allPossibleWords.filter(w => w.length >= 5);
+            targetCount = 10;
+        }
+        
+        if (poolForTargets.length < targetCount) {
+            poolForTargets = [...this.allPossibleWords];
+        }
+        
+        poolForTargets.sort(() => Math.random() - 0.5);
+        this.targetWords = poolForTargets.slice(0, targetCount);
     }
 
     getWordFromIndices(indices) {
@@ -40,7 +133,6 @@ export class GameEngine {
         if (this.foundWords.has(word)) {
             return { valid: false, reason: 'duplicate', word };
         }
-
         if (this.dictionary.isValidWord(word)) {
             this.foundWords.add(word);
             this.combo++;
@@ -52,16 +144,17 @@ export class GameEngine {
             else if(word.length === 5) baseScore = 35;
             else if(word.length === 6) baseScore = 50;
             else baseScore = 50 + (word.length - 6) * 20;
+            
+            // Bonus if it's a target word
+            if (this.targetWords.includes(word)) {
+                baseScore += 20;
+            }
 
             const points = baseScore * Math.min(this.combo, 5);
             this.score += points;
-
             this.resetComboTimer();
-
             return { valid: true, word, points, combo: this.combo };
         }
-
-        // Invalid word breaks combo
         this.combo = 0;
         return { valid: false, reason: 'invalid', word };
     }
@@ -71,33 +164,26 @@ export class GameEngine {
         this.comboTimer = setTimeout(() => {
             this.combo = 0;
             if(this.onComboBreak) this.onComboBreak();
-        }, 3000); // 3 seconds to chain next word
+        }, 3000);
     }
 
-    getHint() {
+    findWordPath(targetWord) {
         const size = this.boardSize;
         const visited = Array(size).fill(null).map(() => Array(size).fill(false));
-        
-        const dfs = (r, c, currentWord, path) => {
-            if (currentWord.length >= 3 && this.dictionary.isValidWord(currentWord) && !this.foundWords.has(currentWord)) {
-                return path;
-            }
-            if (currentWord.length >= 8) return null;
+        const dfs = (r, c, path) => {
+            const currentWord = path.map(p => this.grid[p.row][p.col]).join('');
+            if (currentWord === targetWord) return path;
+            if (!targetWord.startsWith(currentWord)) return null;
 
             for (let dr = -1; dr <= 1; dr++) {
                 for (let dc = -1; dc <= 1; dc++) {
                     if (dr === 0 && dc === 0) continue;
                     const nr = r + dr, nc = c + dc;
                     if (nr >= 0 && nr < size && nc >= 0 && nc < size && !visited[nr][nc]) {
-                        const nextWord = currentWord + this.grid[nr][nc];
-                        if (this.dictionary.isPrefix(nextWord)) {
-                            visited[nr][nc] = true;
-                            path.push({row: nr, col: nc});
-                            const result = dfs(nr, nc, nextWord, path);
-                            if (result) return result;
-                            path.pop();
-                            visited[nr][nc] = false;
-                        }
+                        visited[nr][nc] = true;
+                        const res = dfs(nr, nc, [...path, {row: nr, col: nc}]);
+                        if (res) return res;
+                        visited[nr][nc] = false;
                     }
                 }
             }
@@ -106,11 +192,25 @@ export class GameEngine {
 
         for (let r = 0; r < size; r++) {
             for (let c = 0; c < size; c++) {
-                visited[r][c] = true;
-                const result = dfs(r, c, this.grid[r][c], [{row: r, col: c}]);
-                if (result) return result;
-                visited[r][c] = false;
+                if (this.grid[r][c] === targetWord[0]) {
+                    visited[r][c] = true;
+                    const res = dfs(r, c, [{row: r, col: c}]);
+                    if (res) return res;
+                    visited[r][c] = false;
+                }
             }
+        }
+        return null;
+    }
+
+    getHint() {
+        const unfoundTargets = this.targetWords.filter(w => !this.foundWords.has(w));
+        if (unfoundTargets.length > 0) {
+            return this.findWordPath(unfoundTargets[0]);
+        }
+        const anyUnfound = this.allPossibleWords.filter(w => !this.foundWords.has(w));
+        if (anyUnfound.length > 0) {
+            return this.findWordPath(anyUnfound[0]);
         }
         return null;
     }

@@ -11,7 +11,7 @@ export class UIManager {
         document.getElementById(id).classList.add('active');
     }
 
-    initBoard(engine) {
+        initBoard(engine) {
         this.gridEl.innerHTML = '';
         this.gridEl.style.gridTemplateColumns = `repeat(${engine.boardSize}, 1fr)`;
         
@@ -30,6 +30,7 @@ export class UIManager {
             }
         }
         this.resizeCanvas();
+        this.initTargetWords(engine.targetWords);
     }
 
     resizeCanvas() {
@@ -89,6 +90,37 @@ export class UIManager {
         this.ctx.stroke();
     }
 
+        initTargetWords(targets) {
+        const container = document.getElementById('target-words');
+        if (!container) return;
+        container.innerHTML = '';
+        if (!targets) return;
+        targets.forEach(w => {
+            const el = document.createElement('div');
+            el.className = 'target-word';
+            el.dataset.word = w;
+            el.innerText = w;
+            container.appendChild(el);
+        });
+    }
+
+    updateTargetWords(foundWordsSet) {
+        document.querySelectorAll('.target-word').forEach(el => {
+            if (foundWordsSet.has(el.dataset.word)) {
+                el.classList.add('found');
+            } else {
+                el.classList.remove('found');
+            }
+        });
+    }
+
+    updateCoins(coins) {
+        const hudCoins = document.getElementById('hud-coins');
+        const menuCoins = document.getElementById('menu-coins');
+        if(hudCoins) hudCoins.innerText = coins;
+        if(menuCoins) menuCoins.innerText = coins;
+    }
+
     updateHUD(score, timer, combo) {
         document.getElementById('hud-score').innerText = score;
         document.getElementById('hud-timer').innerText = this.formatTime(timer);
@@ -142,22 +174,29 @@ export class UIManager {
         return `${m}:${s < 10 ? '0' : ''}${s}`;
     }
 
-    showGameOver(score, rank, words) {
+        showGameOver(score, rank, words, coinsEarned) {
         document.getElementById('result-score').innerText = score;
         document.getElementById('result-rank').innerText = rank;
         document.getElementById('result-words').innerText = words;
+        const resCoins = document.getElementById('result-coins');
+        if (resCoins) resCoins.innerText = '+' + (coinsEarned || 0);
         this.switchScreen('screen-result');
     }
 
-    showHint(path) {
+        showHint(path) {
         if (!path || path.length === 0) return;
-        const hintLength = Math.min(2, path.length);
-        for(let i=0; i<hintLength; i++) {
-            const el = document.querySelector(`.letter-cell[data-row="${path[i].row}"][data-col="${path[i].col}"]`);
-            if (el) {
-                el.classList.add('hinted');
-                setTimeout(() => el.classList.remove('hinted'), 2000);
-            }
-        }
+        path.forEach((node, i) => {
+            setTimeout(() => {
+                const el = document.querySelector(`.letter-cell[data-row="${node.row}"][data-col="${node.col}"]`);
+                if (el) {
+                    el.classList.add('hinted');
+                    setTimeout(() => el.classList.remove('hinted'), 1500);
+                }
+            }, i * 200);
+        });
+    }
+
+    showLevelCleared(bonusCoins) {
+        this.switchScreen('screen-level-cleared');
     }
 }
