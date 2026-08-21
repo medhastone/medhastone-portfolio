@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Memory Match</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-fx">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Canvas for particle explosions -->
+    <canvas id="fx-canvas"></canvas>
+
+    <div id="app">
+        <!-- HOME SCREEN -->
+        <div id="screen-home" class="screen active">
+            <div class="title-container">
+                <h1 class="logo-text">NEON<br><span class="accent">MATCH</span></h1>
+                <div class="logo-subtitle">PREMIUM MEMORY EXPERIENCE</div>
+            </div>
+            
+            <div class="home-stats">
+                <div class="stat-box">
+                    <span class="stat-label">BEST SCORE</span>
+                    <span id="home-best-score" class="stat-value">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">LEVEL</span>
+                    <span id="home-level" class="stat-value">1</span>
+                </div>
+            </div>
+
+            <button id="btn-play" class="action-btn primary-glow">
+                <span class="btn-text">PLAY NOW</span>
+                <div class="btn-shine"></div>
+            </button>
+            <button id="btn-how-to-play" class="text-btn" style="margin-top: 1.5rem;">HOW TO PLAY</button>
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div id="screen-game" class="screen">
+            <header class="game-header">
+                <div class="header-left">
+                    <div class="score-card">
+                        <span class="label">SCORE</span>
+                        <span id="score" class="value">0</span>
+                    </div>
+                    <div class="score-card">
+                        <span class="label">LEVEL</span>
+                        <span id="game-level" class="value">1</span>
+                    </div>
+                </div>
+                <div id="combo-display" class="combo-text">COMBO x2</div>
+                <div class="header-right">
+                    <div class="score-card">
+                        <span class="label">MOVES</span>
+                        <span id="moves" class="value">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="board-wrapper">
+                <div id="card-grid" class="card-grid">
+                    <!-- Cards injected via JS -->
+                </div>
+            </main>
+
+            <footer class="game-footer">
+                <button id="btn-quit" class="text-btn">QUIT</button>
+            </footer>
+        </div>
+
+        <!-- GAME OVER SCREEN -->
+        <div id="screen-gameover" class="screen glass-modal">
+            <div class="modal-content">
+                <h2 id="gameover-title" class="gameover-title">LEVEL COMPLETE</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="score-label">SCORE</div>
+                        <div id="final-score" class="score-value">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="score-label">BEST</div>
+                        <div id="final-best" class="score-value">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="score-label">MOVES</div>
+                        <div id="final-moves" class="score-value">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="score-label">ACCURACY</div>
+                        <div id="final-accuracy" class="score-value">100%</div>
+                    </div>
+                </div>
+
+                <button id="btn-next-level" class="action-btn primary-glow">
+                    <span class="btn-text">NEXT LEVEL</span>
+                    <div class="btn-shine"></div>
+                </button>
+                <button id="btn-home" class="text-btn">MAIN MENU</button>
+            </div>
+        </div>
+
+        <!-- HOW TO PLAY SCREEN -->
+        <div id="screen-how-to-play" class="screen glass-modal">
+            <div class="modal-content" style="max-width: 450px;">
+                <h2 class="gameover-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">HOW TO PLAY</h2>
+                <div style="text-align: left; color: var(--text-dim); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.6;">
+                    <p style="margin-bottom: 1rem;">🧠 <strong>Memorize:</strong> Tap cards to flip them and reveal the neon symbols underneath.</p>
+                    <p style="margin-bottom: 1rem;">⚡ <strong>Match:</strong> Find two identical symbols to match them. They will be cleared from the board.</p>
+                    <p style="margin-bottom: 1rem;">🔥 <strong>Combos:</strong> Match pairs quickly back-to-back (within 5 seconds) to build your combo multiplier and skyrocket your score.</p>
+                    <p>🎯 <strong>Accuracy:</strong> Complete the level with as few wrong guesses as possible. Try to remember where symbols are so you don't flip the same wrong card twice!</p>
+                </div>
+                <button id="btn-close-how" class="action-btn primary-glow" style="padding: 1rem 2.5rem; font-size: 1rem;">
+                    <span class="btn-text">GOT IT</span>
+                    <div class="btn-shine"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

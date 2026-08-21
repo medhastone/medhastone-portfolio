@@ -2,12 +2,13 @@ import { motion } from 'motion/react';
 
 // Array of 16 placeholder games
 const gamesList = [
+  { id: 'arrow-scape', title: 'Arrow Scape', category: 'Action', icon: 'my_location', color: 'from-amber-500 to-orange-700' },
   { id: 'wordverse', title: 'WordVerse', category: 'Brain', icon: 'sort_by_alpha', color: 'from-violet-500 to-fuchsia-700' },
   { id: 'neon-snake', title: 'Neon Snake', category: 'Arcade', icon: 'gesture', color: 'from-green-500 to-emerald-700' },
   { id: 'space-shooter', title: 'Space Shooter', category: 'Action', icon: 'rocket_launch', color: 'from-blue-500 to-indigo-700' },
   { id: 'tic-tac-toe', title: 'Tic Tac Toe Pro', category: 'Strategy', icon: 'grid_3x3', color: 'from-purple-500 to-fuchsia-700' },
   { id: 'word-puzzle', title: 'Word Puzzle', category: 'Brain', icon: 'sort_by_alpha', color: 'from-yellow-500 to-orange-700' },
-  { id: 'math-genius', title: 'Math Genius', category: 'Educational', icon: 'calculate', color: 'from-cyan-500 to-blue-700' },
+  { id: 'mathgenius', title: 'Math Genius', category: 'Educational', icon: 'calculate', color: 'from-cyan-500 to-blue-700' },
   { id: 'block-stack', title: 'Block Stack', category: 'Arcade', icon: 'layers', color: 'from-red-500 to-rose-700' },
   { id: 'memory-match', title: 'Memory Match', category: 'Brain', icon: 'psychology', color: 'from-pink-500 to-rose-700' },
   { id: 'color-dash', title: 'Color Dash', category: 'Action', icon: 'palette', color: 'from-indigo-500 to-purple-700' },

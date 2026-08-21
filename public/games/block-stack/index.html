@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Block Stack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-fx">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="scanlines"></div>
+    </div>
+
+    <!-- Canvas for particle explosions -->
+    <canvas id="fx-canvas"></canvas>
+
+    <div id="app">
+        <!-- HOME SCREEN -->
+        <div id="screen-home" class="screen active">
+            <div class="title-container">
+                <h1 class="logo-text">BLOCK<br><span class="accent">STACK</span></h1>
+                <div class="logo-subtitle">PREMIUM PUZZLE</div>
+            </div>
+            
+            <div class="home-stats">
+                <div class="stat-box">
+                    <span class="stat-label">BEST SCORE</span>
+                    <span id="home-best-score" class="stat-value">0</span>
+                </div>
+            </div>
+
+            <button id="btn-play" class="action-btn primary-glow">
+                <span class="btn-text">PLAY NOW</span>
+                <div class="btn-shine"></div>
+            </button>
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div id="screen-game" class="screen">
+            <header class="game-header">
+                <div class="score-card">
+                    <span class="label">SCORE</span>
+                    <span id="score" class="value">0</span>
+                </div>
+                <div id="combo-display" class="combo-text"></div>
+                <div class="score-card best">
+                    <span class="label">BEST</span>
+                    <span id="game-best-score" class="value">0</span>
+                </div>
+            </header>
+
+            <main class="board-wrapper">
+                <div id="grid-board" class="grid-board">
+                    <!-- 64 cells injected via JS -->
+                </div>
+            </main>
+
+            <footer class="game-footer">
+                <div id="block-tray" class="block-tray">
+                    <div class="tray-slot" id="slot-0"></div>
+                    <div class="tray-slot" id="slot-1"></div>
+                    <div class="tray-slot" id="slot-2"></div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- GAME OVER SCREEN -->
+        <div id="screen-gameover" class="screen glass-modal">
+            <div class="modal-content">
+                <h2 class="gameover-title">OUT OF MOVES</h2>
+                
+                <div class="final-score-container">
+                    <div class="score-label">FINAL SCORE</div>
+                    <div id="final-score" class="score-value">0</div>
+                </div>
+
+                <button id="btn-restart" class="action-btn primary-glow">
+                    <span class="btn-text">PLAY AGAIN</span>
+                    <div class="btn-shine"></div>
+                </button>
+                <button id="btn-home" class="text-btn">MAIN MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -22,6 +22,7 @@ import BrainMaze from './components/BrainMaze';
 import ParkDock from './components/ParkDock';
 import PDFZero from './components/PDFZero';
 import RojgarBahi from './components/RojgarBahi';
+import RojgarBahiPrivacy from './components/RojgarBahiPrivacy';
 import GamesHub from './components/GamesHub';
 import GamePlayer from './components/GamePlayer';
 import MediJourneyPrivacy from './components/MediJourneyPrivacy';
@@ -35,26 +36,28 @@ export default function App() {
     const handleHashChange = () => {
       const hash = window.location.hash;
       setRoute(hash);
+      const cleanHash = hash.replace(/^#\/?/, '#').replace(/\/$/, '');
       
       // Handle smooth scrolling back to sections when returning from a subpage
       // Don't scroll if it's a dedicated page route
       if (
-        hash && 
-        hash !== '#privacy' && 
-        hash !== '#terms' && 
-        hash !== '#medijourney' &&
-        hash !== '#medijourney/privacy-policy' &&
-        hash !== '#medijourney/terms-of-service' &&
-        hash !== '#medijourney/contact-us' && 
-        hash !== '#brainmaze' && 
-        hash !== '#parkdock' && 
-        hash !== '#pdfzero' && 
-        hash !== '#rojgarbahi' &&
-        hash !== '#play-games' &&
-        !hash.startsWith('#game/')
+        cleanHash && 
+        cleanHash !== '#privacy' && 
+        cleanHash !== '#terms' && 
+        cleanHash !== '#medijourney' &&
+        cleanHash !== '#medijourney/privacy-policy' &&
+        cleanHash !== '#medijourney/terms-of-service' &&
+        cleanHash !== '#medijourney/contact-us' && 
+        cleanHash !== '#brainmaze' && 
+        cleanHash !== '#parkdock' && 
+        cleanHash !== '#pdfzero' && 
+        cleanHash !== '#rojgarbahi' &&
+        cleanHash !== '#rojgarbahi/privacy-policy' &&
+        cleanHash !== '#play-games' &&
+        !cleanHash.startsWith('#game/')
       ) {
         setTimeout(() => {
-          const el = document.querySelector(hash);
+          const el = document.querySelector(cleanHash);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       }
@@ -65,18 +68,20 @@ export default function App() {
   }, []);
 
   const renderContent = () => {
-    if (route === '#privacy') return <Privacy />;
-    if (route === '#terms') return <Terms />;
-    if (route === '#medijourney') return <MediJourney />;
-    if (route === '#medijourney/privacy-policy') return <MediJourneyPrivacy />;
-    if (route === '#medijourney/terms-of-service') return <MediJourneyTerms />;
-    if (route === '#medijourney/contact-us') return <MediJourneyContact />;
+    const cleanRoute = route.replace(/^#\/?/, '#').replace(/\/$/, '');
+    if (cleanRoute === '#privacy') return <Privacy />;
+    if (cleanRoute === '#terms') return <Terms />;
+    if (cleanRoute === '#medijourney') return <MediJourney />;
+    if (cleanRoute === '#medijourney/privacy-policy') return <MediJourneyPrivacy />;
+    if (cleanRoute === '#medijourney/terms-of-service') return <MediJourneyTerms />;
+    if (cleanRoute === '#medijourney/contact-us') return <MediJourneyContact />;
 
-    if (route === '#brainmaze') return <BrainMaze />;
-    if (route === '#parkdock') return <ParkDock />;
-    if (route === '#pdfzero') return <PDFZero />;
-    if (route === '#rojgarbahi') return <RojgarBahi />;
-    if (route === '#play-games') return <GamesHub />;
+    if (cleanRoute === '#brainmaze') return <BrainMaze />;
+    if (cleanRoute === '#parkdock') return <ParkDock />;
+    if (cleanRoute === '#pdfzero') return <PDFZero />;
+    if (cleanRoute === '#rojgarbahi') return <RojgarBahi />;
+    if (cleanRoute === '#rojgarbahi/privacy-policy') return <RojgarBahiPrivacy />;
+    if (cleanRoute === '#play-games') return <GamesHub />;
     
     return (
       <div className="flex flex-col w-full relative overflow-x-hidden">
@@ -91,7 +96,8 @@ export default function App() {
     );
   };
 
-  if (route.startsWith('#game/')) {
+  const cleanGlobalRoute = route.replace(/^#\/?/, '#').replace(/\/$/, '');
+  if (cleanGlobalRoute.startsWith('#game/')) {
     return <GamePlayer route={route} />;
   }
 

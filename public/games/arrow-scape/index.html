@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Arrow Scape Art Puzzle</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Home Screen -->
+        <div id="screen-home" class="screen active">
+            <div class="logo">
+                <span class="material-icons neon-icon">architecture</span>
+                <h1 class="neon-text">ARROW SCAPE</h1>
+                <p>Untangle the neon architecture.</p>
+            </div>
+            <button id="btn-start" class="btn-primary cyber-glow">PLAY NOW</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="screen-game" class="screen">
+            <div class="header">
+                <button id="btn-back" class="icon-btn"><span class="material-icons">arrow_back_ios</span></button>
+                <h2 id="level-title">Level 1</h2>
+                <button class="icon-btn" id="btn-reset"><span class="material-icons">refresh</span></button>
+            </div>
+            
+            <div class="status-bar">
+                <div id="hearts-container"></div>
+            </div>
+            
+            <div class="canvas-wrapper">
+                <canvas id="game-canvas"></canvas>
+                <div class="zoom-controls">
+                    <button id="btn-zoom-in" class="glass-btn"><span class="material-icons">zoom_in</span></button>
+                    <button id="btn-zoom-out" class="glass-btn"><span class="material-icons">zoom_out</span></button>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="hint-badge">Drag to Pan • Tap to Free Arrows</div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div id="modal-overlay" class="modal-overlay hidden">
+            <div class="modal glass-panel">
+                <h2 id="modal-title" class="neon-text">ART UNLOCKED!</h2>
+                <button id="btn-next" class="btn-primary cyber-glow">NEXT LEVEL</button>
+                <button id="btn-retry" class="btn-secondary hidden">TRY AGAIN</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

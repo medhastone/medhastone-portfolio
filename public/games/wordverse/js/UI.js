@@ -7,7 +7,12 @@ export class UIManager {
     }
 
     switchScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.screen').forEach(s => {
+            s.classList.remove('active');
+            s.style.opacity = '';
+            s.style.pointerEvents = '';
+            s.style.zIndex = '';
+        });
         document.getElementById(id).classList.add('active');
     }
 

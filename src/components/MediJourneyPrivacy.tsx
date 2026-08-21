@@ -215,19 +215,7 @@ export default function MediJourneyPrivacy() {
             </div>
           </section>
 
-          <section className="mt-12 pt-8 border-t border-white/10 opacity-70">
-            <h2 className="text-xl font-bold text-gray-400 mb-4">✅ Note: Before Publishing to Google Play</h2>
-            <div className="text-sm space-y-4">
-              <p>To stay compliant, make sure your Play Console Data Safety form matches the app's actual behavior. For example:</p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>If health information stays only on the device and is not transmitted to your servers, declare that accurately.</li>
-                <li>If you use Google Sign-In and cloud backup, disclose only the data actually used for those features.</li>
-                <li>If you use AdMob, disclose advertising-related data collection as required.</li>
-                <li>If you later add analytics, crash reporting, or additional permissions (such as camera), update both this Privacy Policy and your Data Safety declarations before releasing the update.</li>
-              </ul>
-              <p>Keeping the Privacy Policy and Data Safety section consistent with your app's real behavior is one of the most important factors for Google Play compliance.</p>
-            </div>
-          </section>
+
 
         </div>
       </motion.div>
