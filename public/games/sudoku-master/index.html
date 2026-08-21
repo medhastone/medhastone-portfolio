@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sudoku Master</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Rounded" rel="stylesheet">
+</head>
+<body class="theme-dark">
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="app">
+        
+        <!-- Main Menu Screen -->
+        <div id="screen-main" class="screen active">
+            <div class="logo-container">
+                <h1 class="logo">SUDOKU<br><span class="highlight">MASTER</span></h1>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat"><span class="material-icons-rounded text-gold">monetization_on</span> <span id="menu-coins">0</span></div>
+                <div class="stat"><span class="material-icons-rounded text-blue">star</span> <span id="menu-xp">0</span> XP</div>
+            </div>
+
+            <div class="menu-buttons">
+                <button class="btn primary pulse" id="btn-quickplay"><span class="material-icons-rounded">play_arrow</span> QUICK PLAY</button>
+                <button class="btn" id="btn-daily"><span class="material-icons-rounded">today</span> DAILY CHALLENGE</button>
+                <button class="btn" id="btn-stats"><span class="material-icons-rounded">bar_chart</span> STATISTICS</button>
+                <button class="btn" id="btn-themes"><span class="material-icons-rounded">palette</span> THEMES</button>
+            </div>
+        </div>
+
+        <!-- Difficulty Selection Screen -->
+        <div id="screen-difficulty" class="screen">
+            <h2>SELECT DIFFICULTY</h2>
+            <div class="menu-buttons">
+                <button class="btn diff-btn" data-diff="easy">EASY <span class="diff-desc">Relaxed puzzle</span></button>
+                <button class="btn diff-btn" data-diff="medium">MEDIUM <span class="diff-desc">Moderate challenge</span></button>
+                <button class="btn diff-btn" data-diff="hard">HARD <span class="diff-desc">Advanced logic required</span></button>
+                <button class="btn diff-btn" data-diff="expert">EXPERT <span class="diff-desc">Complex techniques</span></button>
+                <button class="btn diff-btn" data-diff="master">MASTER <span class="diff-desc">Very few clues</span></button>
+            </div>
+            <button class="btn btn-back mt-2"><span class="material-icons-rounded">arrow_back</span> BACK</button>
+        </div>
+
+        <!-- Gameplay Screen -->
+        <div id="screen-game" class="screen">
+            <div class="game-header">
+                <button class="icon-btn" id="btn-game-back"><span class="material-icons-rounded">arrow_back</span></button>
+                <div class="game-info">
+                    <span id="game-difficulty">HARD</span>
+                    <span id="game-timer">00:00</span>
+                </div>
+                <button class="icon-btn" id="btn-game-settings"><span class="material-icons-rounded">settings</span></button>
+            </div>
+
+            <div class="game-stats">
+                <div class="mistakes">Mistakes: <span id="mistake-count">0</span>/3</div>
+                <div class="score">Score: <span id="game-score">0</span></div>
+            </div>
+
+            <div class="board-container">
+                <div id="sudoku-board" class="sudoku-board">
+                    <!-- JS will generate 81 cells here -->
+                </div>
+            </div>
+
+            <div class="tools-container">
+                <button class="tool-btn" id="btn-undo">
+                    <span class="material-icons-rounded">undo</span>
+                    <span>Undo</span>
+                </button>
+                <button class="tool-btn" id="btn-erase">
+                    <span class="material-icons-rounded">backspace</span>
+                    <span>Erase</span>
+                </button>
+                <button class="tool-btn" id="btn-notes">
+                    <span class="material-icons-rounded">edit</span>
+                    <span>Notes</span>
+                </button>
+                <button class="tool-btn" id="btn-hint">
+                    <span class="material-icons-rounded">lightbulb</span>
+                    <span>Hint</span>
+                    <span class="badge" id="hint-count">3</span>
+                </button>
+            </div>
+
+            <div class="numpad" id="numpad">
+                <button class="num-btn" data-num="1">1</button>
+                <button class="num-btn" data-num="2">2</button>
+                <button class="num-btn" data-num="3">3</button>
+                <button class="num-btn" data-num="4">4</button>
+                <button class="num-btn" data-num="5">5</button>
+                <button class="num-btn" data-num="6">6</button>
+                <button class="num-btn" data-num="7">7</button>
+                <button class="num-btn" data-num="8">8</button>
+                <button class="num-btn" data-num="9">9</button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="screen">
+            <h2 id="result-title">PUZZLE SOLVED!</h2>
+            
+            <div class="result-card">
+                <div class="result-row">
+                    <span>DIFFICULTY</span>
+                    <span class="highlight" id="res-diff">HARD</span>
+                </div>
+                <div class="result-row">
+                    <span>TIME</span>
+                    <span class="highlight" id="res-time">05:23</span>
+                </div>
+                <div class="result-row">
+                    <span>MISTAKES</span>
+                    <span class="text-red" id="res-mistakes">1/3</span>
+                </div>
+                <div class="divider"></div>
+                <div class="result-row">
+                    <span>XP EARNED</span>
+                    <span class="text-blue">+<span id="res-xp">150</span></span>
+                </div>
+                <div class="result-row">
+                    <span>COINS</span>
+                    <span class="text-gold">+<span id="res-coins">20</span></span>
+                </div>
+            </div>
+
+            <div class="menu-buttons mt-2">
+                <button class="btn primary" id="btn-newgame"><span class="material-icons-rounded">add_circle</span> NEW GAME</button>
+                <button class="btn btn-back"><span class="material-icons-rounded">home</span> HOME</button>
+            </div>
+        </div>
+
+        <!-- Statistics Screen -->
+        <div id="screen-stats" class="screen">
+            <h2>STATISTICS</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-played">0</div>
+                    <div class="stat-label">Played</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-won">0</div>
+                    <div class="stat-label">Won</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-winrate">0%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-best">--:--</div>
+                    <div class="stat-label">Best Time</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-back mt-2"><span class="material-icons-rounded">arrow_back</span> BACK</button>
+        </div>
+        
+        <!-- Themes Screen -->
+        <div id="screen-themes" class="screen">
+            <h2>THEMES</h2>
+            
+            <div class="theme-grid" id="theme-grid">
+                <!-- Populated by JS -->
+            </div>
+            
+            <button class="btn btn-back mt-2"><span class="material-icons-rounded">arrow_back</span> BACK</button>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/audio.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/sudoku.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

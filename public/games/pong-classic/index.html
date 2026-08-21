@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pong Classic Reimagined</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Background Effects Layer -->
+        <canvas id="bg-canvas"></canvas>
+        <!-- Main Game Layer -->
+        <canvas id="game-canvas"></canvas>
+        
+        <!-- UI Layer -->
+        <div id="ui-layer">
+            
+            <!-- Main Menu -->
+            <div id="screen-main" class="screen active">
+                <div class="logo-container">
+                    <h1 class="logo">PONG</h1>
+                    <h2 class="sub-logo">REIMAGINED</h2>
+                </div>
+                
+                <div class="menu-buttons">
+                    <button class="btn primary" id="btn-play">PLAY</button>
+                    <button class="btn" id="btn-customization">CUSTOMIZATION</button>
+                    <button class="btn" id="btn-stats">STATISTICS</button>
+                </div>
+            </div>
+
+            <!-- Game Mode Selection -->
+            <div id="screen-modes" class="screen">
+                <h2>SELECT MODE</h2>
+                <div class="modes-grid">
+                    <button class="btn mode-btn" data-mode="classic">
+                        <span class="material-icons">sports_tennis</span>
+                        CLASSIC
+                    </button>
+                    <button class="btn mode-btn" data-mode="arcade">
+                        <span class="material-icons">flash_on</span>
+                        ARCADE
+                    </button>
+                    <button class="btn mode-btn" data-mode="survival">
+                        <span class="material-icons">timer</span>
+                        SURVIVAL
+                    </button>
+                    <button class="btn mode-btn" data-mode="multiplayer">
+                        <span class="material-icons">people</span>
+                        MULTIPLAYER
+                    </button>
+                </div>
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Customization -->
+            <div id="screen-customization" class="screen">
+                <h2>CUSTOMIZATION</h2>
+                
+                <div class="custom-tabs">
+                    <button class="tab-btn active" data-tab="paddles">Paddles</button>
+                    <button class="tab-btn" data-tab="themes">Themes</button>
+                </div>
+
+                <div class="custom-content" id="tab-paddles">
+                    <div class="skin-grid" id="paddle-skins-container">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="custom-content hidden" id="tab-themes">
+                    <div class="skin-grid" id="theme-grid-container">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Stats -->
+            <div id="screen-stats" class="screen">
+                <h2>STATISTICS</h2>
+                <div class="stats-container" id="stats-content">
+                    <!-- Filled by JS -->
+                </div>
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Gameplay HUD -->
+            <div id="screen-hud" class="screen">
+                <div class="score-board">
+                    <div class="score player-score" id="score-p1">0</div>
+                    <div class="score-divider">-</div>
+                    <div class="score opponent-score" id="score-p2">0</div>
+                </div>
+                <div class="powerup-notify" id="powerup-notify"></div>
+                
+                <!-- Mobile Controls -->
+                <div class="mobile-controls" id="mobile-controls">
+                    <div class="touch-zone left" id="touch-left"></div>
+                    <div class="touch-zone right" id="touch-right"></div>
+                </div>
+            </div>
+
+            <!-- Match Result -->
+            <div id="screen-result" class="screen">
+                <h2 id="result-title">VICTORY</h2>
+                <div class="result-stats">
+                    <p id="result-score">5 - 3</p>
+                    <p id="result-xp">+150 XP</p>
+                </div>
+                <button class="btn primary" id="btn-rematch">REMATCH</button>
+                <button class="btn" id="btn-menu">MAIN MENU</button>
+            </div>
+            
+            <!-- Pause Menu -->
+            <div id="screen-pause" class="screen">
+                <h2>PAUSED</h2>
+                <button class="btn primary" id="btn-resume">RESUME</button>
+                <button class="btn" id="btn-quit">QUIT</button>
+            </div>
+
+        </div>
+        
+        <!-- CRT Scanline overlay -->
+        <div class="crt-overlay"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

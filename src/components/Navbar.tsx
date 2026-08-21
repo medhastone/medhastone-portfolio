@@ -8,13 +8,9 @@ export default function Navbar() {
     <header className="fixed top-0 w-full z-50 glass-nav">
       <div className="h-20 max-w-container-max mx-auto px-gutter flex items-center justify-between">
         <div className="flex items-center gap-sm">
-          <img 
-            alt="Medhastone Brand Logo" 
-            className="h-10 w-auto object-contain" 
-            src="https://lh3.googleusercontent.com/aida/AP1WRLs8Pbam4ew8t9A1ruwh3ef0gCx8FIRLXHnqtH2XqJIf1Ax7s0cuTjWrqcPh52M-avpQv0lVfHXOm_c-wxlhvUW-T8Knz__gOcCY1K92g9xqWj0Mb73gc7-2usHDQxoL5jtvs9-k-hHnnlywr9BDnsh7OREgBAmBqEitEZcVUmpJ8P8gpoPdWPnm7m0hgAwmimNlHxneTls9tTjJweoi_4pfXwdQ5pU8O-YArZ5sGZuHLXFJ44wVIHM96g"
-          />
           <span className="text-headline-md text-on-surface tracking-wide">Medhastone</span>
         </div>
+
         
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center gap-lg">

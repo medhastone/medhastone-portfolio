@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TypeRush</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Particle Canvas -->
+        <canvas id="particle-canvas"></canvas>
+        
+        <div id="ui-layer">
+            
+            <!-- Main Menu -->
+            <div id="screen-main" class="screen active">
+                <div class="logo-container">
+                    <h1 class="logo">TYPE<span class="highlight">RUSH</span></h1>
+                    <p class="subtitle">ULTIMATE TYPING CHALLENGE</p>
+                </div>
+                
+                <div class="menu-buttons">
+                    <button class="btn primary" id="btn-play">START TYPING</button>
+                    <button class="btn" id="btn-stats">STATISTICS & RANKS</button>
+                    <button class="btn" id="btn-custom">CUSTOMIZATION</button>
+                </div>
+            </div>
+
+            <!-- Mode Selection -->
+            <div id="screen-modes" class="screen">
+                <h2>SELECT MODE</h2>
+                <div class="modes-grid">
+                    <div class="mode-card" data-mode="quick" data-time="15">
+                        <span class="material-icons">timer</span>
+                        <h3>QUICK TEST</h3>
+                        <p>15 Seconds</p>
+                    </div>
+                    <div class="mode-card" data-mode="quick" data-time="60">
+                        <span class="material-icons">speed</span>
+                        <h3>PRO TEST</h3>
+                        <p>60 Seconds</p>
+                    </div>
+                    <div class="mode-card" data-mode="falling" data-time="0">
+                        <span class="material-icons">water_drop</span>
+                        <h3>FALLING WORDS</h3>
+                        <p>Survival</p>
+                    </div>
+                    <div class="mode-card" data-mode="sentence" data-time="0">
+                        <span class="material-icons">format_quote</span>
+                        <h3>SENTENCES</h3>
+                        <p>Accuracy Focus</p>
+                    </div>
+                </div>
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Quick/Sentence Typing Screen -->
+            <div id="screen-game-typing" class="screen">
+                <div class="hud">
+                    <div class="hud-item"><span class="material-icons">timer</span> <span id="hud-time">60</span>s</div>
+                    <div class="hud-item"><span class="material-icons">speed</span> <span id="hud-wpm">0</span> WPM</div>
+                    <div class="hud-item"><span class="material-icons">track_changes</span> <span id="hud-acc">100</span>%</div>
+                </div>
+                
+                <div class="typing-container">
+                    <div id="words-wrapper">
+                        <!-- Words injected by JS -->
+                    </div>
+                </div>
+                
+                <div class="controls-hint">
+                    <p>Start typing to begin. Press <kbd>ESC</kbd> to exit.</p>
+                </div>
+            </div>
+
+            <!-- Falling Words Screen -->
+            <div id="screen-game-falling" class="screen">
+                <canvas id="falling-canvas"></canvas>
+                <div class="hud falling-hud">
+                    <div class="hud-item text-red"><span class="material-icons">favorite</span> <span id="hud-health">3</span></div>
+                    <div class="hud-item"><span class="material-icons">stars</span> <span id="hud-score">0</span></div>
+                    <div class="hud-item"><span id="hud-combo">x1</span></div>
+                </div>
+                <!-- Input field for mobile fallback / visible typing buffer -->
+                <div class="falling-input-display" id="falling-input-display"></div>
+            </div>
+
+            <!-- Stats Screen -->
+            <div id="screen-stats" class="screen">
+                <h2>PLAYER STATS</h2>
+                
+                <div class="stats-card">
+                    <div class="rank-display">
+                        <span class="material-icons rank-icon">military_tech</span>
+                        <div class="rank-info">
+                            <h3 id="stat-rank-name">BEGINNER</h3>
+                            <p>Level <span id="stat-level">1</span></p>
+                        </div>
+                    </div>
+                    <div class="xp-bar-container">
+                        <div class="xp-bar" id="stat-xp-bar"></div>
+                    </div>
+                    <p class="xp-text"><span id="stat-xp-current">0</span> / <span id="stat-xp-next">1000</span> XP</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <h4>BEST WPM</h4>
+                            <p class="highlight" id="stat-best-wpm">0</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>AVG ACCURACY</h4>
+                            <p class="highlight" id="stat-avg-acc">0%</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>TOTAL TESTS</h4>
+                            <p class="highlight" id="stat-total-tests">0</p>
+                        </div>
+                        <div class="stat-box">
+                            <h4>WORDS TYPED</h4>
+                            <p class="highlight" id="stat-total-words">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Customization Screen -->
+            <div id="screen-custom" class="screen">
+                <h2>CUSTOMIZATION</h2>
+                <div class="theme-grid" id="theme-grid">
+                    <div class="theme-card active" data-theme="neon-cyan">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #0f172a, #164e63); border-color: #06b6d4;"></div>
+                        <p>Neon Cyan</p>
+                    </div>
+                    <div class="theme-card" data-theme="cyber-pink">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #2e1065, #831843); border-color: #ec4899;"></div>
+                        <p>Cyber Pink</p>
+                    </div>
+                    <div class="theme-card" data-theme="matrix-green">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #022c22, #064e3b); border-color: #10b981;"></div>
+                        <p>Matrix Green</p>
+                    </div>
+                    <div class="theme-card" data-theme="midnight-purple">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #171717, #3b0764); border-color: #a855f7;"></div>
+                        <p>Midnight Purple</p>
+                    </div>
+                </div>
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="screen-result" class="screen">
+                <h2 id="result-title">TEST COMPLETE</h2>
+                
+                <div class="result-stats">
+                    <div class="result-box main-box">
+                        <p class="result-label">WPM</p>
+                        <p class="result-value highlight" id="result-wpm">0</p>
+                    </div>
+                    <div class="result-box">
+                        <p class="result-label">ACCURACY</p>
+                        <p class="result-value" id="result-acc">0%</p>
+                    </div>
+                    <div class="result-box">
+                        <p class="result-label">ERRORS</p>
+                        <p class="result-value text-red" id="result-errors">0</p>
+                    </div>
+                    <div class="result-box xp-box">
+                        <p class="result-label">XP EARNED</p>
+                        <p class="result-value text-green" id="result-xp">+0</p>
+                    </div>
+                </div>
+
+                <div class="menu-buttons horizontal">
+                    <button class="btn" id="btn-rematch"><span class="material-icons">refresh</span> REMATCH</button>
+                    <button class="btn" id="btn-menu-return"><span class="material-icons">home</span> MENU</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/words.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

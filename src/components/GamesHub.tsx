@@ -14,7 +14,7 @@ const gamesList = [
   { id: 'color-dash', title: 'Color Dash', category: 'Action', icon: 'palette', color: 'from-indigo-500 to-purple-700' },
   { id: 'pong-classic', title: 'Pong Classic', category: 'Sports', icon: 'sports_tennis', color: 'from-slate-500 to-gray-700' },
   { id: 'typing-speed', title: 'Typing Speed', category: 'Educational', icon: 'keyboard', color: 'from-teal-500 to-emerald-700' },
-  { id: 'mine-sweeper', title: 'Mine Sweeper', category: 'Strategy', icon: 'sports_esports', color: 'from-orange-500 to-red-700' },
+  { id: 'minesweeper', title: 'Mine Sweeper', category: 'Strategy', icon: 'sports_esports', color: 'from-orange-500 to-red-700' },
   { id: 'flappy-bird', title: 'Flappy Clone', category: 'Arcade', icon: 'flight', color: 'from-sky-500 to-blue-700' },
   { id: 'sudoku-master', title: 'Sudoku Master', category: 'Brain', icon: 'apps', color: 'from-violet-500 to-purple-700' },
   { id: 'chess-ai', title: 'Chess vs AI', category: 'Strategy', icon: 'chess', color: 'from-stone-500 to-neutral-700' },

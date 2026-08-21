@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flappy Clone X</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- 3D Canvas -->
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="ui-layer">
+            
+            <!-- Main Menu -->
+            <div id="screen-main" class="screen active">
+                <div class="logo-container">
+                    <h1 class="logo">FLAPPY<br><span class="highlight">CLONE X</span></h1>
+                </div>
+                
+                <div class="stats-bar top-bar">
+                    <div class="stat"><span class="material-icons text-gold">monetization_on</span> <span id="menu-coins">0</span></div>
+                    <div class="stat"><span class="material-icons text-blue">star</span> <span id="menu-highscore">0</span></div>
+                </div>
+
+                <div class="menu-buttons">
+                    <button class="btn primary pulse" id="btn-play"><span class="material-icons">play_arrow</span> PLAY</button>
+                    <button class="btn" id="btn-characters"><span class="material-icons">pets</span> CHARACTERS</button>
+                    <button class="btn" id="btn-missions"><span class="material-icons">emoji_events</span> MISSIONS</button>
+                </div>
+            </div>
+
+            <!-- Gameplay HUD -->
+            <div id="screen-game" class="screen">
+                <div class="hud-top">
+                    <div class="score-display" id="hud-score">0</div>
+                    <div class="hud-stats">
+                        <div class="hud-coin"><span class="material-icons text-gold">monetization_on</span> <span id="hud-coins">0</span></div>
+                    </div>
+                </div>
+                <div class="powerup-display" id="hud-powerup" style="display: none;">
+                    <span class="material-icons" id="powerup-icon">shield</span>
+                    <div class="powerup-bar"><div class="powerup-fill" id="powerup-fill"></div></div>
+                </div>
+                <div class="touch-hint" id="touch-hint">TAP TO FLAP</div>
+            </div>
+
+            <!-- Characters / Shop Screen -->
+            <div id="screen-characters" class="screen">
+                <h2>HANGAR</h2>
+                <div class="stats-bar">
+                    <div class="stat"><span class="material-icons text-gold">monetization_on</span> <span id="shop-coins">0</span></div>
+                </div>
+                
+                <div class="character-grid" id="character-grid">
+                    <!-- Populated by JS -->
+                </div>
+                
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Missions Screen -->
+            <div id="screen-missions" class="screen">
+                <h2>MISSIONS & RANKS</h2>
+                <div class="rank-card">
+                    <span class="material-icons rank-icon">military_tech</span>
+                    <div class="rank-info">
+                        <h3 id="rank-title">Rookie Flyer</h3>
+                        <div class="xp-bar"><div class="xp-fill" id="rank-xp"></div></div>
+                        <p><span id="xp-current">0</span> / <span id="xp-next">100</span> XP</p>
+                    </div>
+                </div>
+                
+                <div class="mission-list" id="mission-list">
+                    <!-- Populated by JS -->
+                </div>
+                
+                <button class="btn btn-back">BACK</button>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="screen-gameover" class="screen">
+                <h2 class="text-red">CRASHED!</h2>
+                
+                <div class="result-card">
+                    <div class="result-row">
+                        <span>SCORE</span>
+                        <span class="highlight" id="result-score">0</span>
+                    </div>
+                    <div class="result-row">
+                        <span>BEST</span>
+                        <span class="text-gold" id="result-best">0</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="result-row">
+                        <span>COINS</span>
+                        <span class="text-gold">+<span id="result-coins">0</span></span>
+                    </div>
+                    <div class="result-row">
+                        <span>XP</span>
+                        <span class="text-blue">+<span id="result-xp">0</span></span>
+                    </div>
+                </div>
+
+                <div class="menu-buttons horizontal mt-2">
+                    <button class="btn primary" id="btn-restart"><span class="material-icons">refresh</span> PLAY AGAIN</button>
+                    <button class="btn" id="btn-menu"><span class="material-icons">home</span> MENU</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
