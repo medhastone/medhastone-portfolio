@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Turbo Rush 2D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="game-container">
+        
+        <!-- UI Screens -->
+        <!-- Main Menu -->
+        <div id="screen-main" class="screen active">
+            <div class="header">
+                <div class="stats-bar">
+                    <div class="stat"><span class="material-symbols-rounded text-yellow">monetization_on</span> <span id="menu-coins">0</span></div>
+                    <div class="stat"><span class="material-symbols-rounded text-cyan">diamond</span> <span id="menu-gems">0</span></div>
+                    <div class="stat"><span class="material-symbols-rounded text-purple">star</span> Lvl <span id="menu-level">1</span></div>
+                </div>
+            </div>
+            
+            <div class="title-container">
+                <h1 class="game-title">TURBO<br><span class="text-orange">RUSH</span> 2D</h1>
+            </div>
+            
+            <div class="main-buttons">
+                <button class="btn btn-primary pulse" id="btn-play"><span class="material-symbols-rounded">play_arrow</span> PLAY</button>
+                <button class="btn btn-secondary" id="btn-garage"><span class="material-symbols-rounded">directions_car</span> GARAGE</button>
+                <button class="btn btn-secondary" id="btn-stats"><span class="material-symbols-rounded">leaderboard</span> STATS</button>
+            </div>
+        </div>
+
+        <!-- Garage Screen -->
+        <div id="screen-garage" class="screen">
+            <div class="header">
+                <button class="icon-btn btn-back" data-target="screen-main"><span class="material-symbols-rounded">arrow_back</span></button>
+                <h2>GARAGE</h2>
+                <div class="stat"><span class="material-symbols-rounded text-yellow">monetization_on</span> <span id="garage-coins">0</span></div>
+            </div>
+            
+            <div class="car-showcase">
+                <canvas id="car-preview" width="200" height="200"></canvas>
+                <div class="car-name" id="garage-car-name">Compact Car</div>
+            </div>
+            
+            <div class="garage-controls">
+                <button class="icon-btn" id="btn-prev-car"><span class="material-symbols-rounded">chevron_left</span></button>
+                <button class="btn btn-buy" id="btn-buy-car">BUY - 1000 <span class="material-symbols-rounded">monetization_on</span></button>
+                <button class="btn btn-select" id="btn-select-car">SELECT</button>
+                <button class="icon-btn" id="btn-next-car"><span class="material-symbols-rounded">chevron_right</span></button>
+            </div>
+            
+            <div class="upgrades-panel">
+                <h3>UPGRADES</h3>
+                <div class="upgrade-row">
+                    <span>Speed</span>
+                    <div class="upgrade-bars" id="upg-speed-bars"></div>
+                    <button class="btn-sm btn-upgrade" id="btn-upg-speed">UPG</button>
+                </div>
+                <div class="upgrade-row">
+                    <span>Handling</span>
+                    <div class="upgrade-bars" id="upg-handling-bars"></div>
+                    <button class="btn-sm btn-upgrade" id="btn-upg-handling">UPG</button>
+                </div>
+                <div class="upgrade-row">
+                    <span>Nitro</span>
+                    <div class="upgrade-bars" id="upg-nitro-bars"></div>
+                    <button class="btn-sm btn-upgrade" id="btn-upg-nitro">UPG</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Screen -->
+        <div id="screen-stats" class="screen">
+            <div class="header">
+                <button class="icon-btn btn-back" data-target="screen-main"><span class="material-symbols-rounded">arrow_back</span></button>
+                <h2>STATISTICS</h2>
+            </div>
+            <div class="stats-list" id="stats-list">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="screen-game" class="screen">
+            <canvas id="game-canvas"></canvas>
+            
+            <div class="hud">
+                <div class="hud-top">
+                    <div class="hud-stat">
+                        <div class="hud-label">SCORE</div>
+                        <div class="hud-value" id="hud-score">0</div>
+                    </div>
+                    <div class="hud-stat">
+                        <div class="hud-label">COINS</div>
+                        <div class="hud-value text-yellow" id="hud-coins">0</div>
+                    </div>
+                    <button class="icon-btn btn-pause" id="btn-pause"><span class="material-symbols-rounded">pause</span></button>
+                </div>
+                
+                <div class="hud-bottom">
+                    <div class="nitro-container">
+                        <div class="nitro-bar">
+                            <div class="nitro-fill" id="nitro-fill"></div>
+                        </div>
+                        <div class="nitro-label">NITRO</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Mobile Controls -->
+            <div class="mobile-controls" id="mobile-controls">
+                <div class="ctrl-left">
+                    <button class="ctrl-btn" id="btn-left"><span class="material-symbols-rounded">keyboard_arrow_left</span></button>
+                    <button class="ctrl-btn" id="btn-right"><span class="material-symbols-rounded">keyboard_arrow_right</span></button>
+                </div>
+                <div class="ctrl-right">
+                    <button class="ctrl-btn" id="btn-brake"><span class="material-symbols-rounded">keyboard_arrow_down</span></button>
+                    <button class="ctrl-btn" id="btn-gas"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+                </div>
+            </div>
+            
+            <!-- Pause Overlay -->
+            <div class="overlay" id="overlay-pause">
+                <div class="modal">
+                    <h2>PAUSED</h2>
+                    <button class="btn btn-primary" id="btn-resume">RESUME</button>
+                    <button class="btn btn-secondary" id="btn-quit">QUIT</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="screen-results" class="screen">
+            <h2 class="title-crashed text-red">CRASHED!</h2>
+            <div class="results-card">
+                <div class="res-row"><span>Score</span><span id="res-score" class="text-white">0</span></div>
+                <div class="res-row"><span>High Score</span><span id="res-highscore" class="text-gold">0</span></div>
+                <div class="res-row"><span>Distance</span><span id="res-distance">0 m</span></div>
+                <div class="res-row"><span>Coins</span><span id="res-coins" class="text-yellow">+0</span></div>
+            </div>
+            <div class="main-buttons">
+                <button class="btn btn-primary" id="btn-restart"><span class="material-symbols-rounded">replay</span> TRY AGAIN</button>
+                <button class="btn btn-secondary" id="btn-home"><span class="material-symbols-rounded">home</span> HOME</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>

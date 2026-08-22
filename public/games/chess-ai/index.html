@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chess vs AI Grandmaster</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body class="theme-classic">
+    <div id="three-bg"></div>
+
+    <div id="app">
+        
+        <!-- Main Menu -->
+        <div id="screen-main" class="screen active">
+            <div class="logo-container">
+                <h1 class="logo">CHESS<br><span class="highlight">GRANDMASTER</span></h1>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat"><span class="material-symbols-rounded text-gold">emoji_events</span> <span id="menu-rating">1200</span></div>
+                <div class="stat"><span class="material-symbols-rounded text-blue">star</span> <span id="menu-xp">0</span> XP</div>
+            </div>
+
+            <div class="menu-buttons">
+                <button class="btn primary pulse" id="btn-play"><span class="material-symbols-rounded">play_arrow</span> PLAY AI</button>
+                <button class="btn" id="btn-puzzles"><span class="material-symbols-rounded">extension</span> PUZZLES</button>
+                <button class="btn" id="btn-stats"><span class="material-symbols-rounded">bar_chart</span> STATISTICS</button>
+                <button class="btn" id="btn-themes"><span class="material-symbols-rounded">palette</span> THEMES</button>
+            </div>
+        </div>
+
+        <!-- Difficulty / Mode Selection -->
+        <div id="screen-setup" class="screen">
+            <h2 class="cinzel">MATCH SETUP</h2>
+            
+            <div class="setup-section">
+                <h3>SELECT DIFFICULTY</h3>
+                <div class="menu-buttons grid-2">
+                    <button class="btn diff-btn" data-diff="1">BEGINNER <span class="diff-desc">Rating: 400</span></button>
+                    <button class="btn diff-btn" data-diff="2">NOVICE <span class="diff-desc">Rating: 800</span></button>
+                    <button class="btn diff-btn" data-diff="3">INTERMEDIATE <span class="diff-desc">Rating: 1200</span></button>
+                    <button class="btn diff-btn" data-diff="4">ADVANCED <span class="diff-desc">Rating: 1600</span></button>
+                    <button class="btn diff-btn" data-diff="5">MASTER <span class="diff-desc">Rating: 2000</span></button>
+                    <button class="btn diff-btn primary" data-diff="6">GRANDMASTER <span class="diff-desc">Rating: 2400</span></button>
+                </div>
+            </div>
+
+            <div class="setup-section mt-2">
+                <h3>PLAY AS</h3>
+                <div class="color-select">
+                    <button class="color-btn active" data-color="w"><div class="color-preview white"></div> WHITE</button>
+                    <button class="color-btn" data-color="b"><div class="color-preview black"></div> BLACK</button>
+                    <button class="color-btn" data-color="r"><span class="material-symbols-rounded">shuffle</span> RANDOM</button>
+                </div>
+            </div>
+            
+            <div class="mt-2 text-center">
+                <button class="btn primary pulse" id="btn-start-match" style="width: 100%; max-width: 320px;">START MATCH</button>
+                <button class="btn btn-back mt-1"><span class="material-symbols-rounded">arrow_back</span> BACK</button>
+            </div>
+        </div>
+
+        <!-- Gameplay Screen -->
+        <div id="screen-game" class="screen">
+            <div class="game-layout">
+                <!-- Left Sidebar: Info -->
+                <div class="game-sidebar left">
+                    <button class="icon-btn" id="btn-game-back"><span class="material-symbols-rounded">arrow_back</span></button>
+                    
+                    <div class="player-card opponent">
+                        <div class="avatar"><span class="material-symbols-rounded">smart_toy</span></div>
+                        <div class="player-info">
+                            <div class="name" id="opponent-name">AI Master</div>
+                            <div class="rating" id="opponent-rating">2000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="eval-bar-container">
+                        <div class="eval-bar" id="eval-bar">
+                            <div class="eval-fill" id="eval-fill"></div>
+                        </div>
+                        <div class="eval-text" id="eval-text">0.0</div>
+                    </div>
+
+                    <div class="player-card player mt-auto">
+                        <div class="avatar"><span class="material-symbols-rounded">person</span></div>
+                        <div class="player-info">
+                            <div class="name">You</div>
+                            <div class="rating" id="player-rating">1200</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center: Board -->
+                <div class="board-container-wrapper">
+                    <div class="board-controls-top">
+                        <div class="captured-pieces" id="captured-top"></div>
+                        <div class="timer opponent-timer" id="timer-top">10:00</div>
+                    </div>
+                    
+                    <div class="board-wrapper" id="board-wrapper">
+                        <!-- Ranks and Files coords -->
+                        <div class="coord-files" id="coord-files"></div>
+                        <div class="coord-ranks" id="coord-ranks"></div>
+                        
+                        <div id="chess-board" class="chess-board">
+                            <!-- Squares generated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="board-controls-bottom">
+                        <div class="captured-pieces" id="captured-bottom"></div>
+                        <div class="timer player-timer" id="timer-bottom">10:00</div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar: Moves & Tools -->
+                <div class="game-sidebar right">
+                    <div class="moves-container">
+                        <div class="moves-header">MOVE HISTORY</div>
+                        <div class="moves-list" id="moves-list">
+                            <!-- Moves generated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="tools-container">
+                        <button class="tool-btn" id="btn-undo">
+                            <span class="material-symbols-rounded">undo</span>
+                            <span>Undo</span>
+                        </button>
+                        <button class="tool-btn" id="btn-hint">
+                            <span class="material-symbols-rounded">lightbulb</span>
+                            <span>Hint</span>
+                        </button>
+                        <button class="tool-btn" id="btn-3d">
+                            <span class="material-symbols-rounded">3d_rotation</span>
+                            <span>View</span>
+                        </button>
+                        <button class="tool-btn text-red" id="btn-resign">
+                            <span class="material-symbols-rounded">flag</span>
+                            <span>Resign</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Promotion Modal -->
+            <div id="promotion-modal" class="modal">
+                <div class="modal-content">
+                    <h3>Promote Pawn</h3>
+                    <div class="promo-pieces" id="promo-pieces">
+                        <!-- Populated by JS based on color -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="screen">
+            <h2 id="result-title" class="cinzel">VICTORY</h2>
+            <div class="result-subtitle" id="result-subtitle">by Checkmate</div>
+            
+            <div class="result-card">
+                <div class="result-row">
+                    <span>OPPONENT</span>
+                    <span class="highlight" id="res-opponent">AI Master (2000)</span>
+                </div>
+                <div class="result-row">
+                    <span>ACCURACY</span>
+                    <span class="highlight" id="res-accuracy">85%</span>
+                </div>
+                <div class="divider"></div>
+                <div class="result-row">
+                    <span>RATING CHANGE</span>
+                    <span class="text-blue" id="res-rating">+15 <small>(1215)</small></span>
+                </div>
+                <div class="result-row">
+                    <span>XP EARNED</span>
+                    <span class="text-gold">+<span id="res-xp">150</span></span>
+                </div>
+            </div>
+
+            <div class="menu-buttons mt-2">
+                <button class="btn primary" id="btn-rematch"><span class="material-symbols-rounded">refresh</span> REMATCH</button>
+                <button class="btn btn-back"><span class="material-symbols-rounded">home</span> HOME</button>
+            </div>
+        </div>
+        
+        <!-- Themes Screen -->
+        <div id="screen-themes" class="screen">
+            <h2 class="cinzel">THEMES & BOARDS</h2>
+            
+            <div class="theme-grid" id="theme-grid">
+                <!-- Populated by JS -->
+            </div>
+            
+            <button class="btn btn-back mt-2"><span class="material-symbols-rounded">arrow_back</span> BACK</button>
+        </div>
+
+        <!-- Puzzles Screen -->
+        <div id="screen-puzzles" class="screen">
+            <h2 class="cinzel">CHESS PUZZLES</h2>
+            <div class="puzzle-list" id="puzzle-list" style="max-height: 60vh; overflow-y: auto; width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px;">
+                <!-- Populated by JS -->
+            </div>
+            <button class="btn btn-back mt-2"><span class="material-symbols-rounded">arrow_back</span> BACK</button>
+        </div>
+
+        <!-- Stats Screen -->
+        <div id="screen-stats" class="screen">
+            <h2 class="cinzel">STATISTICS</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-rating">1200</div>
+                    <div class="stat-label">Elo Rating</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-winrate">0%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-played">0</div>
+                    <div class="stat-label">Games Played</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value text-gold" id="stat-rank">Novice</div>
+                    <div class="stat-label">Current Rank</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-back mt-2"><span class="material-symbols-rounded">arrow_back</span> BACK</button>
+        </div>
+
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/puzzles.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,14 +1,7 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Medhastone - High-Performance Digital Experiences</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="description" content="Specializing in cross-platform Flutter development, offline-first architectures, and modern WebGL-powered web applications tailored for enterprise scale." />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Geist:wght@600;700&family=Inter:wght@400&display=swap" rel="stylesheet" />
-  
+const fs = require('fs');
+let html = fs.readFileSync('index.html', 'utf8');
+
+const seoTags = `
     <!-- SEO and Social Meta Tags -->
     <meta name="keywords" content="free browser games, online games, unblocked games, puzzle games, action games, arcade games, HTML5 games, Zentova, Medhastone">
     <meta property="og:title" content="Zentova Play Games - Free Online Browser Games" />
@@ -31,10 +24,12 @@
       "genre": ["Action", "Puzzle", "Arcade", "Educational"]
     }
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+`;
 
+if (!html.includes('og:title')) {
+    html = html.replace('</head>', `${seoTags}  </head>`);
+    fs.writeFileSync('index.html', html);
+    console.log('SEO tags added successfully.');
+} else {
+    console.log('SEO tags already exist.');
+}

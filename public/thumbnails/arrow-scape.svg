@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+    <defs>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0f0c29" />
+            <stop offset="50%" stop-color="#302b63" />
+            <stop offset="100%" stop-color="#24243e" />
+        </linearGradient>
+        <linearGradient id="neon" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00f2fe" />
+            <stop offset="100%" stop-color="#4facfe" />
+        </linearGradient>
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="15" result="blur" />
+            <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+    <rect width="800" height="450" fill="url(#bg)" />
+    
+    <!-- Abstract arrow pattern -->
+    <g filter="url(#glow)">
+        <path d="M 300 225 L 450 150 L 450 200 L 600 200 L 600 250 L 450 250 L 450 300 Z" fill="none" stroke="url(#neon)" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M 200 100 L 300 50 L 300 80 L 400 80 L 400 120 L 300 120 L 300 150 Z" fill="none" stroke="#f093fb" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M 500 350 L 600 300 L 600 330 L 700 330 L 700 370 L 600 370 L 600 400 Z" fill="none" stroke="#f5576c" stroke-width="6" stroke-linejoin="round"/>
+    </g>
+    
+    <text x="400" y="380" font-family="sans-serif" font-weight="900" font-size="64" fill="#ffffff" text-anchor="middle" letter-spacing="4">ARROW SCAPE</text>
+</svg>
