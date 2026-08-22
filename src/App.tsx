@@ -7,17 +7,53 @@ import { loadStats, saveStats, PlayerStats } from './store';
 import HomeScreen from './components/HomeScreen';
 import GameScreen from './components/GameScreen';
 import VictoryScreen from './components/VictoryScreen';
+import GamesHubScreen from './components/GamesHubScreen';
+import IframePlayerScreen from './components/IframePlayerScreen';
+import LandingScreen from './components/LandingScreen';
+import ProjectDetailsScreen from './components/ProjectDetailsScreen';
+import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 
-export type ScreenState = 'HOME' | 'GAME' | 'VICTORY' | 'GAMEOVER' | 'RANKS' | 'SHOP' | 'SETTINGS';
+export type ScreenState = 'HOME' | 'GAME' | 'VICTORY' | 'GAMEOVER' | 'RANKS' | 'SHOP' | 'SETTINGS' | 'GAMES_HUB' | 'PLAY_IFRAME' | 'LANDING' | 'PROJECT_DETAILS' | 'PRIVACY_POLICY';
 
 function App() {
-  const [screen, setScreen] = useState<ScreenState>('HOME');
+  const [screen, setScreen] = useState<ScreenState>('LANDING');
+  const [activeGame, setActiveGame] = useState<{path: string, title: string} | null>(null);
+  const [activeProject, setActiveProject] = useState<string | null>(null);
   const [stats, setStats] = useState<PlayerStats>(() => {
     const s = loadStats();
     setSoundEnabled(s.soundEnabled);
     return s;
   });
+  
   const [lastScore, setLastScore] = useState(0);
+
+  // Hash Routing Logic
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      const projectHashes = ['#medijourney', '#parkdock', '#brainmaze', '#rojgarbahi', '#pdfzero'];
+      
+      if (hash === '#bubble-mania') {
+        setScreen('HOME');
+      } else if (hash === '#play-games') {
+        setScreen('GAMES_HUB');
+      } else if (hash.endsWith('/privacy-policy')) {
+        setActiveProject(hash.substring(1).replace('/privacy-policy', ''));
+        setScreen('PRIVACY_POLICY');
+      } else if (projectHashes.includes(hash)) {
+        setActiveProject(hash.substring(1));
+        setScreen('PROJECT_DETAILS');
+      } else {
+        setScreen('LANDING');
+      }
+    };
+    
+    // Initial check
+    handleHashChange();
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   useEffect(() => {
     saveStats(stats);
@@ -42,12 +78,41 @@ function App() {
     updateStats({
       highestScore: Math.max(stats.highestScore, score)
     });
-    setScreen('GAMEOVER'); // We can reuse victory screen or make a new one, let's keep it simple
+    setScreen('GAMEOVER');
   };
 
+  const playExternalGame = (path: string, title: string) => {
+    setActiveGame({ path, title });
+    setScreen('PLAY_IFRAME');
+  };
+
+  const closeExternalGame = () => {
+    setActiveGame(null);
+    setScreen('GAMES_HUB');
+    window.location.hash = '#play-games'; // Back to hub
+  };
+
+  if (screen === 'PRIVACY_POLICY' && activeProject) {
+    return <PrivacyPolicyScreen appId={activeProject} onBack={() => {
+      setScreen('PROJECT_DETAILS');
+      window.location.hash = `#${activeProject}`; // Return to project page
+    }} />;
+  }
+
+  if (screen === 'PROJECT_DETAILS' && activeProject) {
+    return <ProjectDetailsScreen id={activeProject} onBack={() => {
+      setScreen('LANDING');
+      window.location.hash = ''; // Clear hash to return to Landing
+    }} />;
+  }
+
+  if (screen === 'LANDING') {
+    return <LandingScreen />;
+  }
+
   return (
-    <div className="w-full h-screen bg-slate-900 flex items-center justify-center">
-      <div className="w-full max-w-md h-full sm:h-[85vh] sm:rounded-3xl sm:border-4 border-slate-700 bg-slate-800 shadow-2xl relative overflow-hidden flex flex-col">
+    <div className="w-full h-screen fixed inset-0 overflow-hidden select-none touch-none bg-slate-900 flex items-center justify-center">
+      <div className="w-full h-full bg-slate-800 relative overflow-hidden flex flex-col">
         {screen === 'HOME' && <HomeScreen stats={stats} onPlay={() => setScreen('GAME')} onRanks={() => setScreen('RANKS')} onShop={() => setScreen('SHOP')} onSettings={() => setScreen('SETTINGS')} />}
         {screen === 'RANKS' && <RanksScreen stats={stats} onBack={() => setScreen('HOME')} />}
         {screen === 'SHOP' && <ShopScreen stats={stats} updateStats={updateStats} onBack={() => setScreen('HOME')} />}
@@ -55,6 +120,20 @@ function App() {
         {screen === 'GAME' && <GameScreen level={stats.level} onWin={handleLevelComplete} onLose={handleGameOver} onQuit={() => setScreen('HOME')} />}
         {screen === 'VICTORY' && <VictoryScreen score={lastScore} stats={stats} isWin={true} onContinue={() => setScreen('HOME')} />}
         {screen === 'GAMEOVER' && <VictoryScreen score={lastScore} stats={stats} isWin={false} onContinue={() => setScreen('HOME')} />}
+        
+        {screen === 'GAMES_HUB' && (
+          <GamesHubScreen 
+            onPlayGame={playExternalGame}
+          />
+        )}
+        
+        {screen === 'PLAY_IFRAME' && activeGame && (
+          <IframePlayerScreen 
+            gamePath={activeGame.path} 
+            gameTitle={activeGame.title} 
+            onBack={closeExternalGame}
+          />
+        )}
       </div>
     </div>
   );

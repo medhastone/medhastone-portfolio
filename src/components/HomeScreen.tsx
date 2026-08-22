@@ -16,7 +16,7 @@ export default function HomeScreen({ stats, onPlay, onRanks, onShop, onSettings 
       {/* Header */}
       <div className="flex justify-between items-center p-4 bg-black/20">
         <button 
-          onClick={() => { playButton(); window.location.href = 'https://zentova.in/#play-games'; }}
+          onClick={() => { playButton(); window.location.hash = '#play-games'; }}
           className="flex items-center gap-1 text-white/80 hover:text-white font-bold bg-white/10 px-3 py-1 rounded-full text-sm"
         >
           <ArrowLeft size={16} /> Hub
