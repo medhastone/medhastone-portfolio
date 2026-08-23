@@ -1,7 +1,10 @@
-import { ChevronDown, Smartphone, Monitor, WifiOff, PenTool, Star, Mail, Clock, Linkedin, Instagram, Play, ArrowUp, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronDown, Smartphone, Monitor, WifiOff, PenTool, Star, Mail, Clock, Linkedin, Instagram, Play, ArrowUp, ArrowRight, Menu, X } from 'lucide-react';
 import { playButton } from '../game/audio';
 
 export default function LandingScreen() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const FAQS = [
     {q: "What platforms do you develop apps for?", a: "We specialize in Flutter, which allows us to compile natively to Android, iOS, Web, Windows, macOS, and Linux from a single codebase."},
     {q: "How does your pricing model work?", a: "We offer fixed-bid pricing for well-defined scopes and time-and-materials for ongoing agile development. Contact us for a precise quote based on your requirements."},
@@ -20,6 +23,8 @@ export default function LandingScreen() {
             <div className="w-8 h-8 rounded bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">M</div>
             <span className="font-bold text-xl tracking-wider text-white">MEDHASTONE</span>
           </div>
+          
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8 text-xs font-bold text-white/60 tracking-widest uppercase">
             <a href="#home" className="hover:text-white transition-colors">Home</a>
             <a href="#play-games" onClick={() => playButton()} className="hover:text-white transition-colors">Play Games</a>
@@ -27,7 +32,26 @@ export default function LandingScreen() {
             <a href="#services" className="hover:text-white transition-colors">Services</a>
             <a href="#contact" className="hover:text-white transition-colors">Contact</a>
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden p-2 text-white/80 hover:text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-20 left-0 right-0 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-white/5 p-6 flex flex-col gap-6 text-sm font-bold text-white/80 tracking-widest uppercase shadow-2xl">
+            <a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white transition-colors">Home</a>
+            <a href="#play-games" onClick={() => { playButton(); setIsMobileMenuOpen(false); }} className="hover:text-white transition-colors">Play Games</a>
+            <a href="#portfolio" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white transition-colors">Portfolio</a>
+            <a href="#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white transition-colors">Services</a>
+            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white transition-colors">Contact</a>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -341,33 +365,38 @@ export default function LandingScreen() {
             </div>
 
             <div className="bg-[#0a0a0f] rounded-3xl p-8 border border-white/5 shadow-xl">
-              <form className="space-y-5" onSubmit={e => e.preventDefault()}>
+              <form className="space-y-5" action="https://formsubmit.co/medhastone@gmail.com" method="POST">
+                {/* Disable Captcha for smoother experience */}
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_subject" value="New Contact Inquiry from Medhastone Website!" />
+                <input type="hidden" name="_next" value={window.location.href} />
+                
                 <div className="grid grid-cols-2 gap-4">
                    <div className="space-y-1.5">
                      <label className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Your Name</label>
-                     <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors" />
+                     <input type="text" name="name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors" />
                    </div>
                    <div className="space-y-1.5">
                      <label className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Email Address</label>
-                     <input type="email" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors" />
+                     <input type="email" name="email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors" />
                    </div>
                 </div>
                 
                 <div className="space-y-1.5">
                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Inquiry Type</label>
-                   <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors appearance-none">
-                     <option className="bg-[#0a0a0f]">App Development</option>
-                     <option className="bg-[#0a0a0f]">Web Development</option>
-                     <option className="bg-[#0a0a0f]">General Inquiry</option>
+                   <select name="inquiry_type" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors appearance-none">
+                     <option className="bg-[#0a0a0f]" value="App Development">App Development</option>
+                     <option className="bg-[#0a0a0f]" value="Web Development">Web Development</option>
+                     <option className="bg-[#0a0a0f]" value="General Inquiry">General Inquiry</option>
                    </select>
                 </div>
                 
                 <div className="space-y-1.5">
                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-wider">Your Message</label>
-                   <textarea rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors resize-none"></textarea>
+                   <textarea name="message" required rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:bg-white/10 transition-colors resize-none"></textarea>
                 </div>
                 
-                <button className="w-full py-4 rounded-xl bg-white hover:bg-gray-200 text-black font-bold flex items-center justify-center gap-2 transition-colors mt-2 text-sm">
+                <button type="submit" className="w-full py-4 rounded-xl bg-white hover:bg-gray-200 text-black font-bold flex items-center justify-center gap-2 transition-colors mt-2 text-sm">
                   Send Message <ArrowRight size={16} />
                 </button>
               </form>
