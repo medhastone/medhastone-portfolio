@@ -723,7 +723,13 @@ document.getElementById('btn-next-ship').addEventListener('click', () => {
 
 // Resize
 window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    const aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = aspect;
+    if (aspect < 1) {
+        camera.fov = 60 + (1 - aspect) * 45;
+    } else {
+        camera.fov = 60;
+    }
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });

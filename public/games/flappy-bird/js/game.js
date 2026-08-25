@@ -139,7 +139,13 @@ class Game {
     }
 
     resize() {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+        const aspect = window.innerWidth / window.innerHeight;
+        this.camera.aspect = aspect;
+        if (aspect < 1) {
+            this.camera.position.z = Math.max(15, 12 / aspect);
+        } else {
+            this.camera.position.z = 15;
+        }
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }

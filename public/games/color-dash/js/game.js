@@ -457,7 +457,13 @@ export class ColorDashGame {
     }
     
     onResize() {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+        const aspect = window.innerWidth / window.innerHeight;
+        this.camera.aspect = aspect;
+        if(aspect < 1) {
+            this.camera.fov = 70 + (1 - aspect) * 40;
+        } else {
+            this.camera.fov = 70;
+        }
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
