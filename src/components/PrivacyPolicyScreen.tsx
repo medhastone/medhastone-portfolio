@@ -12,7 +12,8 @@ export default function PrivacyPolicyScreen({ appId, onBack }: { appId: string, 
     medijourney: "Medi Journey",
     parkdock: "ParkDock",
     brainmaze: "Brain Maze Master",
-    pdfzero: "PDFZero"
+    pdfzero: "PDFZero",
+    lexibrain: "LexiBrain: Hidden Words"
   };
 
   const appName = appNames[appId] || "Our Application";
@@ -60,6 +61,8 @@ export default function PrivacyPolicyScreen({ appId, onBack }: { appId: string, 
               ? "Effective Date: August 22, 2026"
               : appId === 'pdfzero'
               ? "Last Updated: August 30, 2026"
+              : appId === 'lexibrain'
+              ? "Last updated: September 13, 2026"
               : `Your privacy is critically important to us. This document outlines how ${appName} handles your data with absolute security and transparency.`}
           </p>
         </div>
@@ -507,6 +510,209 @@ export default function PrivacyPolicyScreen({ appId, onBack }: { appId: string, 
                   <ul className="space-y-2 mt-4">
                     <li className="flex items-center gap-2"><strong>Developer Brand:</strong> Medhastone</li>
                     <li className="flex items-center gap-2"><strong>Support Email:</strong> <a href="mailto:medhastone@gmail.com" className="text-purple-400 hover:underline">medhastone@gmail.com</a></li>
+                  </ul>
+                </div>
+              </section>
+            </>
+          ) : appId === 'lexibrain' ? (
+            <>
+              <div className="mb-8 p-6 rounded-2xl bg-white/5 border border-white/10 text-white/70 space-y-2">
+                <p><strong className="text-white">Developer / Publisher:</strong> Medhastone</p>
+                <p><strong className="text-white">Application:</strong> LexiBrain: Find Hidden Words (LexiBrain: Hidden Words)</p>
+                <p><strong className="text-white">Contact Email:</strong> medhastone@gmail.com</p>
+              </div>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <Shield className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">1. Summary of Data Collection & Permissions</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>Welcome to <strong>LexiBrain: Hidden Words</strong> ("we," "our," or "us"). We are committed to protecting your privacy and providing a secure, engaging word puzzle and vocabulary experience. This Privacy Policy outlines how our mobile application handles user information and complies with the Google Play Developer Program Policies, GDPR, CCPA/CPRA, and COPPA.</p>
+                  <ul className="space-y-3 mt-4">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>No Personal Account Required:</strong> You can play and enjoy all core features without registering an account.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Local On-Device Storage:</strong> Your puzzle progress, high scores, coins, unlocked categories, and customized settings are stored locally on your device via Android's local Room database and SharedPreferences.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>No Sensitive Personal Data Collection:</strong> We do not collect, sell, or rent your real name, physical address, phone number, contacts, or biometric data.</span>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <FileText className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">2. Information Collected and Used</h2>
+                </div>
+                <div className="space-y-6 text-white/70 leading-relaxed">
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-2">A. Information Stored Locally on Your Device</h3>
+                    <ul className="space-y-2 list-disc pl-5">
+                      <li><strong>Game Progress &amp; State:</strong> Levels cleared, words discovered, star ratings, hints remaining, and streak stats.</li>
+                      <li><strong>Preferences:</strong> Sound/Vibration toggles, selected board theme style, and accessibility font sizing.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-2">B. Third-Party Services &amp; Automated Data Collection</h3>
+                    <p className="mb-4">Our game uses third-party developer libraries to enhance stability, provide vocabulary definitions, and serve advertisements. These service providers may collect non-identifiable technical data:</p>
+                    <div className="space-y-4">
+                      <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                        <h4 className="font-bold text-white mb-1">Google Play Services / Google Mobile Ads (AdMob)</h4>
+                        <p className="text-sm"><strong>Purpose:</strong> Serving banner, interstitial, and rewarded video ads to keep the game free to play.</p>
+                        <p className="text-sm mt-1"><strong>Data Collected:</strong> Advertising ID (GAID), device brand/model, operating system version, coarse IP location, and ad interaction telemetry.</p>
+                        <p className="text-sm mt-2"><strong>Privacy Policy:</strong> <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Google Privacy Policy</a> &amp; <a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Google AdMob Policy</a></p>
+                      </div>
+
+                      <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                        <h4 className="font-bold text-white mb-1">Free Dictionary API (api.dictionaryapi.dev)</h4>
+                        <p className="text-sm"><strong>Purpose:</strong> Providing real-time word definitions, parts of speech, and pronunciations when looking up vocabulary memory cards.</p>
+                        <p className="text-sm mt-1"><strong>Data Collected:</strong> Word query string sent over secure HTTPS. No personal identifiers are attached to these dictionary lookup queries.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <CheckCircle2 className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">3. How We Use Information</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>We use non-personal technical information strictly to:</p>
+                  <ul className="space-y-2 list-disc pl-5">
+                    <li>Deliver smooth gameplay, word generation, and level progression.</li>
+                    <li>Enable rewarded video ads for optional in-game hints and rewards.</li>
+                    <li>Provide real-time and offline vocabulary learning definitions.</li>
+                    <li>Identify and fix app crashes, performance bottlenecks, and bugs.</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <Users className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">4. Children’s Privacy (COPPA &amp; Families Policy Compliance)</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>LexiBrain: Hidden Words is designed as a family-friendly educational word puzzle game.</p>
+                  <p>We do not knowingly solicit or collect personally identifiable information from children under the age of 13 (or the applicable age in your jurisdiction).</p>
+                  <p>If ads are served to younger audiences, they are served via Google AdMob in compliance with Google Play's Families Policy and COPPA guidelines (utilizing contextual, non-personalized advertising tags).</p>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <Eye className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">5. Third-Party Disclosure &amp; Sale of Data</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>No Sale of Data:</strong> We do not sell, trade, or monetize your personal data to data brokers or third parties.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Service Providers:</strong> Data is shared only with trusted infrastructure and ad partners (like Google AdMob) strictly for running the core app features.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Legal Compliance:</strong> We may disclose non-personal data only if required by law or to protect our legal rights.</span>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <Lock className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">6. Data Security &amp; Storage</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Data Transmission:</strong> All external network requests (such as dictionary lookups and ad serving) are encrypted in transit via standard HTTPS/TLS.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Data Retention &amp; Reset:</strong> Because game progress is stored locally on your device, clearing the app’s data or uninstalling the app permanently removes your local progress and preferences.</span>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <Smartphone className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">7. Your Rights (GDPR / CCPA / Regional Rights)</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>Depending on your jurisdiction, you have the following rights:</p>
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Opt-out of Personalized Ads:</strong> You can reset or limit your Google Advertising ID anytime via your Android device settings (<em>Settings &gt; Google &gt; Ads &gt; Delete/Reset Advertising ID</em>).</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Data Erasure:</strong> You can clear all game data by clearing the app cache/storage in your device's application settings.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-purple-400" size={16} />
+                      <span><strong>Inquiries:</strong> You can contact us at any time to ask questions regarding privacy practices.</span>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <RefreshCw className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">8. Changes to This Privacy Policy</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>We may update this Privacy Policy from time to time to reflect changes in our practices or regulatory standards. The updated date at the top of this page will reflect the latest revision.</p>
+                </div>
+              </section>
+
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-purple-500/10 border border-white/5">
+                    <Mail className="text-purple-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">9. Contact Us</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>If you have any questions, feedback, or concerns regarding this Privacy Policy, please contact us at:</p>
+                  <ul className="space-y-2 mt-4">
+                    <li className="flex items-center gap-2"><strong>Developer / Publisher:</strong> Medhastone</li>
+                    <li className="flex items-center gap-2"><strong>Email:</strong> <a href="mailto:medhastone@gmail.com" className="text-purple-400 hover:underline">medhastone@gmail.com</a></li>
+                    <li className="flex items-center gap-2"><strong>Application:</strong> LexiBrain: Find Hidden Words</li>
                   </ul>
                 </div>
               </section>

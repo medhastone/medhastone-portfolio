@@ -27,20 +27,40 @@ function App() {
   
   const [lastScore, setLastScore] = useState(0);
 
-  // Hash Routing Logic
+  // Routing Logic (Supports both pathnames like /lexibrain/privacy-policy and hash routing like #lexibrain/privacy-policy)
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouting = () => {
       const hash = window.location.hash;
-      const projectHashes = ['#medijourney', '#parkdock', '#brainmaze', '#rojgarbahi', '#pdfzero'];
+      const pathname = window.location.pathname.toLowerCase();
+      const projectIds = ['medijourney', 'parkdock', 'brainmaze', 'rojgarbahi', 'pdfzero', 'lexibrain'];
       
+      // 1. Check direct pathname routing (e.g., /lexibrain/privacy-policy or /privacy-policy)
+      if (pathname.includes('/privacy-policy')) {
+        const segments = pathname.replace(/^\/+|\/+$/g, '').split('/');
+        const projectFromPath = segments[0] || 'lexibrain';
+        setActiveProject(projectFromPath === 'privacy-policy' ? 'lexibrain' : projectFromPath);
+        setScreen('PRIVACY_POLICY');
+        return;
+      }
+
+      // Check if pathname matches a project directly (e.g. /lexibrain)
+      const matchingPathProject = projectIds.find(p => pathname === `/${p}` || pathname === `/${p}/`);
+      if (matchingPathProject) {
+        setActiveProject(matchingPathProject);
+        setScreen('PROJECT_DETAILS');
+        return;
+      }
+
+      // 2. Check hash routing
       if (hash === '#bubble-mania') {
         setScreen('HOME');
       } else if (hash === '#play-games') {
         setScreen('GAMES_HUB');
       } else if (hash.endsWith('/privacy-policy')) {
-        setActiveProject(hash.substring(1).replace('/privacy-policy', ''));
+        const proj = hash.substring(1).replace('/privacy-policy', '').replace(/^\/+/, '');
+        setActiveProject(proj || 'lexibrain');
         setScreen('PRIVACY_POLICY');
-      } else if (projectHashes.includes(hash)) {
+      } else if (projectIds.some(p => hash === `#${p}`)) {
         setActiveProject(hash.substring(1));
         setScreen('PROJECT_DETAILS');
       } else {
@@ -49,10 +69,14 @@ function App() {
     };
     
     // Initial check
-    handleHashChange();
+    handleRouting();
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleRouting);
+    window.addEventListener('popstate', handleRouting);
+    return () => {
+      window.removeEventListener('hashchange', handleRouting);
+      window.removeEventListener('popstate', handleRouting);
+    };
   }, []);
 
   useEffect(() => {

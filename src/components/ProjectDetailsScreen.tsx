@@ -153,6 +153,34 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
       color: "rose",
       icon: FileLock2,
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.pdfzero"
+    },
+    lexibrain: {
+      title: "LexiBrain: Hidden Words",
+      category: "Educational & Word Puzzle Game",
+      heroText: "Engaging word puzzles, vocabulary mastery, and brain training.",
+      image: "/brainmaze.jpg",
+      description: "Interactive word puzzle and vocabulary builder featuring offline-first local progress, Room database, and real-time dictionary lookups.",
+      overview: "LexiBrain: Hidden Words is an educational word puzzle and brain training game designed for learners, vocabulary enthusiasts, and puzzle lovers. It offers offline word exploration, category challenges, streak achievements, and instant dictionary lookups.",
+      challenge: "Most word puzzle games require constant internet connectivity or bombard users with privacy-intrusive trackers. Users need a distraction-free, privacy-conscious environment to sharpen their vocabulary and enjoy relaxing puzzles.",
+      solution: "We developed LexiBrain with a privacy-first, on-device architecture using Android's local Room database and SharedPreferences. Progress and preferences stay 100% on the player's device, while optional dictionary definitions and non-intrusive AdMob ads deliver a seamless experience.",
+      techStack: ["Android Room DB", "Kotlin", "Free Dictionary API", "Google AdMob"],
+      deliverables: ["Game Architecture", "UI/UX Design", "Dictionary Integration", "Privacy Compliance"],
+      metrics: [
+        { label: "Data Privacy", value: "100%", sub: "Local On-Device DB" },
+        { label: "Puzzles", value: "500+", sub: "Dynamic categories" },
+        { label: "Account", value: "None", sub: "Instant guest play" }
+      ],
+      features: [
+        "100% Offline-First Puzzle Engine & Level Progression",
+        "Android Room DB for Local Scores, Stars & Coin Tracking",
+        "Integrated Real-Time Vocabulary Definitions & Memory Cards",
+        "Custom Board Styles, Dark Themes & Font Sizing",
+        "Family-Friendly & COPPA / GDPR Compliant",
+        "Zero Account Registration or Invasive Personal Data Tracking"
+      ],
+      color: "amber",
+      icon: Brain,
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.medhastone.lexibrain"
     }
   };
 
@@ -171,7 +199,8 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
     blue: "from-blue-950/40 to-slate-900 border-blue-500/20",
     indigo: "from-indigo-950/40 to-slate-900 border-indigo-500/20",
     purple: "from-purple-950/40 to-slate-900 border-purple-500/20",
-    rose: "from-rose-950/40 to-slate-900 border-rose-500/20"
+    rose: "from-rose-950/40 to-slate-900 border-rose-500/20",
+    amber: "from-amber-950/40 to-slate-900 border-amber-500/20"
   };
 
   const textColors: Record<string, string> = {
@@ -179,7 +208,8 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
     blue: "text-blue-400",
     indigo: "text-indigo-400",
     purple: "text-purple-400",
-    rose: "text-rose-400"
+    rose: "text-rose-400",
+    amber: "text-amber-400"
   };
 
   const bgColors: Record<string, string> = {
@@ -187,7 +217,8 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
     blue: "bg-blue-500/10",
     indigo: "bg-indigo-500/10",
     purple: "bg-purple-500/10",
-    rose: "bg-rose-500/10"
+    rose: "bg-rose-500/10",
+    amber: "bg-amber-500/10"
   };
 
   const ProjectIcon = project.icon;
