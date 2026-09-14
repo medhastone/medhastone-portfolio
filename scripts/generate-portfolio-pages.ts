@@ -2588,4 +2588,29 @@ for (const [appKey, generator] of Object.entries(PRIVACY_PAGES)) {
   console.log(`Generated public/${appKey}/privacy-policy/index.html`);
 }
 
+// Ensure .well-known/assetlinks.json is generated
+const wellKnownDir = path.join(publicDir, '.well-known');
+if (!fs.existsSync(wellKnownDir)) {
+  fs.mkdirSync(wellKnownDir, { recursive: true });
+}
+const assetLinksContent = [
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lexibrain.hiddenwords",
+      "sha256_cert_fingerprints": [
+        "BC:60:92:00:12:78:80:83:39:5F:BE:D9:EB:F3:2F:5A:AE:BB:8F:3B:A1:A0:8C:40:29:D8:B2:AE:27:98:6F:C9",
+        "3A:94:99:55:13:03:2F:0D:06:26:C4:C9:A2:05:AA:F9:7C:8E:03:D4:8D:40:AA:1A:AE:AC:60:84:63:1C:D3:CD",
+        "A7:62:AF:3E:94:8F:E1:83:04:94:2F:D6:98:3C:10:68:75:ED:36:15:4F:8E:0A:33:69:FB:0D:7A:86:34:3D:BB"
+      ]
+    }
+  }
+];
+fs.writeFileSync(path.join(wellKnownDir, 'assetlinks.json'), JSON.stringify(assetLinksContent, null, 2), 'utf-8');
+console.log('Generated public/.well-known/assetlinks.json');
+
 console.log('Portfolio and Privacy Policy static pages generated successfully!');
