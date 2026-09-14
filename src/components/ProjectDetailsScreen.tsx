@@ -8,6 +8,7 @@ import ParkDockScreen from './ParkDockScreen';
 import BrainMazeScreen from './BrainMazeScreen';
 import RojgarBahiScreen from './RojgarBahiScreen';
 import LexiBrainScreen from './LexiBrainScreen';
+import PdfZeroScreen from './PdfZeroScreen';
 
 export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBack: () => void }) {
   if (id === 'parkdock') {
@@ -21,6 +22,9 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
   }
   if (id === 'lexibrain') {
     return <LexiBrainScreen onBack={onBack} />;
+  }
+  if (id === 'pdfzero') {
+    return <PdfZeroScreen onBack={onBack} />;
   }
 
   const projects: Record<string, any> = {

@@ -329,16 +329,26 @@ export default function BrainMazeScreen({ onBack }: BrainMazeScreenProps) {
             </div>
           </div>
 
-          {/* Header CTA Button */}
-          <a
-            href={PLAY_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all hover:scale-[1.02] active:scale-95"
-          >
-            <Download size={14} />
-            <span>Get on Google Play</span>
-          </a>
+          {/* Header Action Buttons */}
+          <div className="flex items-center gap-3">
+            <a
+              href="/brainmaze/privacy-policy"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 text-xs font-bold uppercase tracking-wider transition-all"
+            >
+              <ShieldCheck size={14} className="text-indigo-400" />
+              <span>Privacy Policy</span>
+            </a>
+
+            <a
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all hover:scale-[1.02] active:scale-95"
+            >
+              <Download size={14} />
+              <span>Get on Google Play</span>
+            </a>
+          </div>
         </div>
       </header>
 

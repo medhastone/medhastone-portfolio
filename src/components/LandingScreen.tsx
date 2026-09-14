@@ -202,7 +202,7 @@ export default function LandingScreen() {
       fullDesc: 'Fast client-side PDF merging, compression, and encryption using WebAssembly with zero server-side transmission or document uploads.',
       techStack: ['WebAssembly', 'TypeScript', 'Client-Side PDF Engine', 'Zero Server Upload'],
       metrics: '0-Byte Server Upload • Instant Processing',
-      hasPlayStore: false
+      hasPlayStore: true
     },
     {
       id: 'lexibrain',

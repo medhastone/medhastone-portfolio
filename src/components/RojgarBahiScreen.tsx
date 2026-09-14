@@ -51,6 +51,12 @@ export default function RojgarBahiScreen({ onBack }: RojgarBahiScreenProps) {
 
   const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.aistudio.rojgarbahi.finance";
 
+  const navigateToPrivacyPolicy = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    window.history.pushState(null, '', '/rojgarbahi/privacy-policy');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
   // Dynamic Title & Canonical for SEO
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -303,16 +309,26 @@ export default function RojgarBahiScreen({ onBack }: RojgarBahiScreenProps) {
             </div>
           </div>
 
-          {/* Header Download CTA */}
-          <a
-            href={PLAY_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-600 hover:from-purple-500 hover:to-amber-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all hover:scale-[1.02] active:scale-95"
-          >
-            <Download size={14} />
-            <span>Get on Google Play</span>
-          </a>
+          {/* Header Action Buttons */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <button
+              onClick={navigateToPrivacyPolicy}
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/40 text-slate-300 hover:text-white font-medium text-xs transition-all"
+            >
+              <ShieldCheck size={14} className="text-purple-400" />
+              <span>Privacy Policy</span>
+            </button>
+            <a
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-600 hover:from-purple-500 hover:to-amber-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all hover:scale-[1.02] active:scale-95"
+            >
+              <Download size={14} />
+              <span className="hidden sm:inline">Get on Google Play</span>
+              <span className="sm:hidden">Install</span>
+            </a>
+          </div>
         </div>
       </header>
 
@@ -330,10 +346,14 @@ export default function RojgarBahiScreen({ onBack }: RojgarBahiScreenProps) {
               <HardHat size={13} />
               #1 Thekedar & Mistri Hisaab App
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+            <button
+              onClick={navigateToPrivacyPolicy}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer group"
+            >
               <ShieldCheck size={13} />
-              100% Offline • Zero Data Needed
-            </span>
+              <span>100% Offline & Private</span>
+              <span className="text-[10px] text-emerald-300/70 group-hover:text-emerald-300 underline ml-0.5">Policy &rarr;</span>
+            </button>
             <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-bold">
               <Volume2 size={12} className="text-amber-400" />
               14 Indian Languages + Bolne Wala Hisaab
@@ -959,8 +979,19 @@ export default function RojgarBahiScreen({ onBack }: RojgarBahiScreenProps) {
                 </div>
               </button>
               {openFaq === idx && (
-                <div className="px-6 pb-6 pt-0 text-sm text-slate-300 leading-relaxed border-t border-white/5 pt-4">
-                  {faq.a}
+                <div className="px-6 pb-6 pt-0 text-sm text-slate-300 leading-relaxed border-t border-white/5 pt-4 space-y-3">
+                  <p>{faq.a}</p>
+                  {idx === 0 && (
+                    <div className="pt-2">
+                      <button
+                        onClick={navigateToPrivacyPolicy}
+                        className="inline-flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 font-bold underline"
+                      >
+                        <ShieldCheck size={14} />
+                        Read our complete Offline Data & Privacy Policy &rarr;
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -1005,10 +1036,13 @@ export default function RojgarBahiScreen({ onBack }: RojgarBahiScreenProps) {
               <CheckCircle2 size={14} className="text-emerald-400" />
               100% Free on Android
             </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 size={14} className="text-emerald-400" />
-              Works Without Internet
-            </span>
+            <button
+              onClick={navigateToPrivacyPolicy}
+              className="flex items-center gap-1.5 text-purple-400 hover:text-purple-300 transition-colors font-semibold underline"
+            >
+              <ShieldCheck size={14} className="text-purple-400" />
+              100% Offline Privacy Guarantee
+            </button>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 size={14} className="text-emerald-400" />
               14 Indian Languages
@@ -1028,9 +1062,15 @@ export default function RojgarBahiScreen({ onBack }: RojgarBahiScreenProps) {
             />
             <div className="flex-1 min-w-0">
               <div className="text-xs font-bold text-white truncate">RojgarBahi: Labour Haziri & Calculators</div>
-              <div className="text-[11px] text-purple-400 font-semibold flex items-center gap-1">
+              <div className="text-[11px] text-purple-400 font-semibold flex items-center gap-2">
                 <span>★ 4.9 Free on Google Play</span>
-                <span>• Offline</span>
+                <span>•</span>
+                <button 
+                  onClick={navigateToPrivacyPolicy}
+                  className="underline text-purple-300 hover:text-white"
+                >
+                  Privacy Policy
+                </button>
               </div>
             </div>
             <a
@@ -1044,6 +1084,25 @@ export default function RojgarBahiScreen({ onBack }: RojgarBahiScreenProps) {
           </div>
         </div>
       )}
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-10 text-center text-xs text-slate-500 bg-[#06080d]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>&copy; 2026 Medhastone. All rights reserved. RojgarBahi is a registered workforce & ledger utility.</div>
+          <div className="flex items-center gap-6">
+            <button onClick={onBack} className="hover:text-white transition-colors">Portfolio Home</button>
+            <button 
+              onClick={navigateToPrivacyPolicy}
+              className="inline-flex items-center gap-1.5 text-purple-400 hover:text-purple-300 font-bold transition-colors"
+            >
+              <ShieldCheck size={14} className="text-purple-400" />
+              <span>Privacy Policy</span>
+            </button>
+            <a href="/play-games" className="hover:text-white transition-colors">Play Games</a>
+            <a href="mailto:medhastone@gmail.com" className="hover:text-white transition-colors">Contact</a>
+          </div>
+        </div>
+      </footer>
 
     </div>
   );

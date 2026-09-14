@@ -52,6 +52,13 @@ export default function ParkDockScreen({ onBack }: ParkDockScreenProps) {
 
   const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.aistudio.parkdock.a1b2c3d4e5";
 
+  // Navigation to dedicated Privacy Policy
+  const navigateToPrivacyPolicy = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    window.history.pushState(null, '', '/parkdock/privacy-policy');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
   // Dynamic Page Title & Canonical for SEO
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -273,16 +280,27 @@ export default function ParkDockScreen({ onBack }: ParkDockScreenProps) {
             </div>
           </div>
 
-          {/* Header CTA Button */}
-          <a
-            href={PLAY_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all hover:scale-[1.02] active:scale-95"
-          >
-            <Download size={14} />
-            <span>Get on Google Play</span>
-          </a>
+          {/* Header Action Buttons */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <button
+              onClick={navigateToPrivacyPolicy}
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 text-slate-300 hover:text-white font-medium text-xs transition-all"
+            >
+              <ShieldCheck size={14} className="text-emerald-400" />
+              <span>Privacy Policy</span>
+            </button>
+
+            <a
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all hover:scale-[1.02] active:scale-95"
+            >
+              <Download size={14} />
+              <span className="hidden sm:inline">Get on Google Play</span>
+              <span className="sm:hidden">Install</span>
+            </a>
+          </div>
         </div>
       </header>
 
@@ -300,10 +318,14 @@ export default function ParkDockScreen({ onBack }: ParkDockScreenProps) {
               <Sparkles size={13} />
               #1 All-in-One Driver Utility
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-              <ShieldCheck size={13} />
-              100% Offline & Private
-            </span>
+            <button
+              onClick={navigateToPrivacyPolicy}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer group"
+            >
+              <ShieldCheck size={13} className="text-emerald-400" />
+              <span>100% Offline & Private</span>
+              <span className="text-[10px] text-emerald-300/70 group-hover:text-emerald-300 underline ml-0.5">Policy &rarr;</span>
+            </button>
             <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-bold">
               <Star size={12} className="fill-amber-400 text-amber-400" />
               4.9 / 5.0 Rating
@@ -836,7 +858,19 @@ export default function ParkDockScreen({ onBack }: ParkDockScreenProps) {
                 </button>
                 {isOpen && (
                   <div className="px-6 pb-6 text-sm text-slate-300 leading-relaxed border-t border-white/5 pt-4">
-                    {faq.a}
+                    <p>{faq.a}</p>
+                    {(faq.q.toLowerCase().includes("privacy") || faq.q.toLowerCase().includes("safely") || faq.q.toLowerCase().includes("track")) && (
+                      <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+                        <span className="text-xs text-slate-400">Want full legal and technical specifications?</span>
+                        <button
+                          onClick={navigateToPrivacyPolicy}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:text-blue-300 text-xs font-bold transition-all"
+                        >
+                          <ShieldCheck size={13} />
+                          <span>Read Full Privacy Policy &rarr;</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -891,7 +925,13 @@ export default function ParkDockScreen({ onBack }: ParkDockScreenProps) {
           <div>&copy; 2026 Medhastone. All rights reserved. ParkDock is a registered utility suite.</div>
           <div className="flex items-center gap-6">
             <button onClick={onBack} className="hover:text-white transition-colors">Portfolio Home</button>
-            <a href="/parkdock/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <button 
+              onClick={navigateToPrivacyPolicy}
+              className="inline-flex items-center gap-1.5 text-blue-400 hover:text-blue-300 font-bold transition-colors"
+            >
+              <ShieldCheck size={14} className="text-emerald-400" />
+              <span>Privacy Policy</span>
+            </button>
             <a href="/play-games" className="hover:text-white transition-colors">Play Games</a>
           </div>
         </div>
@@ -917,7 +957,14 @@ export default function ParkDockScreen({ onBack }: ParkDockScreenProps) {
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                onClick={navigateToPrivacyPolicy}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white text-xs font-medium transition-all"
+              >
+                <ShieldCheck size={13} className="text-emerald-400" />
+                <span>Privacy</span>
+              </button>
               <a
                 href={PLAY_STORE_URL}
                 target="_blank"

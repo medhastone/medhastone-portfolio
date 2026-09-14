@@ -1,4 +1,4 @@
-import { ArrowLeft, Shield, Lock, FileText, CheckCircle2, Eye, Smartphone, Trash2, Mail, Users, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Shield, Lock, FileText, CheckCircle2, Eye, Smartphone, Trash2, Mail, Users, RefreshCw, MapPin, Camera } from 'lucide-react';
 import React, { useEffect } from 'react';
 
 export default function PrivacyPolicyScreen({ appId, onBack }: { appId: string, onBack: () => void }) {
@@ -63,6 +63,8 @@ export default function PrivacyPolicyScreen({ appId, onBack }: { appId: string, 
               ? "Last Updated: August 30, 2026"
               : appId === 'lexibrain'
               ? "Last updated: September 13, 2026"
+              : appId === 'parkdock'
+              ? "Last updated: September 14, 2026"
               : `Your privacy is critically important to us. This document outlines how ${appName} handles your data with absolute security and transparency.`}
           </p>
         </div>
@@ -714,6 +716,442 @@ export default function PrivacyPolicyScreen({ appId, onBack }: { appId: string, 
                     <li className="flex items-center gap-2"><strong>Email:</strong> <a href="mailto:medhastone@gmail.com" className="text-purple-400 hover:underline">medhastone@gmail.com</a></li>
                     <li className="flex items-center gap-2"><strong>Application:</strong> LexiBrain: Find Hidden Words</li>
                   </ul>
+                </div>
+              </section>
+            </>
+          ) : appId === 'parkdock' ? (
+            <>
+              <div className="mb-8 p-6 rounded-2xl bg-white/5 border border-white/10 text-white/70 space-y-2">
+                <p><strong className="text-white">Developer / Publisher:</strong> Medhastone</p>
+                <p><strong className="text-white">Application:</strong> ParkDock: Smart Parking Memory & Driver Utility</p>
+                <p><strong className="text-white">Contact Email:</strong> <a href="mailto:medhastone@gmail.com" className="text-blue-400 hover:underline">medhastone@gmail.com</a></p>
+                <p><strong className="text-white">Official Website:</strong> <a href="https://zentova.in" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">https://zentova.in</a></p>
+                <p><strong className="text-white">Effective Date:</strong> August 2026</p>
+              </div>
+
+              {/* 1. Introduction & Zero-Cloud Philosophy */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <Shield className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">1. Introduction & Zero-Cloud Philosophy</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    Welcome to <strong>ParkDock</strong> ("the App"), developed and published by <strong>Medhastone</strong>. We respect your privacy and are committed to protecting it. This Privacy Policy outlines our data handling practices and demonstrates our strict compliance with Google Play Developer Policies and applicable global data protection regulations.
+                  </p>
+                  <p>
+                    The fundamental architectural principle of ParkDock is that <strong>your vehicle location, parking history, expenses, and glovebox documents belong solely to you</strong>. All personal data stays stored locally on your device hardware in a private SQLite database with AES-256 encrypted storage. Medhastone does not operate cloud storage servers to harvest, monitor, sell, or profile your whereabouts.
+                  </p>
+                </div>
+              </section>
+
+              {/* 2. Data Collection and Usage */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <Eye className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">2. Data Collection and Usage</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>We classify data into two distinct categories:</p>
+
+                  <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
+                    <h3 className="font-bold text-emerald-400 text-lg mb-2">A. Personal Vehicle Data (100% Offline & Private)</h3>
+                    <p className="text-slate-200">
+                      All data you record in ParkDock—including saved parking GPS coordinates, notes, pillar numbers, vehicle registration numbers, fuel logs, service reminders, and digital glovebox documents—is stored exclusively on your device. Medhastone has zero access to this data.
+                    </p>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-blue-500/10 border border-blue-500/30">
+                    <h3 className="font-bold text-blue-400 text-lg mb-2">B. Advertising & Diagnostic Data (Google AdMob)</h3>
+                    <p className="text-slate-200">
+                      To keep ParkDock completely free for drivers without charging mandatory subscription fees, we integrate third-party mobile advertising via Google AdMob (Google LLC). AdMob may collect certain non-personally identifying device diagnostics and identifiers to serve contextual or personalized advertisements in compliance with Google Play standards.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* 3. Third-Party Advertising (Google AdMob Disclosures) */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-blue-500/20 bg-blue-950/10">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <Smartphone className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">3. Third-Party Advertising & Google AdMob</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    ParkDock utilizes <strong>Google AdMob</strong> (provided by Google LLC) to serve advertisements within the application (e.g., banner ads, interstitial ads, or native ads).
+                  </p>
+                  <p>
+                    When advertisements are requested and loaded, Google AdMob may automatically collect and process certain technical data, which may include:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2 text-slate-200">
+                    <li><strong>Google Advertising ID (GAID / AAID):</strong> A unique, user-resettable advertising identifier associated with your mobile device.</li>
+                    <li><strong>IP Address & Approximate Location:</strong> Used for geographic ad serving, network routing, and regional fraud detection.</li>
+                    <li><strong>Device & OS Specifications:</strong> Device model, manufacturer, Android OS version, screen size, and system language.</li>
+                    <li><strong>Ad Interaction Metrics:</strong> Information regarding ad impressions, clicks, dismissals, and video view completions.</li>
+                    <li><strong>Diagnostic Telemetry:</strong> Anonymized performance logs and crash metrics used to ensure SDK stability.</li>
+                  </ul>
+                  <p>
+                    <strong>Purpose of Ad Processing:</strong> This data is utilized strictly for displaying advertisements, measuring advertising campaign performance, preventing fraudulent ad traffic or invalid clicks, and enforcing frequency caps.
+                  </p>
+                  <div className="pt-2">
+                    <p>For detailed information on how Google processes and protects advertising data, please review:</p>
+                    <ul className="list-disc pl-6 mt-2 space-y-1">
+                      <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Google Privacy Policy (https://policies.google.com/privacy)</a></li>
+                      <li><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">How Google uses information from sites or apps (https://policies.google.com/technologies/ads)</a></li>
+                    </ul>
+                  </div>
+                  <div className="mt-4 p-4 rounded-xl bg-white/5 border border-white/10">
+                    <h4 className="font-bold text-white mb-1">User Control & Personalized Ads Opt-Out</h4>
+                    <p className="text-xs text-slate-300">
+                      You have full control over personalized advertising. You can reset your Google Advertising ID or opt out of personalized ads at any time via your Android device settings:
+                      <br /><span className="text-blue-300 font-mono text-[11px] block mt-1">Settings &gt; Google &gt; Ads &gt; Opt out of Ads Personalization (or Delete Advertising ID)</span>
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* 4. Device Permissions Breakdown */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <MapPin className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">4. Device Permissions & Exact Usage</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>ParkDock requests only the minimal device permissions strictly necessary for its features:</p>
+                  <ul className="space-y-3 mt-4">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-blue-400" size={16} />
+                      <div>
+                        <strong className="text-white">ACCESS_FINE_LOCATION & ACCESS_COARSE_LOCATION (GPS):</strong>
+                        <p className="text-slate-300 text-sm">Used solely when you tap "Park Here" to save your vehicle's physical coordinates and to provide real-time compass walking directions back to your car. Coordinates are never transmitted off your device.</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-blue-400" size={16} />
+                      <div>
+                        <strong className="text-white">CAMERA:</strong>
+                        <p className="text-slate-300 text-sm">Optional. Requested only if you choose to take a photo of your parking spot (pillar number, floor marking) or scan vehicle documents into your Digital Glovebox. Images remain local.</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-blue-400" size={16} />
+                      <div>
+                        <strong className="text-white">STORAGE / READ_MEDIA_IMAGES:</strong>
+                        <p className="text-slate-300 text-sm">Optional. Requested only to import vehicle document images or save generated PDF/CSV maintenance and fuel expense reports to your device storage.</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-blue-400" size={16} />
+                      <div>
+                        <strong className="text-white">INTERNET & ACCESS_NETWORK_STATE:</strong>
+                        <p className="text-slate-300 text-sm">Used exclusively by the Google AdMob SDK to request and render advertisements, and to download map tiles for navigation.</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-blue-400" size={16} />
+                      <div>
+                        <strong className="text-white">USE_BIOMETRIC / USE_FINGERPRINT:</strong>
+                        <p className="text-slate-300 text-sm">Used locally by the Android BiometricPrompt API to verify driver identity before unlocking the Encrypted Digital Glovebox.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* 5. Security & Encrypted Digital Glovebox */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <Lock className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">5. Data Security & Local Encryption</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    We prioritize data safety. When you save sensitive vehicle documents (such as your Driver's License, Vehicle Registration RC, Pollution PUC Certificate, or Insurance Policy) into the Digital Glovebox, ParkDock secures them using industry-standard <strong>AES-256 local encryption</strong>.
+                  </p>
+                  <p>
+                    Decryption keys are anchored to your device's secure hardware keystore. No unencrypted document files or credentials are ever exposed or transmitted over the internet.
+                  </p>
+                </div>
+              </section>
+
+              {/* 6. Data Retention & User Deletion Rights */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <Trash2 className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">6. Data Retention & User Deletion Rights</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    Because all user data is stored locally on your device and not on remote servers, you maintain complete data sovereignty:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2 text-slate-200">
+                    <li><strong>In-App Deletion:</strong> You can delete any vehicle, parking record, expense entry, or glovebox document instantly from within the application.</li>
+                    <li><strong>Wipe All Data:</strong> You can select "Clear All Data" in the Settings screen or use Android's <em>Settings &gt; Apps &gt; ParkDock &gt; Storage &gt; Clear Storage</em>.</li>
+                    <li><strong>App Uninstallation:</strong> Uninstalling ParkDock permanently deletes all associated local databases and encrypted documents from your device.</li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* 7. Children's Privacy */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <Users className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">7. Children's Privacy (COPPA Compliance)</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    ParkDock is an automotive and driver utility designed for general audiences and licensed drivers (ages 13 and above). We do not knowingly collect or solicit personal data from children under the age of 13.
+                  </p>
+                </div>
+              </section>
+
+              {/* 8. Policy Updates */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <RefreshCw className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">8. Policy Updates & Modifications</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    We may update this Privacy Policy from time to time to adhere to evolving Google Play policies or regulatory requirements. Any revisions will be published at <a href="https://zentova.in/parkdock/privacy-policy" className="text-blue-400 hover:underline">https://zentova.in/parkdock/privacy-policy</a> with a revised Effective Date.
+                  </p>
+                </div>
+              </section>
+
+              {/* 9. Contact Us */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-blue-500/30 bg-blue-950/20">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 border border-white/5">
+                    <Mail className="text-blue-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">9. Contact Developer / Publisher</h2>
+                </div>
+                <div className="space-y-3 text-white/80 leading-relaxed">
+                  <p>For any questions, privacy inquiries, or data safety requests, please contact us at:</p>
+                  <div className="space-y-1.5 text-slate-200 mt-2">
+                    <div><strong>Developer / Publisher:</strong> Medhastone</div>
+                    <div><strong>Email:</strong> <a href="mailto:medhastone@gmail.com" className="text-blue-400 hover:underline">medhastone@gmail.com</a></div>
+                    <div><strong>Official Website:</strong> <a href="https://zentova.in" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">https://zentova.in</a></div>
+                    <div><strong>Application:</strong> ParkDock: Smart Parking Memory & Driver Utility</div>
+                  </div>
+                </div>
+              </section>
+            </>
+          ) : appId === 'brainmaze' ? (
+            <>
+              <div className="mb-8 p-6 rounded-2xl bg-white/5 border border-indigo-500/20 text-white/70 space-y-2">
+                <p><strong className="text-white">Developer / Publisher:</strong> Medhastone</p>
+                <p><strong className="text-white">Application:</strong> Brain Maze Master: Offline Maze Puzzle & IQ Brain Training</p>
+                <p><strong className="text-white">Package Name:</strong> com.brainmaze.master</p>
+                <p><strong className="text-white">Contact Email:</strong> <a href="mailto:medhastone@gmail.com" className="text-indigo-400 hover:underline">medhastone@gmail.com</a></p>
+                <p><strong className="text-white">Official Website:</strong> <a href="https://zentova.in" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">https://zentova.in</a></p>
+                <p><strong className="text-white">Effective Date:</strong> September 2026</p>
+              </div>
+
+              {/* 1. Introduction & Overview */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <Shield className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">1. Introduction & Zero Personal Data Philosophy</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    Welcome to <strong>Brain Maze Master</strong> ("the App"), developed and published by <strong>Medhastone</strong>. We value your privacy and are committed to maintaining a secure, transparent, and entertaining mobile puzzle experience.
+                  </p>
+                  <p>
+                    Brain Maze Master is designed with an <strong>offline-first, privacy-by-design</strong> architecture. You can enjoy over 1,000+ labyrinth puzzles, unlock 20+ heroes, and play through 18+ artistic silhouette shapes without creating an account, registering personal credentials, or exposing personal identity data.
+                  </p>
+                </div>
+              </section>
+
+              {/* 2. Information Handled Locally */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <FileText className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">2. Information Stored Locally on Your Device</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>All core gameplay data is stored strictly on your local device via Android's local storage mechanisms (SQLite database / SharedPreferences):</p>
+                  <ul className="list-disc pl-6 space-y-2 text-slate-200">
+                    <li><strong>Gameplay Progression:</strong> Completed levels, unlocked maze difficulties (Easy, Medium, Hard, Expert, Master), star ratings, and IQ test scores.</li>
+                    <li><strong>In-Game Economy & Collectibles:</strong> Earned coins, rare diamonds, unlocked hero characters (Starter through Divine tiers), unlocked trail themes, and daily streak counters.</li>
+                    <li><strong>Audio & Gameplay Settings:</strong> Sound effects (SFX) toggle, background music (BGM) volume, and haptic vibration preferences.</li>
+                  </ul>
+                  <p>
+                    This data remains on your physical device. Medhastone does not operate cloud servers that sync, harvest, or commercialize your gameplay records.
+                  </p>
+                </div>
+              </section>
+
+              {/* 3. Third-Party Advertising & Google AdMob */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-indigo-500/30 bg-indigo-950/15">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <Eye className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">3. Third-Party Advertising & Google AdMob Disclosures</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    To keep Brain Maze Master completely free for all players around the globe, we integrate <strong>Google AdMob</strong> (provided by Google LLC) to serve mobile advertisements.
+                  </p>
+                  <p><strong>Ad Formats Used in Brain Maze Master:</strong></p>
+                  <ul className="list-disc pl-6 space-y-1.5 text-slate-200">
+                    <li><strong>Banner Ads:</strong> Displayed unobtrusively at the top or bottom of puzzle menus.</li>
+                    <li><strong>Interstitial Ads:</strong> Displayed between completed maze levels or game sessions.</li>
+                    <li><strong>Rewarded Video Ads (Optional):</strong> Opt-in videos you can choose to watch to earn free bonus hints, unlock lucky wheel spins, or revive during timed IQ challenges.</li>
+                  </ul>
+                  <h3 className="font-bold text-white text-lg mt-4 mb-2">Data Processed by the Google Mobile Ads (GMA) SDK:</h3>
+                  <p>When ad requests are processed, Google AdMob may automatically collect and handle non-personally identifiable technical telemetry in compliance with Google Play Developer Policies:</p>
+                  <ul className="list-disc pl-6 space-y-1.5 text-slate-200">
+                    <li><strong>Google Advertising ID (GAID / AAID):</strong> A unique, resettable identifier assigned by Android for ad attribution.</li>
+                    <li><strong>IP Address & Coarse Location:</strong> Used for regional ad routing, language localization, and click-fraud prevention.</li>
+                    <li><strong>Device Specifications:</strong> Device model, manufacturer, OS build version, screen size, and system language.</li>
+                    <li><strong>Ad Engagement Metrics:</strong> Ad impressions, view completion rates, click data, and SDK diagnostic telemetry.</li>
+                  </ul>
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2 mt-4">
+                    <p className="font-bold text-white">Google Privacy Resources & Policies:</p>
+                    <ul className="list-disc pl-6 text-slate-300 space-y-1 text-xs">
+                      <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">Google Privacy Policy (https://policies.google.com/privacy)</a></li>
+                      <li><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">How Google uses information from apps (https://policies.google.com/technologies/ads)</a></li>
+                      <li><a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">Google AdMob Policies & Restrictions</a></li>
+                    </ul>
+                  </div>
+                  <div className="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/30 mt-4">
+                    <h4 className="font-bold text-white mb-1">User Control: Reset or Opt Out of Ads Personalization</h4>
+                    <p className="text-xs text-slate-300">
+                      You can opt out of personalized ads or reset your advertising ID at any time via Android system settings:
+                      <br /><span className="text-indigo-300 font-mono text-[11px] block mt-1">Settings &gt; Google &gt; Ads &gt; Opt out of Ads Personalization (or Delete Advertising ID)</span>
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* 4. Minimal Device Permissions */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <Smartphone className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">4. Device Permissions & Exact Purpose</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>Brain Maze Master requests only the bare minimum runtime capabilities necessary for audio, haptics, and advertising:</p>
+                  <ul className="space-y-3 mt-4">
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-indigo-400" size={16} />
+                      <div>
+                        <strong className="text-white">INTERNET & ACCESS_NETWORK_STATE:</strong>
+                        <p className="text-slate-300 text-sm">Used exclusively by the Google AdMob SDK to request and load banner, interstitial, and rewarded video ads. No personal gameplay metrics are transmitted.</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-indigo-400" size={16} />
+                      <div>
+                        <strong className="text-white">VIBRATE:</strong>
+                        <p className="text-slate-300 text-sm">Used to trigger subtle tactile feedback when sliding across labyrinth turns, hitting maze walls, or solving level goals.</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <CheckCircle2 className="shrink-0 mt-1 text-indigo-400" size={16} />
+                      <div>
+                        <strong className="text-white">WAKE_LOCK:</strong>
+                        <p className="text-slate-300 text-sm">Prevents your device display from timing out or dimming during active maze navigation.</p>
+                      </div>
+                    </li>
+                  </ul>
+                  <p className="text-xs text-slate-400 pt-2">
+                    <em>Notice:</em> Brain Maze Master <strong>NEVER</strong> requests sensitive device permissions such as Camera, Microphone, GPS/Fine Location, Contacts, SMS, or Phone State.
+                  </p>
+                </div>
+              </section>
+
+              {/* 5. Data Retention & Deletion Rights */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <Trash2 className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">5. Data Retention & User Deletion Rights</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>In accordance with Google Play's Data Safety and user deletion standards:</p>
+                  <ul className="list-disc pl-6 space-y-2 text-slate-200">
+                    <li><strong>Clear Cache & Data:</strong> You can wipe all local progress, coins, and records at any time via Android <em>Settings &gt; Apps &gt; Brain Maze Master &gt; Storage &gt; Clear Data</em>.</li>
+                    <li><strong>App Uninstallation:</strong> Deleting/uninstalling the application permanently purges all associated local files, database entries, and saved settings from your device.</li>
+                  </ul>
+                </div>
+              </section>
+
+              {/* 6. Children's Privacy & Families Policy */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <Users className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">6. Children's Privacy & COPPA Compliance</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    Brain Maze Master is a family-friendly puzzle game suitable for audiences of all ages. We do not knowingly collect or solicit personal information from children under the age of 13.
+                  </p>
+                  <p>
+                    Our integrated AdMob SDK is configured to comply with Google Play's Families Policy and Age-Restricted treatment flags (such as <code>TAG_FOR_CHILD_DIRECTED_TREATMENT</code> and <code>TAG_FOR_UNDER_AGE_OF_CONSENT</code>) where required.
+                  </p>
+                </div>
+              </section>
+
+              {/* 7. Changes to Policy */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <RefreshCw className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">7. Policy Updates & Modifications</h2>
+                </div>
+                <div className="space-y-4 text-white/70 leading-relaxed">
+                  <p>
+                    We may update our Privacy Policy periodically to reflect new features, app updates, or regulatory requirements. Any modifications will be published at <a href="https://zentova.in/brainmaze/privacy-policy" className="text-indigo-400 hover:underline">https://zentova.in/brainmaze/privacy-policy</a> with an updated Effective Date.
+                  </p>
+                </div>
+              </section>
+
+              {/* 8. Contact Developer */}
+              <section className="p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-indigo-500/30 bg-indigo-950/20">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 rounded-2xl bg-indigo-500/10 border border-white/5">
+                    <Mail className="text-indigo-400" size={24} />
+                  </div>
+                  <h2 className="text-2xl font-bold">8. Contact Developer / Publisher</h2>
+                </div>
+                <div className="space-y-3 text-white/80 leading-relaxed">
+                  <p>If you have any questions, feedback, or privacy-related inquiries, please contact us at:</p>
+                  <div className="space-y-1.5 text-slate-200 mt-2">
+                    <div><strong>Developer / Publisher:</strong> Medhastone</div>
+                    <div><strong>Support Email:</strong> <a href="mailto:medhastone@gmail.com" className="text-indigo-400 hover:underline">medhastone@gmail.com</a></div>
+                    <div><strong>Official Website:</strong> <a href="https://zentova.in" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">https://zentova.in</a></div>
+                    <div><strong>Application:</strong> Brain Maze Master: Offline Maze Puzzle & IQ Brain Training</div>
+                  </div>
                 </div>
               </section>
             </>

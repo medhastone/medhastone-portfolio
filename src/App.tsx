@@ -64,8 +64,15 @@ function App() {
 
       // 2. Check /privacy-policy routes
       if (pathname.includes('/privacy-policy')) {
-        const projectFromPath = segments[0] || 'lexibrain';
-        setActiveProject(projectFromPath === 'privacy-policy' ? 'lexibrain' : projectFromPath);
+        let projectFromPath = segments[0] || 'rojgarbahi';
+        if (projectFromPath === 'privacy-policy') {
+          projectFromPath = segments[1] || 'rojgarbahi';
+        }
+        if (!projectIds.includes(projectFromPath)) {
+          const found = projectIds.find(p => pathname.includes(p));
+          projectFromPath = found || 'rojgarbahi';
+        }
+        setActiveProject(projectFromPath);
         setScreen('PRIVACY_POLICY');
         return;
       }
@@ -161,10 +168,11 @@ function App() {
     window.history.pushState(null, '', '/play-games');
   };
 
-  if (screen === 'PRIVACY_POLICY' && activeProject) {
-    return <PrivacyPolicyScreen appId={activeProject} onBack={() => {
+  if (screen === 'PRIVACY_POLICY') {
+    const effectiveAppId = activeProject || 'rojgarbahi';
+    return <PrivacyPolicyScreen appId={effectiveAppId} onBack={() => {
       setScreen('PROJECT_DETAILS');
-      window.history.pushState(null, '', `/${activeProject}`);
+      window.history.pushState(null, '', `/${effectiveAppId}`);
       window.dispatchEvent(new PopStateEvent('popstate'));
     }} />;
   }

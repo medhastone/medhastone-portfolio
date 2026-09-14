@@ -865,6 +865,13 @@ export default function LexiBrainScreen({ onBack }: LexiBrainScreenProps) {
               <span>100% Offline Capable</span>
             </div>
             <a
+              href="/lexibrain/privacy-policy"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 text-xs font-bold uppercase tracking-wider transition-all"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-violet-400" />
+              <span>Privacy Policy</span>
+            </a>
+            <a
               href={PLAY_STORE_URL}
               target="_blank"
               rel="noopener noreferrer"
@@ -895,6 +902,13 @@ export default function LexiBrainScreen({ onBack }: LexiBrainScreenProps) {
             <span className="px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20">
               4.9 ★ Android
             </span>
+            <a
+              href="/lexibrain/privacy-policy"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase bg-white/5 hover:bg-white/10 text-violet-300 hover:text-white border border-white/10 transition-colors"
+            >
+              <ShieldCheck className="w-3 h-3 text-violet-400" />
+              <span>Privacy Policy</span>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-12">
@@ -1999,6 +2013,13 @@ export default function LexiBrainScreen({ onBack }: LexiBrainScreenProps) {
             </div>
 
             <div className="flex items-center gap-3">
+              <a
+                href="/lexibrain/privacy-policy"
+                className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 text-xs font-bold uppercase tracking-wider transition-all"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-violet-400" />
+                <span>Privacy Policy</span>
+              </a>
               <a
                 href={PLAY_STORE_URL}
                 target="_blank"
