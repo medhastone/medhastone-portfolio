@@ -206,18 +206,18 @@ export default function LandingScreen() {
     },
     {
       id: 'lexibrain',
-      title: 'LexiBrain',
+      title: 'LexiBrain: Find Hidden Words',
       category: 'gaming',
-      categoryLabel: 'Cognitive Lexical',
-      badge: 'SPATIAL MEMORY ENGINE',
-      gradient: 'from-[#192435] to-[#0D1520]',
-      borderHover: 'hover:border-sky-400/60',
-      image: '/favicon.svg',
-      shortDesc: 'Cognitive vocabulary and lexical agility platform with offline indexation.',
-      fullDesc: 'Adaptive vocabulary enhancement and verbal speed drills powered by local spaced-repetition algorithms and offline dictionaries.',
-      techStack: ['Cross-Platform', 'Spaced Repetition', 'Offline Dictionary DB'],
-      metrics: 'Adaptive Algorithms • Local DB',
-      hasPlayStore: false
+      categoryLabel: 'Word Puzzle & Education',
+      badge: '#1 VOCABULARY SEARCH',
+      gradient: 'from-[#1e1b4b] to-[#0f172a]',
+      borderHover: 'hover:border-violet-400/60',
+      image: '/lexibrain.svg',
+      shortDesc: 'Offline procedural word search puzzle game meets interactive Vocabulary Vault with native TTS audio pronunciation.',
+      fullDesc: 'Find hidden words across 500+ procedural grids, unlock Free Dictionary definitions, listen to native Android spoken pronunciation, and explore cozy themes with 100% offline Room DB privacy.',
+      techStack: ['Android Kotlin', 'Room DB', 'Native TTS Engine', 'Material Design 3'],
+      metrics: '500+ Grids • 100% Offline TTS',
+      hasPlayStore: true
     }
   ];
 

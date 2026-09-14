@@ -104,7 +104,7 @@ for (const [gameId, game] of Object.entries(GAMES_DETAILED_DATA)) {
   <meta name="twitter:image" content="https://zentova.in/medi.jpg" />
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static.css" />
   <style>
     body {
       background-color: #0a0a0f;

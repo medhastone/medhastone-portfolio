@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#1e40af" />
+      <stop offset="45%" stop-color="#0f2b82" />
+      <stop offset="85%" stop-color="#07133b" />
+      <stop offset="100%" stop-color="#03081e" />
+    </radialGradient>
+
+    <!-- Golden Brain Gradients -->
+    <radialGradient id="goldBrainGlow" cx="45%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="25%" stop-color="#fef08a" />
+      <stop offset="55%" stop-color="#eab308" />
+      <stop offset="80%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </radialGradient>
+
+    <linearGradient id="goldShine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="40%" stop-color="#fde047" stop-opacity="0.8" />
+      <stop offset="80%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#78350f" />
+    </linearGradient>
+
+    <!-- Tile Gradients -->
+    <linearGradient id="goldTileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="30%" stop-color="#eab308" />
+      <stop offset="70%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </linearGradient>
+
+    <linearGradient id="whiteTileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#f1f5f9" />
+      <stop offset="85%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+
+    <linearGradient id="blueTileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="40%" stop-color="#2563eb" />
+      <stop offset="80%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#172554" />
+    </linearGradient>
+
+    <!-- Keyboard Key Gradients -->
+    <linearGradient id="keyBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="50%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="keyGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="30%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glowGold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background rounded rect -->
+  <rect width="512" height="512" rx="105" fill="url(#bgGrad)" />
+
+  <!-- Radiance Rays -->
+  <g opacity="0.35">
+    <polygon points="256,210 210,0 270,0" fill="#60a5fa" />
+    <polygon points="256,210 320,0 380,0" fill="#38bdf8" />
+    <polygon points="256,210 130,0 180,0" fill="#93c5fd" />
+    <polygon points="256,210 0,110 0,160" fill="#60a5fa" />
+    <polygon points="256,210 512,110 512,160" fill="#60a5fa" />
+    <polygon points="256,210 512,230 512,280" fill="#38bdf8" />
+  </g>
+
+  <!-- Central Golden Brain Glow -->
+  <circle cx="256" cy="205" r="110" fill="#fbbf24" opacity="0.28" filter="url(#softGlow)" />
+
+  <!-- Orbital Golden Rings -->
+  <ellipse cx="256" cy="215" rx="135" ry="38" fill="none" stroke="#fef08a" stroke-width="4.5" opacity="0.9" transform="rotate(-14, 256, 215)" filter="url(#glowGold)" />
+  <ellipse cx="256" cy="205" rx="142" ry="32" fill="none" stroke="#f59e0b" stroke-width="3" opacity="0.75" transform="rotate(18, 256, 205)" />
+
+  <!-- 3D Golden Brain Structure -->
+  <g id="brainGroup" transform="translate(0, -5)">
+    <!-- Base Shape Outer Shadow -->
+    <path d="M 195 135 C 160 135 140 160 145 190 C 135 205 135 235 155 255 C 170 270 195 280 230 285 C 245 287 256 295 256 305 C 256 295 267 287 282 285 C 317 280 342 270 357 255 C 377 235 377 205 367 190 C 372 160 352 135 317 135 C 300 135 285 145 275 155 C 265 145 245 135 195 135 Z" fill="#92400e" opacity="0.5" />
+
+    <!-- Main Brain Mass -->
+    <path d="M 195 130 C 160 130 140 155 145 185 C 135 200 135 230 155 250 C 170 265 195 275 230 280 C 245 282 256 290 256 300 C 256 290 267 282 282 280 C 317 275 342 265 357 250 C 377 230 377 200 367 185 C 372 155 352 130 317 130 C 300 130 285 140 275 150 C 265 140 245 130 195 130 Z" fill="url(#goldBrainGlow)" stroke="#fde047" stroke-width="3" filter="url(#glowGold)" />
+
+    <!-- Left Hemisphere Convolutions -->
+    <path d="M 180 155 C 190 145 215 150 220 165 C 225 180 200 190 185 185 C 170 180 165 165 180 155 Z" fill="url(#goldShine)" opacity="0.9" />
+    <path d="M 160 195 C 150 215 170 235 190 230 C 205 225 210 205 195 195 C 180 185 170 185 160 195 Z" fill="url(#goldShine)" opacity="0.9" />
+    <path d="M 190 240 C 200 260 230 265 245 245 C 250 230 230 220 215 225 C 200 230 190 235 190 240 Z" fill="url(#goldShine)" opacity="0.85" />
+    <path d="M 225 160 C 240 150 250 165 248 180 C 245 195 230 200 220 190" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M 190 190 C 210 195 220 215 210 230" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round" />
+
+    <!-- Right Hemisphere Convolutions -->
+    <path d="M 332 155 C 322 145 297 150 292 165 C 287 180 312 190 327 185 C 342 180 347 165 332 155 Z" fill="url(#goldShine)" opacity="0.9" />
+    <path d="M 352 195 C 362 215 342 235 322 230 C 307 225 302 205 317 195 C 332 185 342 185 352 195 Z" fill="url(#goldShine)" opacity="0.9" />
+    <path d="M 322 240 C 312 260 282 265 267 245 C 262 230 282 220 297 225 C 312 230 322 235 322 240 Z" fill="url(#goldShine)" opacity="0.85" />
+    <path d="M 287 160 C 272 150 262 165 264 180 C 267 195 282 200 292 190" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M 322 190 C 302 195 292 215 302 230" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round" />
+
+    <!-- Central Fissure -->
+    <path d="M 256 145 Q 252 190 256 240 Q 259 270 256 300" fill="none" stroke="#78350f" stroke-width="5" stroke-linecap="round" />
+    <path d="M 256 145 Q 252 190 256 240 Q 259 270 256 300" fill="none" stroke="#fef08a" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+  </g>
+
+  <!-- Floating 3D Letter Tiles -->
+
+  <!-- Top-Left Golden Tile 'A' -->
+  <g transform="translate(130, 85) rotate(-10)">
+    <!-- 3D depth shadow -->
+    <rect x="0" y="8" width="64" height="64" rx="14" fill="#78350f" />
+    <rect x="0" y="0" width="64" height="64" rx="14" fill="url(#goldTileGrad)" stroke="#fef08a" stroke-width="2" />
+    <text x="32" y="44" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="34" fill="#451a03" text-anchor="middle">A</text>
+  </g>
+
+  <!-- Mid-Left White/Silver Tile 'W' -->
+  <g transform="translate(90, 155) rotate(-14)">
+    <rect x="0" y="7" width="58" height="58" rx="13" fill="#475569" />
+    <rect x="0" y="0" width="58" height="58" rx="13" fill="url(#whiteTileGrad)" stroke="#ffffff" stroke-width="2" />
+    <text x="29" y="40" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#0f172a" text-anchor="middle">W</text>
+  </g>
+
+  <!-- Bottom-Left Blue Tile 'R' -->
+  <g transform="translate(92, 230) rotate(8)">
+    <rect x="0" y="7" width="58" height="58" rx="13" fill="#0f172a" />
+    <rect x="0" y="0" width="58" height="58" rx="13" fill="url(#blueTileGrad)" stroke="#93c5fd" stroke-width="2" />
+    <text x="29" y="41" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="30" fill="#ffffff" text-anchor="middle">R</text>
+  </g>
+
+  <!-- Top-Right Silver Tile 'Z' -->
+  <g transform="translate(325, 90) rotate(12)">
+    <rect x="0" y="7" width="58" height="58" rx="13" fill="#475569" />
+    <rect x="0" y="0" width="58" height="58" rx="13" fill="url(#whiteTileGrad)" stroke="#ffffff" stroke-width="2" />
+    <text x="29" y="40" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#0f172a" text-anchor="middle">Z</text>
+  </g>
+
+  <!-- Mid-Right Golden Tile 'B' -->
+  <g transform="translate(370, 155) rotate(-8)">
+    <rect x="0" y="8" width="64" height="64" rx="14" fill="#78350f" />
+    <rect x="0" y="0" width="64" height="64" rx="14" fill="url(#goldTileGrad)" stroke="#fef08a" stroke-width="2" />
+    <text x="32" y="44" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="34" fill="#451a03" text-anchor="middle">B</text>
+  </g>
+
+  <!-- Lower-Right Silver Tile 'K' -->
+  <g transform="translate(365, 230) rotate(10)">
+    <rect x="0" y="7" width="58" height="58" rx="13" fill="#475569" />
+    <rect x="0" y="0" width="58" height="58" rx="13" fill="url(#whiteTileGrad)" stroke="#ffffff" stroke-width="2" />
+    <text x="29" y="40" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#0f172a" text-anchor="middle">K</text>
+  </g>
+
+  <!-- Tiny Gold Sparkling Cubes -->
+  <rect x="228" y="90" width="18" height="18" rx="4" fill="#fde047" transform="rotate(45, 237, 99)" opacity="0.8" />
+  <rect x="280" y="80" width="14" height="14" rx="3" fill="#fde047" transform="rotate(30, 287, 87)" opacity="0.8" />
+  <rect x="85" y="215" width="16" height="16" rx="3" fill="#fde047" transform="rotate(25, 93, 223)" opacity="0.8" />
+  <rect x="428" y="240" width="16" height="16" rx="3" fill="#fde047" transform="rotate(15, 436, 248)" opacity="0.8" />
+  <rect x="338" y="295" width="20" height="20" rx="4" fill="#fde047" transform="rotate(35, 348, 305)" opacity="0.8" />
+
+  <!-- Futuristic Word Keyboard & Matrix Grid (Bottom) -->
+  <g transform="translate(56, 285)">
+    <!-- Outer Glow for Grid Base -->
+    <rect x="0" y="0" width="400" height="190" rx="28" fill="#0b132b" stroke="#3b82f6" stroke-width="2.5" opacity="0.9" />
+
+    <!-- Row 1: Word Letters -->
+    <!-- Letters: Q, F, G, T, Y, U, I, O -->
+    <g transform="translate(18, 16)">
+      <rect x="0" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="20" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">Q</text>
+
+      <rect x="46" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="66" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">F</text>
+
+      <rect x="92" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="112" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">G</text>
+
+      <rect x="138" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="158" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">T</text>
+
+      <rect x="184" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="204" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">Y</text>
+
+      <rect x="230" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="250" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">U</text>
+
+      <rect x="276" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="296" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">I</text>
+
+      <rect x="322" y="0" width="40" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="342" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">O</text>
+    </g>
+
+    <!-- Row 2: Selected Glowing Word Bar (Yellow Word Grid Highlight) -->
+    <g transform="translate(18, 58)">
+      <!-- Highlighted Golden Target Slots -->
+      <rect x="58" y="0" width="48" height="42" rx="9" fill="url(#keyGold)" stroke="#fef08a" stroke-width="2.5" filter="url(#glowGold)" />
+      <rect x="112" y="0" width="48" height="42" rx="9" fill="url(#keyGold)" stroke="#fef08a" stroke-width="2.5" filter="url(#glowGold)" />
+      <rect x="166" y="0" width="48" height="42" rx="9" fill="url(#keyGold)" stroke="#fef08a" stroke-width="2.5" filter="url(#glowGold)" />
+      <rect x="220" y="0" width="48" height="42" rx="9" fill="url(#keyGold)" stroke="#fef08a" stroke-width="2.5" filter="url(#glowGold)" />
+      <rect x="274" y="0" width="48" height="42" rx="9" fill="url(#keyGold)" stroke="#fef08a" stroke-width="2.5" filter="url(#glowGold)" />
+
+      <!-- Surrounding Keys -->
+      <rect x="0" y="4" width="50" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="25" y="27" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">X</text>
+
+      <rect x="328" y="4" width="34" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="345" y="27" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">P</text>
+    </g>
+
+    <!-- Row 3: Letters Z, C, V, B, N, M -->
+    <g transform="translate(30, 108)">
+      <rect x="0" y="0" width="48" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="24" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">Z</text>
+
+      <rect x="56" y="0" width="48" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="80" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">C</text>
+
+      <rect x="112" y="0" width="48" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="136" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">V</text>
+
+      <rect x="168" y="0" width="48" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="192" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">B</text>
+
+      <rect x="224" y="0" width="48" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="248" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">N</text>
+
+      <rect x="280" y="0" width="48" height="34" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="304" y="23" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">M</text>
+    </g>
+
+    <!-- Row 4: Bottom Bar L, K, J, H, P -->
+    <g transform="translate(50, 148)">
+      <rect x="0" y="0" width="52" height="32" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="26" y="22" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">L</text>
+
+      <rect x="60" y="0" width="52" height="32" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="86" y="22" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">K</text>
+
+      <rect x="120" y="0" width="52" height="32" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="146" y="22" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">J</text>
+
+      <rect x="180" y="0" width="52" height="32" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="206" y="22" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">H</text>
+
+      <rect x="240" y="0" width="52" height="32" rx="7" fill="url(#keyBlue)" stroke="#60a5fa" stroke-width="1.5" />
+      <text x="266" y="22" font-family="sans-serif" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle">P</text>
+    </g>
+
+    <!-- Glowing Touch Flare on Golden Tile -->
+    <circle cx="300" cy="80" r="24" fill="#ffffff" opacity="0.8" filter="url(#glowGold)" />
+  </g>
+</svg>

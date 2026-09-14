@@ -7,6 +7,7 @@ import React, { useEffect } from 'react';
 import ParkDockScreen from './ParkDockScreen';
 import BrainMazeScreen from './BrainMazeScreen';
 import RojgarBahiScreen from './RojgarBahiScreen';
+import LexiBrainScreen from './LexiBrainScreen';
 
 export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBack: () => void }) {
   if (id === 'parkdock') {
@@ -17,6 +18,9 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
   }
   if (id === 'rojgarbahi') {
     return <RojgarBahiScreen onBack={onBack} />;
+  }
+  if (id === 'lexibrain') {
+    return <LexiBrainScreen onBack={onBack} />;
   }
 
   const projects: Record<string, any> = {
