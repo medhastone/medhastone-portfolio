@@ -4,12 +4,20 @@ import {
   Layers, Code2, ArrowRight, Play
 } from 'lucide-react';
 import React, { useEffect } from 'react';
+import ParkDockScreen from './ParkDockScreen';
+import BrainMazeScreen from './BrainMazeScreen';
+import RojgarBahiScreen from './RojgarBahiScreen';
 
 export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBack: () => void }) {
-  // Scroll to top on load
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
+  if (id === 'parkdock') {
+    return <ParkDockScreen onBack={onBack} />;
+  }
+  if (id === 'brainmaze') {
+    return <BrainMazeScreen onBack={onBack} />;
+  }
+  if (id === 'rojgarbahi') {
+    return <RojgarBahiScreen onBack={onBack} />;
+  }
 
   const projects: Record<string, any> = {
     medijourney: {
@@ -223,6 +231,27 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
 
   const ProjectIcon = project.icon;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (project?.title) {
+      document.title = `${project.title} - Medhastone Portfolio`;
+      let canonical = document.querySelector("link[rel='canonical']") as HTMLLinkElement;
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+      }
+      canonical.href = `https://zentova.in/${id}`;
+    }
+    return () => {
+      document.title = 'Medhastone - High-Performance Digital Experiences';
+      const canonical = document.querySelector("link[rel='canonical']") as HTMLLinkElement;
+      if (canonical) {
+        canonical.href = 'https://zentova.in/';
+      }
+    };
+  }, [id, project?.title]);
+
   return (
     <div className="w-full min-h-screen bg-[#0a0a0f] text-white overflow-y-auto selection:bg-white/20">
       
@@ -400,7 +429,15 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
               
               {/* CTA */}
               <a 
-                href="#contact"
+                href="/#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.history.pushState(null, '', '/#contact');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  setTimeout(() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
                 className={`w-full py-5 rounded-[1.5rem] bg-gradient-to-r ${bgGradients[project.color]} flex justify-center items-center gap-2 group hover:brightness-110 transition-all border border-white/10`}
               >
                 <span className="font-bold tracking-wide">Request Similar Project</span>
@@ -410,7 +447,12 @@ export default function ProjectDetailsScreen({ id, onBack }: { id: string, onBac
               {/* Privacy Policy Link */}
               <div className="text-center pt-2">
                 <a 
-                  href={`#${id}/privacy-policy`}
+                  href={`/${id}/privacy-policy`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.history.pushState(null, '', `/${id}/privacy-policy`);
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  }}
                   className="text-white/40 hover:text-white/80 text-xs font-semibold tracking-wider uppercase transition-colors"
                 >
                   Privacy Policy

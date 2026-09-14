@@ -15,13 +15,30 @@ export class Grid {
     
     // Center the grid in the canvas
     const maxGridWidth = cols * BUBBLE_DIAMETER + BUBBLE_RADIUS; // staggered rows are wider by 1 radius
-    this.offsetX = (width - maxGridWidth) / 2 + BUBBLE_RADIUS;
+    this.offsetX = Math.max(BUBBLE_RADIUS, (width - maxGridWidth) / 2 + BUBBLE_RADIUS);
     this.offsetY = BUBBLE_RADIUS;
 
     for (let r = 0; r < rows; r++) {
       this.cells[r] = [];
       for (let c = 0; c < cols; c++) {
         this.cells[r][c] = null;
+      }
+    }
+  }
+
+  updateWidth(width: number) {
+    const maxGridWidth = this.cols * BUBBLE_DIAMETER + BUBBLE_RADIUS;
+    this.offsetX = Math.max(BUBBLE_RADIUS, (width - maxGridWidth) / 2 + BUBBLE_RADIUS);
+    
+    // Update existing bubble positions to new centered coordinates
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.cols; c++) {
+        const b = this.cells[r][c];
+        if (b && !b.popping) {
+          const pos = this.getBubblePos(r, c);
+          b.x = pos.x;
+          b.y = pos.y;
+        }
       }
     }
   }

@@ -1,6 +1,7 @@
 {
-  "name": "Bubble Pop Mania",
-  "description": "An addictive and visually stunning Bubble Pop puzzle game with HTML5 Canvas, colorful physics, match-3 mechanics, and progression systems.",
+  "name": "Medhastone",
+  "description": "High-performance app development, offline-first mobile architecture, and resilient web engineering studio.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
+

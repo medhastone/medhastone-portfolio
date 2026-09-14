@@ -31,13 +31,13 @@ export class Bubble {
       this.x += this.vx * dt;
       this.y += this.vy * dt;
 
-      // Bounce off walls
+      // Bounce off walls reliably
       if (this.x - BUBBLE_RADIUS <= 0) {
         this.x = BUBBLE_RADIUS;
-        this.vx *= -1;
+        this.vx = Math.abs(this.vx);
       } else if (this.x + BUBBLE_RADIUS >= width) {
         this.x = width - BUBBLE_RADIUS;
-        this.vx *= -1;
+        this.vx = -Math.abs(this.vx);
       }
     }
   }

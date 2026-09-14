@@ -45,7 +45,7 @@ export class GameEngine {
     this.callbacks = callbacks;
 
     // Responsive grid cols based on width
-    const cols = Math.max(8, Math.floor((this.width - BUBBLE_RADIUS*2) / BUBBLE_DIAMETER));
+    const cols = Math.max(8, Math.min(12, Math.floor((this.width - BUBBLE_RADIUS * 2) / BUBBLE_DIAMETER)));
     this.grid = new Grid(this.width, cols, 25);
     
     // Generate level based on current level number
@@ -63,16 +63,43 @@ export class GameEngine {
     this.canvas.addEventListener('touchstart', this.handleClick, { passive: false });
   }
 
+  resize(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+    this.grid.updateWidth(width);
+    if (this.playerBubble && this.state === 'AIMING') {
+      this.playerBubble.x = this.width / 2;
+      this.playerBubble.y = this.height - 45;
+    }
+  }
+
   handleMove(e: MouseEvent | TouchEvent) {
     if (e.cancelable) e.preventDefault();
     const rect = this.canvas.getBoundingClientRect();
-    
+    if (!rect.width || !rect.height) return;
+
+    let clientX = 0;
+    let clientY = 0;
+
     if (window.TouchEvent && e instanceof TouchEvent) {
-        this.mouseX = e.touches[0].clientX - rect.left;
-        this.mouseY = e.touches[0].clientY - rect.top;
+      if (e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      }
     } else if (e instanceof MouseEvent) {
-        this.mouseX = e.clientX - rect.left;
-        this.mouseY = e.clientY - rect.top;
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+
+    this.mouseX = (clientX - rect.left) * scaleX;
+    this.mouseY = (clientY - rect.top) * scaleY;
+
+    // Clamp mouse aiming to be above shooter
+    if (this.playerBubble && this.mouseY > this.playerBubble.y - 20) {
+      this.mouseY = this.playerBubble.y - 20;
     }
   }
 
@@ -89,21 +116,24 @@ export class GameEngine {
     if (!this.nextBubbleColor) {
       this.nextBubbleColor = BUBBLE_COLORS[Math.floor(Math.random() * BUBBLE_COLORS.length)];
     }
-    this.playerBubble = new Bubble(this.width / 2, this.height - 40, this.nextBubbleColor);
+    this.playerBubble = new Bubble(this.width / 2, this.height - 45, this.nextBubbleColor);
     this.nextBubbleColor = BUBBLE_COLORS[Math.floor(Math.random() * BUBBLE_COLORS.length)];
     this.state = 'AIMING';
   }
 
   shoot() {
-    if (!this.playerBubble) return;
+    if (!this.playerBubble || this.state !== 'AIMING') return;
     
     const dx = this.mouseX - this.playerBubble.x;
     const dy = this.mouseY - this.playerBubble.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
     
-    if (dist < 10) return; // Ignore very close clicks
+    // Only allow aiming/shooting upwards
+    if (dy >= -10) return;
+
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 10) return; // Ignore accidental close taps
     
-    const speed = 1000; // pixels per second
+    const speed = 1100; // pixels per second
     this.playerBubble.vx = (dx / dist) * speed;
     this.playerBubble.vy = (dy / dist) * speed;
     this.state = 'SHOOTING';
@@ -282,19 +312,80 @@ export class GameEngine {
     this.spawnPlayerBubble();
   }
 
+  drawAimGuide() {
+    if (!this.playerBubble) return;
+    const startX = this.playerBubble.x;
+    const startY = this.playerBubble.y;
+
+    const dx = this.mouseX - startX;
+    const dy = this.mouseY - startY;
+
+    // Only aim upwards
+    if (dy >= -15) return;
+
+    const angle = Math.atan2(dy, dx);
+    const dirX = Math.cos(angle);
+    const dirY = Math.sin(angle);
+
+    let curX = startX;
+    let curY = startY;
+    let curDirX = dirX;
+    let curDirY = dirY;
+    const minX = BUBBLE_RADIUS;
+    const maxX = this.width - BUBBLE_RADIUS;
+    const minY = this.grid.offsetY + this.grid.dropOffset;
+
+    const dots: { x: number; y: number }[] = [];
+    const step = 22;
+    const maxDist = 650;
+    let traveled = 0;
+
+    while (traveled < maxDist) {
+      curX += curDirX * step;
+      curY += curDirY * step;
+      traveled += step;
+
+      // Bounce off side walls
+      if (curX <= minX) {
+        curX = minX;
+        curDirX = Math.abs(curDirX);
+      } else if (curX >= maxX) {
+        curX = maxX;
+        curDirX = -Math.abs(curDirX);
+      }
+
+      if (curY <= minY || curY >= this.height) {
+        dots.push({ x: curX, y: curY });
+        break;
+      }
+
+      dots.push({ x: curX, y: curY });
+    }
+
+    // Draw glowing laser dots
+    for (let i = 0; i < dots.length; i++) {
+      const dot = dots[i];
+      const alpha = Math.max(0.2, 0.85 - (i / dots.length) * 0.65);
+      const radius = Math.max(2, 4 - (i / dots.length) * 1.5);
+
+      this.ctx.beginPath();
+      this.ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
+      this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      this.ctx.fill();
+    }
+  }
+
   draw() {
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    // ALWAYS clear the full physical canvas width and height
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // Subtle dark gradient / backdrop inside arena
+    this.ctx.fillStyle = '#090d16';
+    this.ctx.fillRect(0, 0, this.width, this.height);
 
     // Aim line
     if (this.state === 'AIMING' && this.playerBubble) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(this.playerBubble.x, this.playerBubble.y);
-      this.ctx.lineTo(this.mouseX, this.mouseY);
-      this.ctx.setLineDash([10, 10]);
-      this.ctx.lineWidth = 2;
-      this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-      this.ctx.stroke();
-      this.ctx.setLineDash([]);
+      this.drawAimGuide();
     }
 
     this.grid.draw(this.ctx);
@@ -304,17 +395,30 @@ export class GameEngine {
     
     if (this.playerBubble) this.playerBubble.draw(this.ctx);
 
-    // Shooter base
-    this.ctx.fillStyle = 'rgba(255,255,255,0.1)';
-    this.ctx.fillRect(this.width/2 - 40, this.height - 40, 80, 80);
-    
-    // Next bubble preview
+    // Shooter base ring
     this.ctx.beginPath();
-    this.ctx.arc(this.width/2 + 60, this.height - 20, BUBBLE_RADIUS * 0.6, 0, Math.PI*2);
+    this.ctx.arc(this.width / 2, this.height - 45, BUBBLE_RADIUS * 1.35, 0, Math.PI * 2);
+    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    this.ctx.fill();
+    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    this.ctx.lineWidth = 1.5;
+    this.ctx.stroke();
+    
+    // Next bubble preview pedestal
+    const previewX = this.width / 2 + 65;
+    const previewY = this.height - 25;
+    this.ctx.beginPath();
+    this.ctx.arc(previewX, previewY, BUBBLE_RADIUS * 0.7, 0, Math.PI * 2);
     this.ctx.fillStyle = this.nextBubbleColor;
     this.ctx.fill();
-    this.ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
     this.ctx.lineWidth = 2;
     this.ctx.stroke();
+
+    // Next indicator label
+    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+    this.ctx.font = '9px Inter, system-ui, sans-serif';
+    this.ctx.textAlign = 'center';
+    this.ctx.fillText('NEXT', previewX, previewY + 20);
   }
 }

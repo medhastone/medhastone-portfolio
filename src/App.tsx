@@ -12,12 +12,27 @@ import IframePlayerScreen from './components/IframePlayerScreen';
 import LandingScreen from './components/LandingScreen';
 import ProjectDetailsScreen from './components/ProjectDetailsScreen';
 import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
+import SingleGamePage from './components/SingleGamePage';
 
-export type ScreenState = 'HOME' | 'GAME' | 'VICTORY' | 'GAMEOVER' | 'RANKS' | 'SHOP' | 'SETTINGS' | 'GAMES_HUB' | 'PLAY_IFRAME' | 'LANDING' | 'PROJECT_DETAILS' | 'PRIVACY_POLICY';
+export type ScreenState = 
+  | 'HOME' 
+  | 'GAME' 
+  | 'VICTORY' 
+  | 'GAMEOVER' 
+  | 'RANKS' 
+  | 'SHOP' 
+  | 'SETTINGS' 
+  | 'GAMES_HUB' 
+  | 'SINGLE_GAME'
+  | 'PLAY_IFRAME' 
+  | 'LANDING' 
+  | 'PROJECT_DETAILS' 
+  | 'PRIVACY_POLICY';
 
 function App() {
   const [screen, setScreen] = useState<ScreenState>('LANDING');
   const [activeGame, setActiveGame] = useState<{path: string, title: string} | null>(null);
+  const [activeGameId, setActiveGameId] = useState<string>('bubble-mania');
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [stats, setStats] = useState<PlayerStats>(() => {
     const s = loadStats();
@@ -27,23 +42,35 @@ function App() {
   
   const [lastScore, setLastScore] = useState(0);
 
-  // Routing Logic (Supports both pathnames like /lexibrain/privacy-policy and hash routing like #lexibrain/privacy-policy)
+  // Routing Logic
   useEffect(() => {
     const handleRouting = () => {
       const hash = window.location.hash;
       const pathname = window.location.pathname.toLowerCase();
+      const cleanPath = pathname.replace(/^\/+|\/+$/g, '');
+      const segments = cleanPath.split('/');
       const projectIds = ['medijourney', 'parkdock', 'brainmaze', 'rojgarbahi', 'pdfzero', 'lexibrain'];
       
-      // 1. Check direct pathname routing (e.g., /lexibrain/privacy-policy or /privacy-policy)
+      // 1. Check /play-games/:gameId or /play-games
+      if (segments[0] === 'play-games') {
+        if (segments[1]) {
+          setActiveGameId(segments[1]);
+          setScreen('SINGLE_GAME');
+          return;
+        }
+        setScreen('GAMES_HUB');
+        return;
+      }
+
+      // 2. Check /privacy-policy routes
       if (pathname.includes('/privacy-policy')) {
-        const segments = pathname.replace(/^\/+|\/+$/g, '').split('/');
         const projectFromPath = segments[0] || 'lexibrain';
         setActiveProject(projectFromPath === 'privacy-policy' ? 'lexibrain' : projectFromPath);
         setScreen('PRIVACY_POLICY');
         return;
       }
 
-      // Check if pathname matches a project directly (e.g. /lexibrain)
+      // 3. Check if pathname matches a project directly (e.g. /lexibrain)
       const matchingPathProject = projectIds.find(p => pathname === `/${p}` || pathname === `/${p}/`);
       if (matchingPathProject) {
         setActiveProject(matchingPathProject);
@@ -51,24 +78,40 @@ function App() {
         return;
       }
 
-      // 2. Check hash routing
-      if (hash === '#bubble-mania') {
-        setScreen('HOME');
+      // 4. Check hash routing compatibility
+      if (hash.startsWith('#play-games/')) {
+        const gId = hash.replace('#play-games/', '').replace(/^\/+|\/+$/g, '');
+        window.history.replaceState(null, '', `/play-games/${gId}`);
+        setActiveGameId(gId);
+        setScreen('SINGLE_GAME');
+        return;
       } else if (hash === '#play-games') {
+        window.history.replaceState(null, '', '/play-games');
         setScreen('GAMES_HUB');
+        return;
+      } else if (hash === '#bubble-mania') {
+        window.history.replaceState(null, '', '/play-games/bubble-mania');
+        setActiveGameId('bubble-mania');
+        setScreen('SINGLE_GAME');
+        return;
       } else if (hash.endsWith('/privacy-policy')) {
         const proj = hash.substring(1).replace('/privacy-policy', '').replace(/^\/+/, '');
-        setActiveProject(proj || 'lexibrain');
+        const targetProj = proj || 'lexibrain';
+        window.history.replaceState(null, '', `/${targetProj}/privacy-policy`);
+        setActiveProject(targetProj);
         setScreen('PRIVACY_POLICY');
+        return;
       } else if (projectIds.some(p => hash === `#${p}`)) {
-        setActiveProject(hash.substring(1));
+        const targetProj = hash.substring(1);
+        window.history.replaceState(null, '', `/${targetProj}`);
+        setActiveProject(targetProj);
         setScreen('PROJECT_DETAILS');
+        return;
       } else {
         setScreen('LANDING');
       }
     };
     
-    // Initial check
     handleRouting();
 
     window.addEventListener('hashchange', handleRouting);
@@ -106,6 +149,8 @@ function App() {
   };
 
   const playExternalGame = (path: string, title: string) => {
+    // If path is #bubble-mania or starts with /games/
+    const foundId = Object.keys(loadStats()).length; // placeholder
     setActiveGame({ path, title });
     setScreen('PLAY_IFRAME');
   };
@@ -113,21 +158,65 @@ function App() {
   const closeExternalGame = () => {
     setActiveGame(null);
     setScreen('GAMES_HUB');
-    window.location.hash = '#play-games'; // Back to hub
+    window.history.pushState(null, '', '/play-games');
   };
 
   if (screen === 'PRIVACY_POLICY' && activeProject) {
     return <PrivacyPolicyScreen appId={activeProject} onBack={() => {
       setScreen('PROJECT_DETAILS');
-      window.location.hash = `#${activeProject}`; // Return to project page
+      window.history.pushState(null, '', `/${activeProject}`);
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }} />;
   }
 
   if (screen === 'PROJECT_DETAILS' && activeProject) {
     return <ProjectDetailsScreen id={activeProject} onBack={() => {
       setScreen('LANDING');
-      window.location.hash = ''; // Clear hash to return to Landing
+      window.history.pushState(null, '', '/');
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }} />;
+  }
+
+  if (screen === 'SINGLE_GAME') {
+    return (
+      <SingleGamePage 
+        gameId={activeGameId}
+        onNavigateHome={() => {
+          window.history.pushState(null, '', '/');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }}
+        onNavigateHub={() => {
+          window.history.pushState(null, '', '/play-games');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }}
+        onSelectGame={(id) => {
+          window.history.pushState(null, '', `/play-games/${id}`);
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }}
+      />
+    );
+  }
+
+  if (screen === 'GAMES_HUB') {
+    return (
+      <GamesHubScreen 
+        onPlayGame={(path, title) => {
+          // Find gameId from path or title
+          if (path === '#bubble-mania') {
+            window.history.pushState(null, '', '/play-games/bubble-mania');
+            window.dispatchEvent(new PopStateEvent('popstate'));
+            return;
+          }
+          const matchedSegment = path.split('/')[2]; // e.g. /games/chess-ai/index.html -> chess-ai
+          if (matchedSegment) {
+            window.history.pushState(null, '', `/play-games/${matchedSegment}`);
+            window.dispatchEvent(new PopStateEvent('popstate'));
+          } else {
+            playExternalGame(path, title);
+          }
+        }}
+      />
+    );
   }
 
   if (screen === 'LANDING') {
@@ -144,12 +233,6 @@ function App() {
         {screen === 'GAME' && <GameScreen level={stats.level} onWin={handleLevelComplete} onLose={handleGameOver} onQuit={() => setScreen('HOME')} />}
         {screen === 'VICTORY' && <VictoryScreen score={lastScore} stats={stats} isWin={true} onContinue={() => setScreen('HOME')} />}
         {screen === 'GAMEOVER' && <VictoryScreen score={lastScore} stats={stats} isWin={false} onContinue={() => setScreen('HOME')} />}
-        
-        {screen === 'GAMES_HUB' && (
-          <GamesHubScreen 
-            onPlayGame={playExternalGame}
-          />
-        )}
         
         {screen === 'PLAY_IFRAME' && activeGame && (
           <IframePlayerScreen 

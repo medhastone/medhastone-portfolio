@@ -37,9 +37,26 @@ class UI {
         });
 
         // Game Header
-        document.getElementById('btn-game-back').addEventListener('click', () => {
-            if(confirm('Quit current game? Progress will be lost.')) this.switchScreen('screen-main');
-        });
+        const backBtn = document.getElementById('btn-game-back');
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                let shouldQuit = true;
+                try {
+                    shouldQuit = window.confirm('Quit current game? Progress will be lost.');
+                } catch(e) {
+                    shouldQuit = true;
+                }
+                if (shouldQuit) this.switchScreen('screen-main');
+            });
+        }
+
+        const settingsBtn = document.getElementById('btn-game-settings');
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => {
+                this.renderThemes();
+                this.switchScreen('screen-themes');
+            });
+        }
 
         // Numpad & Tools
         document.querySelectorAll('.num-btn').forEach(btn => {
