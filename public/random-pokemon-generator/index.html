@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Pokémon Generator (Gens 1-9) | Competitive Team Builder & Shiny Picker</title>
+  <meta name="description" content="Generate balanced battle squads with a competitive pokemon team generator. Roll all generations random pokemon 1-9 with legendary filters, shiny variants, audio cries, and Pokémon Showdown export." />
+  <meta name="keywords" content="random pokemon generator, competitive pokemon team generator, all generations random pokemon 1-9, random pokemon picker with shiny, pokemon showdown team exporter, pokemon weakness synergy calculator, pokemon team builder" />
+  <link rel="canonical" href="https://zentova.in/random-pokemon-generator" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Medhastone" />
+  <meta property="og:url" content="https://zentova.in/random-pokemon-generator" />
+  <meta property="og:title" content="Random Pokémon Generator (Gens 1-9) | Competitive Team Builder" />
+  <meta property="og:description" content="Generate balanced battle squads with legendary filters, shiny variants, audio cries, weakness synergy calculator, and Pokémon Showdown export." />
+  <meta property="og:image" content="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://zentova.in/random-pokemon-generator" />
+  <meta name="twitter:title" content="Random Pokémon Generator (Gens 1-9) | Competitive Team Builder" />
+  <meta name="twitter:description" content="Roll all generations random pokemon 1-9 with legendary filters, shiny variants, authentic audio cries, and Showdown export." />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/static.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+  </style>
+
+  <!-- JSON-LD Structured Data for Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://zentova.in/random-pokemon-generator#webapp",
+        "name": "Random Pokémon Generator & Competitive Team Builder",
+        "url": "https://zentova.in/random-pokemon-generator",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "All",
+        "description": "Generate balanced battle squads with a competitive pokemon team generator. Roll all generations random pokemon 1-9 with legendary filters, shiny variants, audio cries, and Pokémon Showdown export.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Medhastone",
+          "url": "https://zentova.in/"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://zentova.in/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Random Pokémon Generator",
+            "item": "https://zentova.in/random-pokemon-generator"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does this random pokemon generator pick Pokémon across Gens 1-9?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The generator executes a cryptographic Fisher-Yates shuffle across all 1,025 official species from Generation 1 (Kanto) through Generation 9 (Paldea DLC), respecting your custom generation, evolution stage, and typing filters."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I export my generated roster directly to Pokémon Showdown?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! Click the 'Export Showdown' button above your squad to copy tournament-compliant text complete with items, abilities, EV spreads, and standard competitive movesets."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="min-h-screen bg-[#0b0f19] text-slate-100">
+  <div id="root">
+    <!-- Static pre-rendered shell for instant crawler indexing & fast first paint -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <header class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider mb-4">
+          ★ Gens 1–9 Complete Database • 1,025+ Species
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-4">
+          Random Pokémon Generator & Competitive Team Builder
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Generate balanced battle squads with a competitive pokemon team generator. Roll all generations random pokemon 1-9 with legendary filters, shiny variants, audio cries, and Pokémon Showdown export.
+        </p>
+      </header>
+
+      <div class="p-6 rounded-2xl bg-[#0f1422] border border-white/10 text-center py-12 text-slate-400">
+        <p class="text-sm font-semibold text-white mb-2">Loading Interactive Pokémon Generator...</p>
+        <p class="text-xs">Initializing Fisher-Yates generator engine, cry synthesizer, and Pokédex database.</p>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
