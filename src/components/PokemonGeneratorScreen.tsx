@@ -78,7 +78,7 @@ export default function PokemonGeneratorScreen({ onBack, initialTool = 'generato
 
   // Master Pokémon list (loaded from local fallback + async PokéAPI fetch)
   const [masterList, setMasterList] = useState<Pokemon[]>(FALLBACK_POKEMON_LIST);
-  const [isLoadingDb, setIsLoadingDb] = useState<boolean>(true);
+  const [isLoadingDb, setIsLoadingDb] = useState<boolean>(false);
 
   // Filter States
   const [selectedGens, setSelectedGens] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -166,7 +166,7 @@ export default function PokemonGeneratorScreen({ onBack, initialTool = 'generato
   useEffect(() => {
     let isMounted = true;
     async function initDb() {
-      setIsLoadingDb(true);
+      // Immediately load the offline fallback DB first for zero latency
       const db = await loadFullPokemonDatabase();
       if (isMounted) {
         setMasterList(db);

@@ -129,10 +129,22 @@ export async function loadFullPokemonDatabase(): Promise<Pokemon[]> {
         return parsed;
       }
     }
+    
+    // Return fallback immediately if no cache to avoid the hanging issue
+    // We can populate cache in the background
+    fetchAndCacheDb();
+    
+    return FALLBACK_POKEMON_LIST;
+  } catch (err) {
+    console.warn('PokéAPI fetch failed, falling back to offline database:', err);
+    return FALLBACK_POKEMON_LIST;
+  }
+}
 
-    // Fetch from free PokéAPI (limit=1025)
+async function fetchAndCacheDb() {
+  try {
     const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1025');
-    if (!response.ok) throw new Error('PokéAPI fetch failed');
+    if (!response.ok) return;
 
     const data = await response.json();
     const results: { name: string; url: string }[] = data.results || [];
@@ -143,13 +155,12 @@ export async function loadFullPokemonDatabase(): Promise<Pokemon[]> {
       const gen = getGenById(id);
       const isLeg = LEGENDARY_AND_MYTHICAL_IDS.has(id);
       
-      // Look up fallback item for detailed stats/types if available
       const fallback = FALLBACK_POKEMON_LIST.find(p => p.id === id);
 
       return {
         id,
         name,
-        types: fallback ? fallback.types : ['normal'], // will be enriched if needed
+        types: fallback ? fallback.types : ['normal'],
         gen,
         isLegendary: isLeg,
         isMythical: isLeg,
@@ -160,9 +171,7 @@ export async function loadFullPokemonDatabase(): Promise<Pokemon[]> {
     });
 
     localStorage.setItem(POKE_CACHE_KEY, JSON.stringify(masterList));
-    return masterList;
-  } catch (err) {
-    console.warn('PokéAPI fetch failed, falling back to offline database:', err);
-    return FALLBACK_POKEMON_LIST;
+  } catch (e) {
+    // ignore background cache failures
   }
 }
