@@ -396,6 +396,19 @@ export default function LandingScreen() {
               <Play size={11} fill="currentColor" />
               <span>Games Hub</span>
             </a>
+            <a 
+              href="/random-pokemon-generator" 
+              onClick={(e) => { 
+                e.preventDefault(); 
+                playButton(); 
+                window.history.pushState(null, '', '/random-pokemon-generator'); 
+                window.dispatchEvent(new PopStateEvent('popstate')); 
+              }} 
+              className="px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 hover:bg-rose-500/20 transition-all flex items-center gap-1.5"
+            >
+              <Sparkles size={11} className="text-rose-400" />
+              <span>Pokémon Generator</span>
+            </a>
             <a href="#contact" className="px-5 py-2.5 rounded-full bg-white text-black font-extrabold hover:bg-slate-200 transition-all hover:scale-105 shadow-md shadow-white/10">
               Start a Project
             </a>
@@ -432,6 +445,19 @@ export default function LandingScreen() {
               className="text-blue-400 flex items-center gap-2"
             >
               <Play size={14} fill="currentColor" /> WebGL & Canvas Games
+            </a>
+            <a 
+              href="/random-pokemon-generator" 
+              onClick={(e) => { 
+                e.preventDefault(); 
+                playButton(); 
+                setIsMobileMenuOpen(false); 
+                window.history.pushState(null, '', '/random-pokemon-generator'); 
+                window.dispatchEvent(new PopStateEvent('popstate')); 
+              }} 
+              className="text-rose-400 flex items-center gap-2"
+            >
+              <Sparkles size={14} /> Pokémon Generator
             </a>
             <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="mt-2 py-3 rounded-xl bg-blue-600 text-center text-white font-extrabold">
               Start Discovery Consultation
@@ -1416,6 +1442,11 @@ export default function LandingScreen() {
                   <div>
                     <a href="/play-games" onClick={(e) => { e.preventDefault(); playButton(); window.history.pushState(null, '', '/play-games'); window.dispatchEvent(new PopStateEvent('popstate')); }} className="text-slate-400 hover:text-white transition-colors">
                       WebGL Games Hub
+                    </a>
+                  </div>
+                  <div>
+                    <a href="/random-pokemon-generator" onClick={(e) => { e.preventDefault(); playButton(); window.history.pushState(null, '', '/random-pokemon-generator'); window.dispatchEvent(new PopStateEvent('popstate')); }} className="text-slate-400 hover:text-rose-400 transition-colors">
+                      Random Pokémon Generator
                     </a>
                   </div>
                   <div>

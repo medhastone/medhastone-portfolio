@@ -13,6 +13,7 @@ import LandingScreen from './components/LandingScreen';
 import ProjectDetailsScreen from './components/ProjectDetailsScreen';
 import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 import SingleGamePage from './components/SingleGamePage';
+import PokemonGeneratorScreen, { ActiveToolTab } from './components/PokemonGeneratorScreen';
 
 export type ScreenState = 
   | 'HOME' 
@@ -27,13 +28,15 @@ export type ScreenState =
   | 'PLAY_IFRAME' 
   | 'LANDING' 
   | 'PROJECT_DETAILS' 
-  | 'PRIVACY_POLICY';
+  | 'PRIVACY_POLICY'
+  | 'POKEMON_GENERATOR';
 
 function App() {
   const [screen, setScreen] = useState<ScreenState>('LANDING');
   const [activeGame, setActiveGame] = useState<{path: string, title: string} | null>(null);
   const [activeGameId, setActiveGameId] = useState<string>('bubble-mania');
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const [activePokemonTool, setActivePokemonTool] = useState<ActiveToolTab>('generator');
   const [stats, setStats] = useState<PlayerStats>(() => {
     const s = loadStats();
     setSoundEnabled(s.soundEnabled);
@@ -46,11 +49,143 @@ function App() {
   useEffect(() => {
     const handleRouting = () => {
       const hash = window.location.hash;
-      const pathname = window.location.pathname.toLowerCase();
+      const rawPath = window.location.pathname;
+      let decodedPath = '';
+      try {
+        decodedPath = decodeURIComponent(rawPath);
+      } catch {
+        decodedPath = rawPath;
+      }
+      const pathname = decodedPath.toLowerCase();
       const cleanPath = pathname.replace(/^\/+|\/+$/g, '');
       const segments = cleanPath.split('/');
       const projectIds = ['medijourney', 'parkdock', 'brainmaze', 'rojgarbahi', 'pdfzero', 'lexibrain'];
       
+      // 0. Check Pokémon Tool Routes (Separate pages and URLs for SEO)
+      // /pokemon-compare, /pokemon-favorite-tournament, /whos-that-pokemon, /pokemon-nickname-generator, /pokemon-iv-calculator, /pokemon-nuzlocke-tracker
+      if (
+        pathname === '/pokemon-compare' || 
+        pathname === '/pokemon-compare/' ||
+        pathname === '/compare-pokemon' ||
+        pathname === '/compare-pokemon/' ||
+        hash.toLowerCase() === '#pokemon-compare' ||
+        hash.toLowerCase() === '#compare-pokemon'
+      ) {
+        if (pathname !== '/pokemon-compare') {
+          window.history.replaceState(null, '', '/pokemon-compare');
+        }
+        setActivePokemonTool('compare');
+        setScreen('POKEMON_GENERATOR');
+        return;
+      }
+
+      if (
+        pathname === '/pokemon-favorite-tournament' || 
+        pathname === '/pokemon-favorite-tournament/' ||
+        pathname === '/favorite-tournament' ||
+        pathname === '/favorite-tournament/' ||
+        pathname === '/pokemon-favorites' ||
+        pathname === '/pokemon-favorites/' ||
+        hash.toLowerCase() === '#pokemon-favorite-tournament' ||
+        hash.toLowerCase() === '#favorite-tournament'
+      ) {
+        if (pathname !== '/pokemon-favorite-tournament') {
+          window.history.replaceState(null, '', '/pokemon-favorite-tournament');
+        }
+        setActivePokemonTool('favorites');
+        setScreen('POKEMON_GENERATOR');
+        return;
+      }
+
+      if (
+        pathname === '/whos-that-pokemon' || 
+        pathname === '/whos-that-pokemon/' ||
+        pathname === '/pokemon-quiz' ||
+        pathname === '/pokemon-quiz/' ||
+        hash.toLowerCase() === '#whos-that-pokemon' ||
+        hash.toLowerCase() === '#pokemon-quiz'
+      ) {
+        if (pathname !== '/whos-that-pokemon') {
+          window.history.replaceState(null, '', '/whos-that-pokemon');
+        }
+        setActivePokemonTool('quiz');
+        setScreen('POKEMON_GENERATOR');
+        return;
+      }
+
+      if (
+        pathname === '/pokemon-nickname-generator' || 
+        pathname === '/pokemon-nickname-generator/' ||
+        pathname === '/pokemon-nicknames' ||
+        pathname === '/pokemon-nicknames/' ||
+        hash.toLowerCase() === '#pokemon-nickname-generator' ||
+        hash.toLowerCase() === '#pokemon-nicknames'
+      ) {
+        if (pathname !== '/pokemon-nickname-generator') {
+          window.history.replaceState(null, '', '/pokemon-nickname-generator');
+        }
+        setActivePokemonTool('nicknames');
+        setScreen('POKEMON_GENERATOR');
+        return;
+      }
+
+      if (
+        pathname === '/pokemon-iv-calculator' || 
+        pathname === '/pokemon-iv-calculator/' ||
+        pathname === '/pokemon-stat-calculator' ||
+        pathname === '/pokemon-stat-calculator/' ||
+        hash.toLowerCase() === '#pokemon-iv-calculator' ||
+        hash.toLowerCase() === '#pokemon-stat-calculator'
+      ) {
+        if (pathname !== '/pokemon-iv-calculator') {
+          window.history.replaceState(null, '', '/pokemon-iv-calculator');
+        }
+        setActivePokemonTool('ivcalc');
+        setScreen('POKEMON_GENERATOR');
+        return;
+      }
+
+      if (
+        pathname === '/pokemon-nuzlocke-tracker' || 
+        pathname === '/pokemon-nuzlocke-tracker/' ||
+        pathname === '/nuzlocke-tracker' ||
+        pathname === '/nuzlocke-tracker/' ||
+        hash.toLowerCase() === '#pokemon-nuzlocke-tracker' ||
+        hash.toLowerCase() === '#nuzlocke-tracker'
+      ) {
+        if (pathname !== '/pokemon-nuzlocke-tracker') {
+          window.history.replaceState(null, '', '/pokemon-nuzlocke-tracker');
+        }
+        setActivePokemonTool('nuzlocke');
+        setScreen('POKEMON_GENERATOR');
+        return;
+      }
+
+      // Check primary /random-pokemon-generator or /pokemon routes
+      const isPokemonRoute = 
+        pathname === '/random-pokemon-generator' || 
+        pathname === '/random-pokemon-generator/' ||
+        pathname === '/random-pokémon-generator' || 
+        pathname === '/random-pokémon-generator/' || 
+        rawPath.toLowerCase().includes('random-pok%c3%a9mon-generator') ||
+        pathname === '/pokemon' || 
+        pathname === '/pokemon/' || 
+        pathname === '/pokemon-generator' || 
+        pathname === '/pokemon-generator/' ||
+        hash.toLowerCase() === '#pokemon' ||
+        hash.toLowerCase() === '#pokemon-generator' ||
+        hash.toLowerCase() === '#random-pokemon-generator' ||
+        hash.toLowerCase() === '#random-pokémon-generator';
+
+      if (isPokemonRoute) {
+        if (pathname !== '/random-pokemon-generator') {
+          window.history.replaceState(null, '', '/random-pokemon-generator');
+        }
+        setActivePokemonTool('generator');
+        setScreen('POKEMON_GENERATOR');
+        return;
+      }
+
       // 1. Check /play-games/:gameId or /play-games
       if (segments[0] === 'play-games') {
         if (segments[1]) {
@@ -85,7 +220,7 @@ function App() {
         return;
       }
 
-      // 4. Check hash routing compatibility
+      // 4. Hash routing compatibility
       if (hash.startsWith('#play-games/')) {
         const gId = hash.replace('#play-games/', '').replace(/^\/+|\/+$/g, '');
         window.history.replaceState(null, '', `/play-games/${gId}`);
@@ -114,11 +249,12 @@ function App() {
         setActiveProject(targetProj);
         setScreen('PROJECT_DETAILS');
         return;
-      } else {
-        setScreen('LANDING');
       }
+
+      // Default to LANDING (previous homepage is kept in that location)
+      setScreen('LANDING');
     };
-    
+
     handleRouting();
 
     window.addEventListener('hashchange', handleRouting);
@@ -223,6 +359,19 @@ function App() {
             playExternalGame(path, title);
           }
         }}
+      />
+    );
+  }
+
+  if (screen === 'POKEMON_GENERATOR') {
+    return (
+      <PokemonGeneratorScreen 
+        initialTool={activePokemonTool}
+        onBack={() => {
+          setScreen('LANDING');
+          window.history.pushState(null, '', '/');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }} 
       />
     );
   }
