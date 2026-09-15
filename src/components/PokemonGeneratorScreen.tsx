@@ -56,6 +56,7 @@ import PokemonCryButton from './pokemon/PokemonCryButton';
 import PokemonGenerationList from './pokemon/PokemonGenerationList';
 import PokemonDetailModal from './pokemon/PokemonDetailModal';
 import PokemonToolSeoContent, { POKEMON_TOOLS_SEO_DATA, PokemonToolId } from './pokemon/PokemonToolSeoContent';
+import { updatePageSeo } from '../utils/seo';
 
 export type ActiveToolTab = PokemonToolId;
 
@@ -138,11 +139,17 @@ export default function PokemonGeneratorScreen({ onBack, initialTool = 'generato
     }
   };
 
-  // Sync browser document.title and URL when activeTab changes
+  // Sync browser document.title, canonical URL, and SEO tags when activeTab changes
   useEffect(() => {
     const seoInfo = POKEMON_TOOLS_SEO_DATA[activeTab];
     if (seoInfo) {
-      document.title = seoInfo.pageTitle;
+      updatePageSeo({
+        title: seoInfo.pageTitle,
+        description: seoInfo.metaSubtitle,
+        canonicalUrl: `https://zentova.in${seoInfo.urlPath}`,
+        ogImage: 'https://zentova.in/medi.jpg',
+        keywords: 'random pokemon generator, pokemon team builder, pokemon showdown team exporter, pokemon weakness synergy calculator, all generations random pokemon 1-9'
+      });
       const curPath = window.location.pathname;
       try {
         const decoded = decodeURIComponent(curPath);

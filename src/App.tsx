@@ -14,6 +14,7 @@ import ProjectDetailsScreen from './components/ProjectDetailsScreen';
 import PrivacyPolicyScreen from './components/PrivacyPolicyScreen';
 import SingleGamePage from './components/SingleGamePage';
 import PokemonGeneratorScreen, { ActiveToolTab } from './components/PokemonGeneratorScreen';
+import { updatePageSeo } from './utils/seo';
 
 export type ScreenState = 
   | 'HOME' 
@@ -191,9 +192,19 @@ function App() {
         if (segments[1]) {
           setActiveGameId(segments[1]);
           setScreen('SINGLE_GAME');
+          updatePageSeo({
+            title: `${segments[1].replace(/-/g, ' ').toUpperCase()} - Play Free Online | Medhastone`,
+            description: `Play ${segments[1].replace(/-/g, ' ')} for free in your browser with instant responsiveness and no downloads.`,
+            canonicalUrl: `https://zentova.in/play-games/${segments[1]}`
+          });
           return;
         }
         setScreen('GAMES_HUB');
+        updatePageSeo({
+          title: 'Free Online Browser Games & Arcades | Medhastone Play Hub',
+          description: 'Play high-performance retro, strategy, puzzle, and arcade games directly in your browser without downloads.',
+          canonicalUrl: 'https://zentova.in/play-games'
+        });
         return;
       }
 
@@ -209,6 +220,11 @@ function App() {
         }
         setActiveProject(projectFromPath);
         setScreen('PRIVACY_POLICY');
+        updatePageSeo({
+          title: `Privacy Policy - ${projectFromPath.toUpperCase()} | Medhastone`,
+          description: `Official privacy policy and user data protections for ${projectFromPath}.`,
+          canonicalUrl: `https://zentova.in/${projectFromPath}/privacy-policy`
+        });
         return;
       }
 
@@ -217,6 +233,11 @@ function App() {
       if (matchingPathProject) {
         setActiveProject(matchingPathProject);
         setScreen('PROJECT_DETAILS');
+        updatePageSeo({
+          title: `${matchingPathProject.toUpperCase()} App Showcase & Architecture | Medhastone`,
+          description: `In-depth case study, feature breakdown, and engineering showcase for ${matchingPathProject}.`,
+          canonicalUrl: `https://zentova.in/${matchingPathProject}`
+        });
         return;
       }
 
@@ -253,6 +274,11 @@ function App() {
 
       // Default to LANDING (previous homepage is kept in that location)
       setScreen('LANDING');
+      updatePageSeo({
+        title: 'Medhastone | High-Performance App Development & Offline-First Engineering Studio',
+        description: 'Medhastone is an elite software engineering studio specializing in offline-first mobile apps, cross-platform Flutter engineering, high-performance React/TypeScript platforms, and WebGL experiences.',
+        canonicalUrl: 'https://zentova.in/'
+      });
     };
 
     handleRouting();
